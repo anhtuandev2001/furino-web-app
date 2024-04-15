@@ -18,6 +18,7 @@ const Home = () => {
       <Banner />
       <Category />
       <ProductTitle
+        limit={4}
         title='New Arrivals'
         products={products}
       />
