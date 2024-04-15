@@ -62,13 +62,13 @@ export const relationship = () => {
 
   User.sync({ force: false });
   Role.sync({ force: false });
+  Category.sync({ force: false });
+  Product.sync({ force: false });
   ProductCategory.sync({ force: false });
   ProductColor.sync({ force: false });
   ProductGeneralImage.sync({ force: false });
   ProductImage.sync({ force: false });
   ProductInventory.sync({ force: false });
-  Product.sync({ force: false });
   ProductSize.sync({ force: false });
-  Category.sync({ force: false });
   Cart.sync({ force: false });
 };

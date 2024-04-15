@@ -7,8 +7,8 @@ const { Pool } = pkg;
 dotenv.config()
 
 const pool = new Pool({
-  connectionString: process.env.PG_URI, 
-});
+  connectionString: process.env.POSTGRES_URL ,
+})
 
 async function connect() {
   try {
