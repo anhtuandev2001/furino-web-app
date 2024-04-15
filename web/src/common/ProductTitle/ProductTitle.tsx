@@ -10,7 +10,7 @@ function ProductTitle({
   limit,
 }: {
   title: string;
-  products: ProductProp[];
+  products: ProductProp[] | null;
   limit: number;
 }) {
   return (

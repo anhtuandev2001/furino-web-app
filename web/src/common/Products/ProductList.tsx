@@ -3,7 +3,7 @@ import { ProductProp } from '../../types/product';
 import { v4 as uuid } from 'uuid';
 import SkeletonProduct from './SkeletonProduct';
 
-function ProductList({ products, limit }: { products: ProductProp[], limit: number}) {
+function ProductList({ products, limit }: { products: ProductProp[] | null, limit: number}) {
   return (
     <div className='grid gap-[20px] grid-cols-4'>
       {products ? (
