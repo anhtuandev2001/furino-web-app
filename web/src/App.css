@@ -1,0 +1,50 @@
+body{
+    font-size: 16px;
+    line-height: 1.5;
+    font-family: Poppins;
+    font-weight: 400;
+}
+
+.slick-dots .pagination-list li.slick-active button:before {
+    background: #B88E2F;
+}
+
+.slick-dots .pagination-list li button:before {
+    background-color: #D8D8D8;
+    content: "";
+    border-radius: 100%;
+    width: 11spx;
+    height: 11spx;
+    transition: background 0.5s ease-in-out;
+}
+
+.MuiPagination-root .MuiPaginationItem-root{
+    background-color: #F9F1E7;
+    height: 60px;
+    width: 60px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    font-size: 20px;
+    font-family: Poppins;
+}
+
+.MuiPagination-root .MuiPaginationItem-root.Mui-selected{
+    background-color: #B88E2F;
+    color: #fff;
+    border: none;
+}
+
+.MuiPagination-root .MuiPaginationItem-root.Mui-selected:hover{
+    background-color: #c6931d;
+}
+
+.MuiPagination-root .MuiPagination-ul{
+    gap: 38px;
+}
+
+.MuiAutocomplete-option{
+    text-transform: capitalize;
+}

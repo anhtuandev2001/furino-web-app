@@ -1,0 +1,43 @@
+{
+  "name": "store-management",
+  "version": "1.0.0",
+  "description": "This is a store-management",
+  "main": "server.ts",
+  "scripts": {
+    "start": "nodemon --exec ts-node ./server.ts",
+    "debug": "node inspect --exec ts-node server.ts",
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
+    "test:debug": "NODE_OPTIONS=--experimental-vm-modules node inspect node_modules/jest/bin/jest.js"
+  },
+  "author": "tuanvu",
+  "license": "MIT",
+  "dependencies": {
+    "@types/multer": "^1.4.11",
+    "bcrypt": "^5.1.1",
+    "cloudinary": "^1.41.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "https": "^1.0.0",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.8.1",
+    "multer": "^1.4.5-lts.1",
+    "nodemon": "^2.0.20",
+    "pg": "^8.11.3",
+    "sequelize": "^6.33.0",
+    "streamifier": "^0.1.1",
+    "typescript": "^5.3.3",
+    "validator": "^13.7.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
+    "@types/jest": "^29.2.5",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/pg": "^8.11.0",
+    "@types/streamifier": "^0.1.2",
+    "jest": "^29.3.1",
+    "ts-jest": "^29.0.3",
+    "ts-node": "^10.9.2"
+  }
+}
