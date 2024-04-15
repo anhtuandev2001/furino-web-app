@@ -11,9 +11,6 @@ function checkTokenExistence(navigateLogin?: boolean) {
       }
     }
 
-    console.log('navigateLogin', navigateLogin);
-    
-
     if (!tokenExists && navigateLogin) {
       window.location.href = '/login';
       return;

@@ -17,8 +17,6 @@ export default function checkToken(
   ];
 
   const url = req.url.toLowerCase().trim();
-  console.log(url);
-  
 
   if (unauthenticatedUrls.includes(url) || url.startsWith('/products')) {
     next();
@@ -31,7 +29,6 @@ export default function checkToken(
       token || '',
       process.env.JWT_SECRET ?? ''
     ) as jwt.JwtPayload;
-    console.log(jwtObject);
 
     const isExpired = Date.now() >= jwtObject?.exp! * 1000;
 

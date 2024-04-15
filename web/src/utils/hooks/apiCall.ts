@@ -24,9 +24,6 @@ export async function ipaCall(
     params: params
   };
 
-  console.log(config);
-  
-
   const response: any = await axios(config);
   return response.data;
 }
