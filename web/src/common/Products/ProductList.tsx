@@ -6,7 +6,7 @@ import SkeletonProduct from './SkeletonProduct';
 function ProductList({ products, limit }: { products: ProductProp[], limit: number}) {
   return (
     <div className='grid gap-[20px] grid-cols-4'>
-      {products.length !== 0 ? (
+      {products ? (
         products.map((item) => (
           <ProductItem
             key={uuid()}

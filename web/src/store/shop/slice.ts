@@ -14,7 +14,7 @@ export interface LimitOffsetProps {
 }
 
 export interface ShopState {
-  products: ProductProp[];
+  products: ProductProp[] | null;
   limit: number;
   page: number;
   count: number;
@@ -25,7 +25,7 @@ export interface ShopState {
 }
 
 const initialState: ShopState = {
-  products: [],
+  products: null,
   limit: 10,
   page: 1,
   count: 0,
@@ -140,7 +140,7 @@ export const shopActions = {
 };
 
 // Selectors
-export const selectProducts = (state: RootState): ProductProp[] =>
+export const selectProducts = (state: RootState): ProductProp[] | null =>
   state.shops.products;
 export const selectLimit = (state: RootState): number => state.shops.limit;
 export const selectPage = (state: RootState): number => state.shops.page;

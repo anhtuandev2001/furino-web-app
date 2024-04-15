@@ -16,7 +16,7 @@ relationship();
 
 // Apply CORS middleware early in the middleware chain
 const corsOptions = {
-  origin: 'http://localhost:5173',
+  origin: 'https://furino-pi.vercel.app',
   methods: ['PUT', 'GET', 'HEAD', 'POST', 'DELETE', 'OPTIONS', 'PATCH'],
 };
 
