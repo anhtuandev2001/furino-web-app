@@ -13,6 +13,7 @@ export default function checkToken(
     '/products',
     '/categories',
     '/products/getcount',
+    '/'
   ];
 
   const url = req.url.toLowerCase().trim();
