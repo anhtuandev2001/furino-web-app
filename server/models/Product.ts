@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../database/sequelize';
 
-const Product = sequelize.define('products', {
+const Product = sequelize.define('Products', {
   productId: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -27,7 +27,7 @@ const Product = sequelize.define('products', {
 });
 
 const ProductCategory = sequelize.define(
-  'productCategories',
+  'ProductCategories',
   {
     productCategoryId: {
       type: DataTypes.INTEGER,
@@ -49,7 +49,7 @@ const ProductCategory = sequelize.define(
 );
 
 const ProductInventory = sequelize.define(
-  'productInventories',
+  'ProductInventories',
   {
     productInventoryId: {
       type: DataTypes.INTEGER,
@@ -91,7 +91,7 @@ const ProductInventory = sequelize.define(
 );
 
 const ProductGeneralImage = sequelize.define(
-  'productGeneralImages',
+  'ProductGeneralImages',
   {
     productGeneralImageId: {
       type: DataTypes.INTEGER,
@@ -113,7 +113,7 @@ const ProductGeneralImage = sequelize.define(
 );
 
 const ProductImage = sequelize.define(
-  'productImages',
+  'ProductImages',
   {
     productImageId: {
       type: DataTypes.INTEGER,
@@ -139,7 +139,7 @@ const ProductImage = sequelize.define(
 );
 
 const ProductColor = sequelize.define(
-  'productColors',
+  'ProductColors',
   {
     productColorId: {
       type: DataTypes.INTEGER,
@@ -161,7 +161,7 @@ const ProductColor = sequelize.define(
 );
 
 const ProductSize = sequelize.define(
-  'productSizes',
+  'ProductSizes',
   {
     productSizeId: {
       type: DataTypes.INTEGER,

@@ -33,7 +33,7 @@ function Filter({
   onCloseDrawer?: () => void;
 }) {
   return (
-    <div className='bg-[#F9F1E7]'>
+    <div className=''>
       <div className='container mx-auto flex flex-col sm:flex-row h-screen sm:h-auto gap-4 px-4 sm:justify-between items-center py-[25px]'>
         <div className='flex items-center gap-2 w-full sm:w-auto justify-between'>
           <span>{`Showing ${

@@ -42,7 +42,7 @@ export default function TemporaryDrawer({
 
   return (
     <div>
-      <div className='flex justify-end bg-[#F9F1E7] h-[50px]' >
+      <div className='flex justify-end h-[50px] sm:h-auto' >
         <Button
           onClick={toggleDrawer(true)}
           endIcon={

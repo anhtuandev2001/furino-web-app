@@ -1,32 +1,20 @@
-import { SetStateAction, useEffect, useState } from 'react';
+import { SetStateAction, useState } from 'react';
 import { FaArrowRightLong } from 'react-icons/fa6';
 import { GoDash } from 'react-icons/go';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
+import { v4 as uuidv4 } from 'uuid';
 import { ButtonLink } from '../../../common';
 import { data } from './mockData';
 import { settings } from './setting';
-import { v4 as uuidv4 } from 'uuid';
 
 function Suggest() {
   const [selectedSlideIndex, setSelectedSlideIndex] = useState(0);
-  const [slideShow, setSlideShow] = useState(2);
 
   const handleBeforeChange = (_: any, next: SetStateAction<number>) => {
     setSelectedSlideIndex(next);
   };
-
-  useEffect(() => {
-    //add even resize
-    window.addEventListener('resize', () => {
-      setSlideShow(window.innerWidth < 768 ? 1 : 2);
-    });
-
-    return () => {
-      window.removeEventListener('resize', () => {});
-    };
-  });
 
   return (
     <section className='flex bg-[#FCF8F3] mt-[70px]'>
@@ -39,16 +27,18 @@ function Suggest() {
             Our designer already made a lot of beautiful prototipe of rooms that
             inspire you
           </span>
-          <ButtonLink
-            link='/'
-            sx={{ marginTop: '25px', padding: '12px 36px' }}
-          >
-            Explore More
-          </ButtonLink>
+          <div className='flex justify-end sm:justify-normal'>
+            <ButtonLink
+              link='/'
+              sx={{ marginTop: '25px', padding: '12px 36px' }}
+            >
+              Explore More
+            </ButtonLink>
+          </div>
         </div>
         <div className='w-full sm:w-2/3 overflow-hidden'>
           <Slider
-            {...settings(slideShow)}
+            {...settings}
             beforeChange={handleBeforeChange}
             className='h-[400px] sm:h-[600px]'
           >
