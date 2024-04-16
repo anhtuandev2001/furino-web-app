@@ -1,5 +1,11 @@
 import Cart from '../models/Cart';
-import { Product, ProductImage, ProductInventory } from '../models/index';
+import {
+  Product,
+  ProductColor,
+  ProductImage,
+  ProductInventory,
+  ProductSize,
+} from '../models/index';
 
 const getCarts = async ({ userId }: { userId: number }) => {
   try {
@@ -20,10 +26,15 @@ const getCarts = async ({ userId }: { userId: number }) => {
                 productSizeId: cart.productSizeId,
               },
               model: ProductInventory,
-              include: ['productColor', 'productSize'],
+              as: 'productInventories',
+              include: [
+                { model: ProductColor, as: 'productColor' },
+                { model: ProductSize, as: 'productSize' },
+              ],
             },
             {
               model: ProductImage,
+              as: 'productImages',
               where: { productColorId: cart.productColorId },
             },
           ],
@@ -71,6 +82,7 @@ const insertCart = async ({
             productSizeId,
           },
           model: ProductInventory,
+          as: 'productInventories',
         },
       ],
     });
@@ -151,6 +163,7 @@ const updateCart = async ({
             productSizeId: cart.productSizeId,
           },
           model: ProductInventory,
+          as: 'productInventories',
         },
       ],
     });

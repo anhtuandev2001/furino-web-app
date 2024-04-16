@@ -6,8 +6,13 @@ import { v4 as uuid } from 'uuid';
 
 function ProductItem({ item }: { item: ProductProp }) {
   const [image, setImage] = useState<string>(
-    item.productGeneralImages[0].image
   );
+
+  if(!item) return null
+
+  console.log(item);
+  
+  
   return (
     <Link
       to={`/shop/product/${item.productId}`}

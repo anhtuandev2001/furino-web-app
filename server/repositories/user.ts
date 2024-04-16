@@ -20,6 +20,7 @@ const login = async ({
       include: [
         {
           model: Role,
+          as: 'role',
         },
       ],
       attributes: ['userId', 'name', 'email', 'password', 'status'],
