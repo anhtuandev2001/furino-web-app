@@ -11,7 +11,7 @@ function Category() {
       <p className='text-[20px] text-[#666666] text-center'>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       </p>
-      <div className='flex gap-[20px] mt-[62px]'>
+      <div className='flex-col pr-4 pl-4 sm:p-0 sm:flex-row flex gap-[20px] mt-[62px]'>
         {data.map((item) => (
           <Link
             to={item.link}

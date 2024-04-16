@@ -1,3 +1,4 @@
+import SimpleBottomNavigation from './BottomNavigationCustom/BottomNavigationCustom';
 import Breadcrumb from './Breadcrumb/Breadcrumb';
 import ButtonLink from './ButtonLink/ButtonLink';
 import CartPreview from './CartPreview/CartPreview';
@@ -13,14 +14,25 @@ import SelectCustom from './SelectCustom/SelectCustom';
 import CustomDot from './Slider/Dot';
 import CustomNextArrow from './Slider/Next';
 import CustomPrevArrow from './Slider/Prev';
+import TemporaryDrawer from './TemporaryDrawer/TemporaryDrawer';
 
 export {
-  Breadcrumb, ButtonLink, CartPreview, CustomDot,
+  Breadcrumb,
+  ButtonLink,
+  CartPreview,
+  CustomDot,
   CustomNextArrow,
-  CustomPrevArrow, Filter,
+  CustomPrevArrow,
+  Filter,
   FooterList,
   FormRadius,
   LoadingPage,
-  Navbar, ProductItem, ProductList, ProductTitle, SelectCustom
+  Navbar,
+  ProductItem,
+  ProductList,
+  ProductTitle,
+  SelectCustom,
+  SimpleBottomNavigation,
+  TemporaryDrawer
 };
 

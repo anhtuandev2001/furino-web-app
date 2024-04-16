@@ -1,9 +1,7 @@
-import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
@@ -20,13 +18,10 @@ import { selectUser, userActions } from '../../store/user/slice';
 import { links } from '../../utils/constants/link';
 import { settings } from '../../utils/constants/menu';
 import checkTokenExistence from '../../utils/hooks/checkToken';
-import CartPreview from '../CartPreview/CartPreview';
 import AlertDialog from '../AlertDialog/AlertDialog';
+import CartPreview from '../CartPreview/CartPreview';
 
 function NavBar() {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
@@ -37,15 +32,8 @@ function NavBar() {
 
   const user = useAppSelector(selectUser);
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
@@ -82,7 +70,7 @@ function NavBar() {
             href='/'
             sx={{
               mr: 2,
-              display: { xs: 'none', md: 'flex' },
+              display: { xs: 'none', sm: 'flex' },
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
@@ -94,53 +82,9 @@ function NavBar() {
               src={logo}
               alt='logo'
             />
-            FURNIRO
+            FURINO
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size='large'
-              aria-label='account of current user'
-              aria-controls='menu-appbar'
-              aria-haspopup='true'
-              onClick={handleOpenNavMenu}
-              color='inherit'
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id='menu-appbar'
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              {links.map((page) => (
-                <MenuItem
-                  key={uuid()}
-                  onClick={handleCloseNavMenu}
-                >
-                  <Link
-                    className='text-back'
-                    to={page.path}
-                  >
-                    {page.title}
-                  </Link>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
           <Typography
             variant='h5'
             noWrap
@@ -148,7 +92,7 @@ function NavBar() {
             href='#app-bar-with-responsive-menu'
             sx={{
               mr: 2,
-              display: { xs: 'flex', md: 'none' },
+              display: { xs: 'flex', sm: 'none' },
               flexGrow: 1,
               fontFamily: 'monospace',
               fontWeight: 700,
@@ -161,19 +105,18 @@ function NavBar() {
               src={logo}
               alt='logo'
             />
-            FURNIRO
+            FURINO
           </Typography>
           <Box
             sx={{
               flexGrow: 1,
-              display: { xs: 'none', md: 'flex' },
+              display: { xs: 'none', sm: 'flex' },
               justifyContent: 'center',
             }}
           >
             {links.map((page) => (
               <Button
                 key={uuid()}
-                onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 <Link

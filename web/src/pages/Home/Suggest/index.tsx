@@ -1,4 +1,4 @@
-import { SetStateAction, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { FaArrowRightLong } from 'react-icons/fa6';
 import { GoDash } from 'react-icons/go';
 import Slider from 'react-slick';
@@ -11,15 +11,27 @@ import { v4 as uuidv4 } from 'uuid';
 
 function Suggest() {
   const [selectedSlideIndex, setSelectedSlideIndex] = useState(0);
+  const [slideShow, setSlideShow] = useState(2);
 
   const handleBeforeChange = (_: any, next: SetStateAction<number>) => {
     setSelectedSlideIndex(next);
   };
 
+  useEffect(() => {
+    //add even resize
+    window.addEventListener('resize', () => {
+      setSlideShow(window.innerWidth < 768 ? 1 : 2);
+    });
+
+    return () => {
+      window.removeEventListener('resize', () => {});
+    };
+  });
+
   return (
     <section className='flex bg-[#FCF8F3] mt-[70px]'>
-      <div className='container mx-auto flex py-[44px] items-center gap-4'>
-        <div className='flex flex-col w-1/3'>
+      <div className='container mx-auto flex flex-col px-4 sm:px-0 sm:flex-row py-[44px] items-center gap-4'>
+        <div className='flex flex-col sm:w-1/3'>
           <h2 className='text-[#3A3A3A] text-[40px] font-bold'>
             50+ Beautiful rooms inspiration
           </h2>
@@ -34,39 +46,43 @@ function Suggest() {
             Explore More
           </ButtonLink>
         </div>
-        <div className='w-2/3 overflow-hidden'>
+        <div className='w-full sm:w-2/3 overflow-hidden'>
           <Slider
-            {...settings}
+            {...settings(slideShow)}
             beforeChange={handleBeforeChange}
-            className='h-[600px]'
+            className='h-[400px] sm:h-[600px]'
           >
             {data.map((item, index) => (
               <div
-                className='px-[12px] relative'
+                className='sm:px-[12px] relative'
                 key={uuidv4()}
               >
                 <img
                   src={item.image}
                   alt={item.title}
-                  className='h-[486px] w-[404px] object-cover transition-all duration-300 ease-out'
-                  style={{
-                    height: index === selectedSlideIndex ? '582px' : '',
-                  }}
+                  className={`${
+                    index === selectedSlideIndex
+                      ? 'h-[350px] sm:h-[582px]'
+                      : 'h-[250px] sm:h-[486px]'
+                  } w-full sm:w-[404px] object-cover transition-all duration-300 ease-out`}
                 />
                 {index === selectedSlideIndex && (
-                  <div className='absolute bottom-6 left-10 flex'>
-                    <div className='pt-[32px] pl-[32px] pb-[32px] pr-[17px] bg-white opacity-[90%] flex flex-col gap-[8px]'>
+                  <div className='absolute bottom-0 sm:bottom-6 left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-10 flex'>
+                    <div className='pt-[32px] pl-[15px] pr-[15px] sm:pl-[32px] pb-[45px] sm:pb-[32px] sm:pr-[17px] bg-white opacity-[90%] flex flex-col gap-[8px]'>
                       <div className='flex gap-2 text-[#616161] font-medium'>
                         <span>{selectedSlideIndex + 1}</span>
                         <GoDash size={24} />
                         <span>{item.category}</span>
                       </div>
-                      <span className='text-[#3A3A3A] text-[28px] font-semibold'>
+                      <span className='text-[#3A3A3A] text-[24px] sm:text-[28px] font-semibold'>
                         {item.title}
                       </span>
                     </div>
-                    <div className='flex items-end'>
-                      <ButtonLink link={item.link} sx={{padding: '12px'}}>
+                    <div className='flex items-end absolute sm:static bottom-0 right-0'>
+                      <ButtonLink
+                        link={item.link}
+                        sx={{ padding: '12px' }}
+                      >
                         <FaArrowRightLong size={22} />
                       </ButtonLink>
                     </div>

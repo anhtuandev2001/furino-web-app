@@ -14,7 +14,7 @@ export const settings = {
     slidesToScroll: 1,
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
-    autoplay: true,
+    autoplay: false,
     autoplaySpeed: 3000,
     appendDots: (dots: ReactNode) => (
       <div

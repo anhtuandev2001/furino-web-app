@@ -28,7 +28,7 @@ function ProductItem({ item }: { item: ProductProp }) {
         <img
           src={image}
           alt={item.name}
-          className='h-[300px] object-cover transform transition-all duration-500 group-hover:scale-105'
+          className='h-[200px] sm:h-[300px] object-cover transform transition-all duration-500 group-hover:scale-105'
         />
       </div>
       {item?.productInventories[0].priceDiscount && (

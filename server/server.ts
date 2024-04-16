@@ -4,7 +4,12 @@ import express from 'express';
 import checkToken from './authentication/auth';
 import connect from './database/database';
 
-import { cartsRouter, categoriesRouter, productsRouter, usersRouter } from './routes/index';
+import {
+  cartsRouter,
+  categoriesRouter,
+  productsRouter,
+  usersRouter,
+} from './routes/index';
 import { relationship } from './models/relationship';
 
 dotenv.config();
@@ -14,13 +19,7 @@ const port = process.env.PORT ?? 3000;
 
 relationship();
 
-// Apply CORS middleware early in the middleware chain
-const corsOptions = {
-  origin: ['https://furino-inky.vercel.app', 'https://furino-pi.vercel.app'],
-  methods: ['PUT', 'GET', 'HEAD', 'POST', 'DELETE', 'OPTIONS', 'PATCH'],
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 // Other middleware
 app.use(checkToken);
@@ -32,15 +31,14 @@ app.use('/categories', categoriesRouter);
 app.use('/carts', cartsRouter);
 app.use('/users', usersRouter);
 
-// Default route
-app.get('/', (req, res) => {
-  res.send('response from root router');
-});
-
-// Handle Preflight Requests
 app.options('/products', (req, res) => {
   res.header('Access-Control-Allow-Methods', 'PUT, GET, HEAD, POST, DELETE, OPTIONS, PATCH');
   res.status(200).end();
+});
+
+// Default route
+app.get('/', (req, res) => {
+  res.send('response from root router');
 });
 
 app.listen(port, async () => {

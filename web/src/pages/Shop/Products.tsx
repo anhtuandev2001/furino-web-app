@@ -1,7 +1,7 @@
 import { Pagination } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ProductList } from '../../common';
+import { ProductList, TemporaryDrawer } from '../../common';
 import Filter from '../../common/Filter/Filter';
 import { useAppDispatch, useAppSelector } from '../../store/root/hooks';
 import {
@@ -117,7 +117,22 @@ function Products() {
 
   return (
     <div>
-      <Filter
+      <div className='hidden sm:block'>
+        <Filter
+          count={count}
+          limit={limit}
+          page={page}
+          sort={sort}
+          keyword={keyword}
+          onChangeLimit={handleChangeLimit}
+          onChangeSort={handleChangeSort}
+          categories={categories}
+          onChangeCategoriesSelected={handleChangeCategoriesSelected}
+          categoriesSelected={categoriesSelected}
+          onChangeKeyword={handleChangeKeyword}
+        />
+      </div>
+      <TemporaryDrawer
         count={count}
         limit={limit}
         page={page}
@@ -130,7 +145,7 @@ function Products() {
         categoriesSelected={categoriesSelected}
         onChangeKeyword={handleChangeKeyword}
       />
-      <div className='container mx-auto mt-[70px]'>
+      <div className='container mx-auto mt-[20px]'>
         <ProductList
           products={products}
           limit={limit}
