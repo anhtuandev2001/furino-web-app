@@ -15,11 +15,13 @@ export interface LimitOffsetProps {
 export interface productDetailState {
   product: null | ProductProp;
   productSuggestion: ProductProp[];
+  loading: boolean;
 }
 
 const initialState: productDetailState = {
   product: null,
   productSuggestion: [],
+  loading: false,
 };
 
 // slice
@@ -32,6 +34,10 @@ export const productDetailSlice = createSlice({
     },
     getProductSuggestions(state, action: PayloadAction<ProductProp[]>) {
       state.productSuggestion = action.payload;
+      state.loading = false;
+    },
+    getProductSuggestionsSucceeded(state) {
+      state.loading = true;
     },
   },
 });
@@ -59,6 +65,9 @@ export const selectProduct = (state: RootState): ProductProp | null =>
 
 export const selectProductSuggestion = (state: RootState): ProductProp[] | [] =>
   state.productDetails.productSuggestion;
+
+export const selectLoading = (state: RootState): boolean =>
+  state.productDetails.loading;
 
 // Reducer
 export default productDetailSlice.reducer;

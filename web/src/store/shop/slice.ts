@@ -14,7 +14,7 @@ export interface LimitOffsetProps {
 }
 
 export interface ShopState {
-  products: ProductProp[] | null;
+  products: ProductProp[];
   limit: number;
   page: number;
   count: number;
@@ -22,10 +22,11 @@ export interface ShopState {
   categories: CategoryProp[];
   categoryIdSelected: { label: string; categoryId: number }[];
   keyword: string;
+  loading: boolean;
 }
 
 const initialState: ShopState = {
-  products: null,
+  products: [],
   limit: 10,
   page: 1,
   count: 0,
@@ -33,6 +34,7 @@ const initialState: ShopState = {
   categoryIdSelected: [],
   categories: [],
   keyword: '',
+  loading: false,
 };
 
 // slice
@@ -40,19 +42,26 @@ export const shopSlice = createSlice({
   name: 'shops',
   initialState,
   reducers: {
+    getProductOfShopPage(state) {
+      state.loading = true;
+    },
     getProductsSucceeded(state, action: PayloadAction<ProductProp[]>) {
+      state.loading = false;
       state.products = action.payload;
     },
     onChangeLimit(state, action: PayloadAction<number>) {
+      state.loading = true;
       state.limit = action.payload;
     },
     onChangePage(state, action: PayloadAction<number>) {
+      state.loading = true;
       state.page = action.payload;
     },
     onchangeCount(state, action: PayloadAction<number>) {
       state.count = action.payload;
     },
     onChangeSort(state, action: PayloadAction<string>) {
+      state.loading = true;
       state.sort = action.payload;
     },
     clearState(state) {
@@ -140,7 +149,7 @@ export const shopActions = {
 };
 
 // Selectors
-export const selectProducts = (state: RootState): ProductProp[] | null =>
+export const selectProducts = (state: RootState): ProductProp[] =>
   state.shops.products;
 export const selectLimit = (state: RootState): number => state.shops.limit;
 export const selectPage = (state: RootState): number => state.shops.page;
@@ -152,6 +161,7 @@ export const selectCategoriesSelected = (
   state: RootState
 ): { label: string; categoryId: number }[] => state.shops.categoryIdSelected;
 export const selectKeyword = (state: RootState): string => state.shops.keyword;
+export const selectLoading = (state: RootState): boolean => state.shops.loading;
 
 // Reducer
 export default shopSlice.reducer;

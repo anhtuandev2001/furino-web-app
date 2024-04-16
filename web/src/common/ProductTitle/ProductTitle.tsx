@@ -8,10 +8,12 @@ function ProductTitle({
   title,
   products,
   limit,
+  loading
 }: {
   title: string;
-  products: ProductProp[] | null;
+  products: ProductProp[];
   limit: number;
+  loading: boolean;
 }) {
   return (
     <section className='container mx-auto'>
@@ -21,6 +23,7 @@ function ProductTitle({
       <ProductList
         products={products}
         limit={limit}
+        loading={loading}
       />
       <div className='mt-[32px] text-center'>
         <Button sx={{ border: '1px solid #B88E2F', textTransform: 'unset' }}>

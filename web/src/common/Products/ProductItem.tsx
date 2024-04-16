@@ -6,13 +6,8 @@ import { v4 as uuid } from 'uuid';
 
 function ProductItem({ item }: { item: ProductProp }) {
   const [image, setImage] = useState<string>(
+    item.productGeneralImages[0].image
   );
-
-  if(!item) return null
-
-  console.log(item);
-  
-  
   return (
     <Link
       to={`/shop/product/${item.productId}`}
@@ -33,7 +28,7 @@ function ProductItem({ item }: { item: ProductProp }) {
         <img
           src={image}
           alt={item.name}
-          className='h-[200px] sm:h-[300px] object-cover transform transition-all duration-500 group-hover:scale-105'
+          className='h-[300px] object-cover transform transition-all duration-500 group-hover:scale-105'
         />
       </div>
       {item?.productInventories[0].priceDiscount && (

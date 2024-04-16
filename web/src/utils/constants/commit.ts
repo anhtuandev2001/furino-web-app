@@ -1,7 +1,7 @@
 import cup from '../../assets/icons/cup.svg'
-import check from '../../assets/icons/cup.svg';
-import shipping from '../../assets/icons/cup.svg';
-import support from '../../assets/icons/cup.svg';
+import check from '../../assets/icons/check.svg';
+import shipping from '../../assets/icons/shipping.svg';
+import support from '../../assets/icons/support.svg';
 
 export const commits = [
     {

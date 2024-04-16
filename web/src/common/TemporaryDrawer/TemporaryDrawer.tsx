@@ -42,12 +42,13 @@ export default function TemporaryDrawer({
 
   return (
     <div>
-      <div className='flex justify-end h-[50px] sm:h-auto' >
+      <div className='flex justify-between h-[50px] sm:h-auto items-center px-4 sm:hidden' >
+        Filter
         <Button
           onClick={toggleDrawer(true)}
           endIcon={
             <FilterListIcon
-              sx={{ color: 'black', display: { xs: 'block', sm: 'none' } }}
+              sx={{ color: 'black' }}
             />
           }
         />

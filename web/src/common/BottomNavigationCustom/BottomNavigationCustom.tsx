@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { links } from '../../types/navBar';
 
 export default function BottomNavigationCustom() {
-  const [value, setValue] = React.useState('/');
+  const [value, setValue] = React.useState(document.location.pathname || '/');
   const navigate = useNavigate();
 
   return (
@@ -29,6 +29,7 @@ export default function BottomNavigationCustom() {
       >
         {links.map((link) => (
           <BottomNavigationAction
+            key={link.name}
             label={link.name}
             value={link.path}
             icon={<link.icon />}

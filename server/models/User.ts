@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../database/sequelize';
 
 const User = sequelize.define(
-  'Users',
+  'users',
   {
     userId: {
       type: DataTypes.INTEGER,
@@ -54,7 +54,7 @@ const User = sequelize.define(
 );
 
 const Role = sequelize.define(
-  'Roles',
+  'roles',
   {
     roleId: {
       type: DataTypes.INTEGER,

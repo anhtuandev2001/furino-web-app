@@ -7,6 +7,7 @@ import FormRadius from '../../common/FormRadius/FormRadius';
 import ProductTitle from '../../common/ProductTitle/ProductTitle';
 import {
   productDetailActions,
+  selectLoading,
   selectProduct,
   selectProductSuggestion,
 } from '../../store/productDetail/slice';
@@ -38,6 +39,8 @@ function ProductDetail() {
   const productId = useParams().id;
 
   const dispatch = useAppDispatch();
+
+  const loading = useAppSelector(selectLoading);
 
   const handleIncrease = () => {
     if (productItem?.quantity && quantity >= productItem?.quantity) return;
@@ -161,7 +164,7 @@ function ProductDetail() {
 
   const handleAddToCart = () => {
     if (!product) return;
-    if(!size || !color) return;
+    if (!size || !color) return;
     checkTokenExistence();
     const data = {
       productId: product.productId,
@@ -504,6 +507,7 @@ function ProductDetail() {
       <ProductTitle
         title='Related Products'
         products={productSuggestion}
+        loading={loading}
         limit={4}
       />
     </div>

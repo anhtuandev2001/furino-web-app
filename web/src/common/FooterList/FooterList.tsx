@@ -7,17 +7,17 @@ import { v4 as uuidv4 } from 'uuid';
 function FooterList() {
   return (
     <section className='container mx-auto'>
-      <div className='flex gap-5 flex-nowrap py-[48px] border-b-4 flex-col-reverse sm:flex-row px-4'>
+      <div className='flex gap-5 flex-nowrap py-[20px] sm:py-[48px] border-b-4 flex-col-reverse sm:flex-row px-4'>
         <div className='sm:w-4/12'>
           <h3 className='text-[#000000] text-[24px] font-bold'>Funiro.</h3>
-          <p className='block text-[#9F9F9F] mt-[50px]'>
+          <p className='block text-[#9F9F9F] mt-4 sm:mt-[50px]'>
             400 University Drive Suite 200 Coral Gables,{' '}
           </p>
           <p className='text-[#9F9F9F]'>FL 33134 USA</p>
         </div>
         <div className='sm:w-2/12 flex flex-col'>
           <h4 className='text-[#9F9F9F] font-medium'>Links</h4>
-          <ul className='flex mt-[55px] flex-col gap-[46px] text-black font-medium'>
+          <ul className='flex mt-6 sm:mt-[55px] flex-col gap-4 sm:gap-[46px] text-black font-medium'>
             {links.map((item: any) => (
               <li key={uuidv4()}>
                 <Link to={item.path}>{item.title}</Link>
@@ -27,7 +27,7 @@ function FooterList() {
         </div>
         <div className='sm:w-2/12 flex flex-col'>
           <h4 className='text-[#9F9F9F] font-medium'>Help</h4>
-          <ul className='flex mt-[55px] flex-col gap-[46px] text-black font-medium'>
+          <ul className='flex mt-6 sm:mt-[55px] flex-col gap-4 sm:gap-[46px] text-black font-medium'>
             {helps.map((item: any) => (
               <li key={uuidv4()}>
                 <Link to={item.path}>{item.title}</Link>
@@ -37,7 +37,7 @@ function FooterList() {
         </div>
         <div className='sm:w-4/12'>
           <h4 className='text-[#9F9F9F] font-medium'>Newsletter</h4>
-          <div className='mt-[56px] flex gap-5'>
+          <div className='mt-[15px] sm:mt-[56px] flex gap-5'>
             <Input
               placeholder='Enter Your Email Address'
               sx={{

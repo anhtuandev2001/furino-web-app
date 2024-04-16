@@ -39,11 +39,11 @@ const getProducts = async (
       order:
         sort === 'price'
           ? [
-              [
-                { model: ProductInventory, as: 'productInventory' },
-                'price',
-                'ASC',
-              ],
+            [
+              { model: ProductInventory, as: 'productInventory' },
+              'price',
+              'ASC',
+            ],
             ]
           : [[sort, 'ASC']],
       limit: limit,
@@ -74,41 +74,34 @@ const getProducts = async (
         {
           model: ProductCategory,
           where: whereCategory,
-          as: 'productCategory',
           attributes: ['categoryId'],
           include: [
             {
               model: Category,
-              as: 'category',
               attributes: ['name', 'image'],
             },
           ],
         },
         {
           model: ProductInventory,
-          as: 'productInventory',
           attributes: ['quantity', 'sold', 'price', 'priceDiscount'],
           include: [
             {
               model: ProductSize,
-              as: 'productSize',
               attributes: ['productSizeId', 'name'],
             },
             {
               model: ProductColor,
-              as: 'productColor',
               attributes: ['productColorId', 'hex'],
             },
           ],
         },
         {
           model: ProductGeneralImage,
-          as: 'productGeneralImage',
           attributes: ['image', 'productGeneralImageId'],
         },
         {
           model: ProductImage,
-          as: 'productImage',
           attributes: ['image', 'productColorId', 'productImageId'],
         },
       ],
@@ -148,41 +141,34 @@ const getProductById = async (productId: number) => {
       include: [
         {
           model: ProductCategory,
-          as: 'productCategory',
           attributes: ['categoryId'],
           include: [
             {
               model: Category,
-              as: 'category',
               attributes: ['name', 'image'],
             },
           ],
         },
         {
           model: ProductInventory,
-          as: 'productInventory',
           attributes: ['quantity', 'sold', 'price', 'priceDiscount'],
           include: [
             {
               model: ProductSize,
-              as: 'productSize',
               attributes: ['productSizeId', 'name'],
             },
             { 
               model: ProductColor,
-              as: 'productColor',
               attributes: ['productColorId', 'hex'],
             },
           ],
         },
         {
           model: ProductGeneralImage,
-          as: 'productGeneralImage',
           attributes: ['image'],
         },
         {
           model: ProductImage,
-          as: 'productImage',
           attributes: ['image', 'productColorId'],
         },
       ],
@@ -437,18 +423,15 @@ const getCarts = async (carts: CartProp[]) => {
           include: [
             {
               model: ProductInventory,
-              as: 'productInventories',
               attributes: ['price', 'priceDiscount', 'quantity'],
               include: [
                 {
                   model: ProductSize,
-                  as: 'productSize',
                   where: { productSizeId },
                   attributes: ['productSizeId', 'name'],
                 },
                 {
                   model: ProductColor,
-                  as: 'productColor',
                   where: { productColorId },
                   attributes: ['productColorId', 'hex', 'name'],
                 },

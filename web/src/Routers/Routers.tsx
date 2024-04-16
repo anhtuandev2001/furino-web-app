@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import App from '../App';
-import { Home, Login, ProductDetail, Shop, SignUp } from '../pages';
+import { Cart, Home, Login, ProductDetail, Shop, SignUp } from '../pages';
 import checkTokenExistence from '../utils/hooks/checkToken';
 
 const Routers = () => {
@@ -31,6 +31,11 @@ const Routers = () => {
         <Route
           path='shop/product/:id'
           element={<ProductDetail />}
+        />
+
+        <Route
+          path='/cart'
+          element={<Cart />}
         />
 
         {/* <Route

@@ -9,6 +9,7 @@ import {
   selectCategoriesSelected,
   selectCount,
   selectLimit,
+  selectLoading,
   selectPage,
   selectProducts,
   shopActions,
@@ -33,6 +34,7 @@ function Products() {
   const count = useAppSelector(selectCount);
   const sort = useAppSelector((state) => state.shops.sort);
   const keyword = useAppSelector((state) => state.shops.keyword);
+  const loading = useAppSelector(selectLoading);
 
   const handleChangePage = (_event: React.ChangeEvent<any>, value: number) => {
     dispatch(shopActions.onChangePage(value));
@@ -149,19 +151,22 @@ function Products() {
         <ProductList
           products={products}
           limit={limit}
+          loading={loading}
         />
         <div className='flex justify-center mt-[70px]'>
-          <Pagination
-            count={Number(Math.ceil(count / limit))}
-            variant='outlined'
-            shape='rounded'
-            size='large'
-            onChange={handleChangePage}
-            page={page}
-            hidePrevButton={page === 1}
-            hideNextButton={page === count}
-            color='primary'
-          />
+          {products.length > 0 && (
+            <Pagination
+              count={Number(Math.ceil(count / limit))}
+              variant='outlined'
+              shape='rounded'
+              size='large'
+              onChange={handleChangePage}
+              page={page}
+              hidePrevButton={page === 1}
+              hideNextButton={page === count}
+              color='primary'
+            />
+          )}
         </div>
       </div>
     </div>

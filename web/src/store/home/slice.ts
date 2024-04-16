@@ -14,13 +14,15 @@ export interface LimitOffsetProps {
 }
 
 export interface HomeState {
-  products: ProductProp[] | null;
+  products: ProductProp[];
   carts: any;
+  loading: boolean;
 }
 
 const initialState: HomeState = {
-  products: null,
+  products: [],
   carts: [],
+  loading: false,
 };
 
 // slice
@@ -28,8 +30,12 @@ export const homeSlice = createSlice({
   name: 'homes',
   initialState,
   reducers: {
+    getProducts(state) {
+      state.loading = true;
+    },
     getProductsSucceeded(state, action: PayloadAction<ProductProp[]>) {
       state.products = action.payload;
+      state.loading= false;
     },
     getCartsSucceeded(state, action: PayloadAction<CartProp[]>) {
       state.carts = action.payload;
@@ -47,8 +53,9 @@ export const homeActions = {
 };
 
 // Selectors
-export const selectProducts = (state: RootState): ProductProp[] | null =>
+export const selectProducts = (state: RootState): ProductProp[] =>
   state.homes.products;
+export const selectLoading = (state: RootState): boolean => state.homes.loading;
 
 export const selectCarts = (state: RootState): any => state.homes.carts;
 
