@@ -13,7 +13,7 @@ const makeStore = () => {
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
-        thunk: false,
+        thunk: true,
         serializableCheck: false,
       }).concat(sagaMiddleware),
     devTools: __DEV__,

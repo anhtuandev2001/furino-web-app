@@ -1,3 +1,4 @@
+import LoadingButton from '@mui/lab/LoadingButton';
 import { Button, Skeleton } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { IoIosArrowForward } from 'react-icons/io';
@@ -8,6 +9,7 @@ import ProductTitle from '../../common/ProductTitle/ProductTitle';
 import {
   productDetailActions,
   selectLoading,
+  selectLoadingAddToCart,
   selectProduct,
   selectProductSuggestion,
 } from '../../store/productDetail/slice';
@@ -41,6 +43,7 @@ function ProductDetail() {
   const dispatch = useAppDispatch();
 
   const loading = useAppSelector(selectLoading);
+  const loadingButton = useAppSelector(selectLoadingAddToCart);
 
   const handleIncrease = () => {
     if (productItem?.quantity && quantity >= productItem?.quantity) return;
@@ -225,9 +228,11 @@ function ProductDetail() {
     }
   }, [color, product, size]);
 
+  console.log(images);
+
   return (
     <div className='mb-6'>
-      <div className='py-[40px] bg-[#F9F1E7]'>
+      <div className='px-4 py-[40px] bg-[#F9F1E7]'>
         <div className='flex items-center gap-2 container mx-auto'>
           <Link to={'/'}>Home</Link>
           <span>
@@ -248,11 +253,11 @@ function ProductDetail() {
           )}
         </div>
       </div>
-      <div className='container mx-auto flex mt-[32px]'>
-        <div className='w-2/3 flex gap-[32px] pr-[50px]'>
+      <div className='container mx-auto flex flex-col sm:flex-row sm:mt-[32px] mt-4 px-4'>
+        <div className='sm:w-2/3 flex gap-4 sm:gap-[32px] sm:pr-[50px] flex-col-reverse sm:flex-row'>
           <div
             ref={imageRefBody}
-            className='flex flex-col gap-[32px] overflow-auto h-[500px]'
+            className='flex sm:flex-col gap-4 sm:gap-[32px] overflow-auto sm:h-[500px]'
           >
             {product ? (
               images.map((item) => (
@@ -262,7 +267,7 @@ function ProductDetail() {
                   ref={imageRef}
                   onClick={() => setImage(item.image)}
                   alt='product'
-                  className={`w-[150px] object-cover rounded-md cursor-pointer ${
+                  className={`w-[150px] h-[100px] sm:h-auto object-cover rounded-md cursor-pointer ${
                     image === item.image && 'border-4 border-[#B88E2F]'
                   }`}
                 />
@@ -297,7 +302,7 @@ function ProductDetail() {
               <img
                 src={image}
                 alt='product'
-                className='h-[500px] object-cover rounded-lg'
+                className='w-full h-[500px] object-cover rounded-lg'
               />
             ) : (
               <Skeleton
@@ -307,7 +312,7 @@ function ProductDetail() {
             )}
           </div>
         </div>
-        <div className='w-1/3 flex flex-col gap-[18px]'>
+        <div className='justify-end sm:justify-normal sm:w-1/3 flex flex-col gap-3 sm:gap-[18px]'>
           <h2 className='text-[42px] capitalize'>
             {product ? (
               product?.name
@@ -446,8 +451,8 @@ function ProductDetail() {
                 +
               </Button>
             </div>
-            <Button
-              variant='contained'
+            <LoadingButton
+              loading={loadingButton}
               onClick={handleAddToCart}
               sx={{
                 fontSize: '20px',
@@ -460,9 +465,10 @@ function ProductDetail() {
                   backgroundColor: 'black',
                 },
               }}
+              variant='contained'
             >
-              <span> Add To Cart</span>
-            </Button>
+              Add To Cart
+            </LoadingButton>
           </div>
           <div className='pt-[41px] flex flex-col gap-3 pb-[67px]'>
             <div className='flex'>

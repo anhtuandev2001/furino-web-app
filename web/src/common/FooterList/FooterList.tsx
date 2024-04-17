@@ -37,7 +37,7 @@ function FooterList() {
         </div>
         <div className='sm:w-4/12'>
           <h4 className='text-[#9F9F9F] font-medium'>Newsletter</h4>
-          <div className='mt-[15px] sm:mt-[56px] flex gap-5'>
+          <div className='mt-[15px] sm:mt-[56px] flex gap-5 justify-between sm:justify-auto'>
             <Input
               placeholder='Enter Your Email Address'
               sx={{

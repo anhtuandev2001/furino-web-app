@@ -1,11 +1,16 @@
-import { Button, Checkbox } from '@mui/material';
+import { Button, Checkbox, Skeleton } from '@mui/material';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useEffect, useState } from 'react';
 import { IoIosCloseCircle } from 'react-icons/io';
 import iconCloseCart from '../../assets/icons/close-cart.svg';
-import { homeActions, selectCarts } from '../../store/home/slice';
+import {
+  cartActions,
+  selectCarts,
+  selectLoading,
+} from '../../store/cart/slice';
 import { useAppDispatch, useAppSelector } from '../../store/root/hooks';
+import { useNavigate } from 'react-router-dom';
 
 const style = {
   position: 'absolute' as const,
@@ -26,8 +31,10 @@ function CartPreview({
 }) {
   const [select, setSelect] = useState<any>([]);
 
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const carts = useAppSelector(selectCarts);
+  const loading = useAppSelector(selectLoading);
 
   const handleCheckboxChange = (cart: any) => {
     if (select.some((item: any) => item.cartId === cart.cartId)) {
@@ -39,13 +46,14 @@ function CartPreview({
 
   const handleDeleteCart = (cartId: number) => {
     setSelect([]);
-    dispatch(homeActions.onDeleteCart(cartId));
+    dispatch(cartActions.onDeleteCart(cartId));
   };
 
   useEffect(() => {
-    dispatch(homeActions.getCarts());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (carts.length === 0) {
+      dispatch(cartActions.getCarts());
+    }
+  }, [carts, dispatch]);
 
   return (
     <div>
@@ -70,53 +78,109 @@ function CartPreview({
                 </Button>
               </div>
               <div className='flex flex-col gap-[20px] mt-[32px] flex-1 max-h-[438px] overflow-scroll'>
-                {carts &&
-                  carts.map((cart: any) => (
-                    <div
-                      className='flex items-center gap-4'
-                      key={cart.cartId}
-                    >
-                      <Checkbox
-                        onChange={() => handleCheckboxChange(cart)}
-                        checked={select.some(
-                          (item: any) => item.cartId === cart.cartId
-                        )}
-                      />
-                      <img
-                        className='h-[105px] w-[105px] rounded-[10px] object-cover'
-                        src={cart.productImage}
-                        alt='product'
-                      />
-                      <div className='flex-1 flex flex-col gap-2'>
-                        <h3 className='mb-[8px] capitalize'>
-                          {cart.productName}
-                        </h3>
-                        <div className='flex gap-2'>
-                          <span className='text-[14px]'>
-                            {cart.productColor.name}
-                          </span>
-                          <span className='text-[14px]'>
-                            {cart.productSize.name}
-                          </span>
-                        </div>
-                        <div className='flex items-center gap-4'>
-                          <span>{cart.quantity}x</span>
-                          <span className='text-[12px] text-[#B88E2F]'>
-                            {cart.priceDiscount
-                              ? cart.priceDiscount
-                              : cart.price}
-                            $
-                          </span>
-                        </div>
-                      </div>
-                      <Button onClick={() => handleDeleteCart(cart.cartId)}>
-                        <IoIosCloseCircle
-                          size={24}
-                          color='#9F9F9F'
+                {!loading
+                  ? carts &&
+                    carts.map((cart: any) => (
+                      <div
+                        className='flex items-center gap-4'
+                        key={cart.cartId}
+                      >
+                        <Checkbox
+                          onChange={() => handleCheckboxChange(cart)}
+                          checked={select.some(
+                            (item: any) => item.cartId === cart.cartId
+                          )}
                         />
-                      </Button>
-                    </div>
-                  ))}
+                        <img
+                          className='h-[105px] w-[105px] rounded-[10px] object-cover'
+                          src={cart.productImage}
+                          alt='product'
+                        />
+                        <div className='flex-1 flex flex-col gap-2'>
+                          <h3 className='mb-[8px] capitalize'>
+                            {cart.productName}
+                          </h3>
+                          <div className='flex gap-2'>
+                            <span className='text-[14px]'>
+                              {cart.productColor.name}
+                            </span>
+                            <span className='text-[14px]'>
+                              {cart.productSize.name}
+                            </span>
+                          </div>
+                          <div className='flex items-center gap-4'>
+                            <span>{cart.quantity}x</span>
+                            {cart.priceDiscount && (
+                              <span className='text-[12px] text-[#B88E2F]'>
+                                {cart.priceDiscount}$
+                              </span>
+                            )}
+                            <span
+                              className={` ${
+                                cart.priceDiscount
+                                  ? 'underline text-[10px] text-gray-500'
+                                  : 'text-[#B88E2F] text-[12px]'
+                              } `}
+                            >
+                              {cart.price}$
+                            </span>
+                          </div>
+                        </div>
+                        <Button onClick={() => handleDeleteCart(cart.cartId)}>
+                          <IoIosCloseCircle
+                            size={24}
+                            color='#9F9F9F'
+                          />
+                        </Button>
+                      </div>
+                    ))
+                  : Array.from({ length: 2 }).map(() => (
+                      <div className='flex items-center gap-4'>
+                        <Checkbox />
+                        <Skeleton
+                          variant='rectangular'
+                          width={105}
+                          height={105}
+                        />
+                        <div className='flex-1 flex flex-col gap-2'>
+                          <h3 className='mb-[8px] capitalize'>
+                            <Skeleton variant='text' />
+                          </h3>
+                          <div className='flex gap-2'>
+                            <span className='text-[14px]'>
+                              <Skeleton
+                                variant='text'
+                                width={40}
+                              />
+                            </span>
+                            <span className='text-[14px]'>
+                              <Skeleton
+                                variant='text'
+                                width={40}
+                              />
+                            </span>
+                          </div>
+                          <div className='flex items-center gap-4'>
+                            <Skeleton
+                              variant='text'
+                              width={30}
+                            />
+                            <span className='text-[12px] text-[#B88E2F]'>
+                              <Skeleton
+                                variant='text'
+                                width={30}
+                              />
+                            </span>
+                          </div>
+                        </div>
+                        <Button>
+                          <IoIosCloseCircle
+                            size={24}
+                            color='#9F9F9F'
+                          />
+                        </Button>
+                      </div>
+                    ))}
               </div>
               <div className='flex justify-between pt-3'>
                 <span>Subtotal</span>
@@ -139,6 +203,10 @@ function CartPreview({
             <div className='flex justify-between p-[30px]'>
               <Button
                 variant='outlined'
+                onClick={() => {
+                  navigate('/cart');
+                  onClose();
+                }}
                 sx={{
                   color: 'black',
                   borderColor: 'black',
