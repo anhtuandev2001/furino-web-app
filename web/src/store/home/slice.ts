@@ -1,52 +1,60 @@
-import {
-  createAction,
-  createSlice,
-  type PayloadAction,
-} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { ProductProp } from '../../types/product';
+import { BASE_URL } from '../../utils/constants/strapi';
+import { ipaCall } from '../../utils/hooks/apiCall';
 import type { RootState } from '../root/config.store';
+import { HomeInitialState, ProductState } from './types';
 
 export interface LimitOffsetProps {
   limit: number;
   page: number;
 }
-
-export interface HomeState {
-  products: ProductProp[];
-  loading: boolean;
-}
-
-const initialState: HomeState = {
-  products: [],
-  loading: false,
+const initialState: HomeInitialState = {
+  products: {
+    data: [],
+    status: 'idle',
+    error: '',
+  },
 };
 
 // slice
 export const homeSlice = createSlice({
   name: 'homes',
   initialState,
-  reducers: {
-    getProducts(state) {
-      state.loading = true;
-    },
-    getProductsSucceeded(state, action: PayloadAction<ProductProp[]>) {
-      state.products = action.payload;
-      state.loading = false;
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(homeActions.getProducts.pending, (state) => {
+        state.products.status = 'loading';
+      })
+      .addCase(homeActions.getProducts.fulfilled, (state, action) => {
+        state.products.status = 'succeeded';
+        state.products.data = action.payload;
+      })
+      .addCase(homeActions.getProducts.rejected, (state) => {
+        state.products.status = 'failed';
+      });
   },
 });
 
 // Actions
 export const homeActions = {
-  getProducts: createAction<LimitOffsetProps>(`${homeSlice.name}/getProducts`),
-  getProductsSucceeded: createAction(`${homeSlice.name}/getProductsSucceeded`),
+  getProducts: createAsyncThunk(
+    `${homeSlice.name}/getProducts`,
+    async (limitOffset: LimitOffsetProps) => {
+      const products = await ipaCall('GET', `${BASE_URL}products`, false, {
+        limit: limitOffset.limit,
+        page: limitOffset.page,
+      });
+
+      return products.data;
+    }
+  ),
 };
 
 // Selectors
-export const selectProducts = (state: RootState): ProductProp[] =>
+export const selectProducts = (state: RootState): ProductState =>
   state.homes.products;
-export const selectLoading = (state: RootState): boolean => state.homes.loading;
 
 // Reducer
 export default homeSlice.reducer;

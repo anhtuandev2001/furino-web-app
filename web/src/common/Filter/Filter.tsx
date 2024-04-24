@@ -2,7 +2,7 @@ import { Button, TextField } from '@mui/material';
 import SelectCustom from '../SelectCustom/SelectCustom';
 import { CategoryProp } from '../../types/categories';
 import { limits, sorts } from '../../utils/constants/menu';
-import ComboBox from './ComboBox';
+import ComboBox from '../ComboBox/ComboBox';
 import CloseIcon from '@mui/icons-material/Close';
 
 function Filter({
@@ -14,7 +14,7 @@ function Filter({
   onChangeLimit,
   onChangeSort,
   categories,
-  categoriesSelected,
+  categoryIds,
   onChangeCategoriesSelected,
   onChangeKeyword,
   onCloseDrawer,
@@ -27,7 +27,7 @@ function Filter({
   onChangeLimit: (value: number) => void;
   onChangeSort: (value: string) => void;
   categories: CategoryProp[];
-  categoriesSelected: { label: string; categoryId: number }[];
+  categoryIds: { label: string; categoryId: number }[];
   onChangeCategoriesSelected: (event: any) => void;
   onChangeKeyword: (event: any) => void;
   onCloseDrawer?: () => void;
@@ -45,7 +45,11 @@ function Filter({
           } of ${count} results`}</span>
           <Button
             onClick={onCloseDrawer}
-            endIcon={<CloseIcon sx={{ color: 'black', display:{sx: 'block', sm: 'none'} }} />}
+            endIcon={
+              <CloseIcon
+                sx={{ color: 'black', display: { sx: 'block', sm: 'none' } }}
+              />
+            }
           />
         </div>
         <TextField
@@ -58,9 +62,13 @@ function Filter({
           sx={{ background: 'white' }}
         />
         <ComboBox
-          list={categories}
-          categoriesSelected={categoriesSelected}
-          onChangeCategoriesSelected={onChangeCategoriesSelected}
+          label='Categories'
+          list={categories.map((category) => ({
+            label: category.name,
+            categoryId: category.categoryId,
+          }))}
+          value={categoryIds}
+          onChange={onChangeCategoriesSelected}
         />
         <div className='flex gap-4 w-full sm:w-auto justify-between sm:justify-normal sm:items-center'>
           <SelectCustom

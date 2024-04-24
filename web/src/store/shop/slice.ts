@@ -1,40 +1,32 @@
 import {
   createAction,
+  createAsyncThunk,
   createSlice,
   type PayloadAction,
 } from '@reduxjs/toolkit';
 
+import { BASE_URL } from '../../utils/constants/strapi';
+import { ipaCall } from '../../utils/hooks/apiCall';
 import type { RootState } from '../root/config.store';
-import { ProductProp } from '../../types/product';
-import { CategoryProp } from '../../types/categories';
+import { CategoryState, ProductState, ShopInitialState } from './types';
 
-export interface LimitOffsetProps {
-  limit: number;
-  page: number;
-}
-
-export interface ShopState {
-  products: ProductProp[];
-  limit: number;
-  page: number;
-  count: number;
-  sort: string;
-  categories: CategoryProp[];
-  categoryIdSelected: { label: string; categoryId: number }[];
-  keyword: string;
-  loading: boolean;
-}
-
-const initialState: ShopState = {
-  products: [],
-  limit: 10,
-  page: 1,
-  count: 0,
-  sort: 'default',
-  categoryIdSelected: [],
-  categories: [],
-  keyword: '',
-  loading: false,
+const initialState: ShopInitialState = {
+  products: {
+    data: [],
+    limit: 10,
+    page: 1,
+    count: 0,
+    sort: 'default',
+    keyword: '',
+    status: 'idle',
+    error: '',
+  },
+  categories: {
+    data: [],
+    status: 'idle',
+    error: '',
+  },
+  categoryIds: [],
 };
 
 // slice
@@ -42,102 +34,151 @@ export const shopSlice = createSlice({
   name: 'shops',
   initialState,
   reducers: {
-    getProductOfShopPage(state) {
-      state.loading = true;
-    },
-    getProductsSucceeded(state, action: PayloadAction<ProductProp[]>) {
-      state.loading = false;
-      state.products = action.payload;
-    },
     onChangeLimit(state, action: PayloadAction<number>) {
-      state.loading = true;
-      state.limit = action.payload;
+      state.products.limit = action.payload;
     },
     onChangePage(state, action: PayloadAction<number>) {
-      state.loading = true;
-      state.page = action.payload;
+      state.products.page = action.payload;
     },
     onchangeCount(state, action: PayloadAction<number>) {
-      state.count = action.payload;
+      state.products.count = action.payload;
     },
     onChangeSort(state, action: PayloadAction<string>) {
-      state.loading = true;
-      state.sort = action.payload;
+      state.products.sort = action.payload;
     },
-    clearState(state) {
-      state.products = [];
-      state.limit = 10;
-      state.page = 1;
-      state.count = 0;
-      state.sort = 'default';
+    onChangeKeyword(state, action: PayloadAction<string>) {
+      state.products.keyword = action.payload;
     },
-    onchangeCategoryIdSelected(
+    onchangeCategoryIds(
       state,
       action: PayloadAction<{ label: string; categoryId: number }[]>
     ) {
-      state.categoryIdSelected = action.payload;
+      state.categoryIds = action.payload;
     },
-    getCategoriesSuccess(state, action: PayloadAction<CategoryProp[]>) {
-      state.categories = action.payload;
+    clearState(state) {
+      state.products.data = [];
+      state.products.limit = 10;
+      state.products.page = 1;
+      state.products.count = 0;
+      state.products.sort = 'default';
     },
-    onChangeFilterFromUrl(
-      state,
-      action: PayloadAction<{
-        limitUrl: number;
-        pageUrl: number;
-        keywordUrl: string;
-        categoriesUrl: string | '';
-      }>
-    ) {
-      state.limit = action.payload.limitUrl || 10;
-      state.page = action.payload.pageUrl || 1;
-      state.keyword = action.payload.keywordUrl || '';
-      const categories = state.categories;
-
-      if (action.payload.categoriesUrl) {
-        const categoriesSelected = action.payload.categoriesUrl
-          .split(',')
-          .map(Number);
-        state.categoryIdSelected = categoriesSelected.map((categoryId) => {
-          const category = categories.find(
-            (category) => category.categoryId === categoryId
-          );
-          return {
-            label: category?.name || '',
-            categoryId: categoryId,
-          };
-        });
-      }
-    },
-    onChangeKeyword(state, action: PayloadAction<string>) {
-      state.keyword = action.payload;
-    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(shopActions.getProducts.pending, (state) => {
+        state.products.status = 'loading';
+      })
+      .addCase(shopActions.getProducts.fulfilled, (state, action) => {
+        const { products, categoryIds }: any = action.payload;
+        state.products = products;
+        state.categoryIds = categoryIds;
+      })
+      .addCase(shopActions.getProducts.rejected, (state, action) => {
+        state.products.status = 'failed';
+        state.products.error = action.error.message as string;
+      })
+      .addCase(shopActions.getCategory.pending, (state) => {
+        state.categories.status = 'loading';
+      })
+      .addCase(shopActions.getCategory.fulfilled, (state, action) => {
+        state.categories.status = 'succeeded';
+        state.categories.data = action.payload;
+      })
+      .addCase(shopActions.getCategory.rejected, (state, action) => {
+        state.categories.status = 'failed';
+        state.categories.error = action.error.message as string;
+      });
   },
 });
 
 // Actions
 export const shopActions = {
-  getProductsSucceeded: shopSlice.actions.getProductsSucceeded,
   getProductOfShopPage: createAction<{
     limitUrl: string | null;
     pageUrl: string | null;
     keywordUrl: string | null;
     categoriesUrl: string | null;
   }>(`${shopSlice.name}/getProductOfShopPage`),
-  getProductSuggestions: createAction<{
-    categoryId: number[];
-    productId: number;
-  }>(`${shopSlice.name}/getProductSuggestions`),
+  getProducts: createAsyncThunk(
+    `${shopSlice.name}/getProducts`,
+    async (payload: any, thunkAPI) => {
+      const currentState: any = thunkAPI.getState();
+      const currentProducts = currentState.shops.products;
+      const categoryIds = currentState.shops.categoryIds;
+      const { limitUrl, pageUrl, keywordUrl, categoriesUrl } = payload;
+      const { limit, page, sort, keyword } = currentProducts;
+
+      try {
+        const products = await ipaCall('GET', `${BASE_URL}products`, false, {
+          limit: limitUrl || limit,
+          page: pageUrl || page,
+          sort: sort === 'default' ? 'productId' : sort,
+          keyword: keywordUrl || keyword,
+          categoryIds: categoriesUrl
+            ? categoriesUrl.split(',').map((item: any) => Number(item))
+            : categoryIds.map((item: any) => item.categoryId),
+        });
+
+        if (products) {
+          const categories: any = selectCategories(
+            thunkAPI.getState() as RootState
+          );
+          // console.log(
+          //   categories.data
+          //     .map((item: any) => ({
+          //       label: item.name,
+          //       categoryId: item.categoryId,
+          //     }))
+          //     .filter((item: any) => categoriesUrl.includes(item.categoryId))
+          // );
+
+          console.log(categoryIds);
+          
+          return {
+            products: {
+              data: products.data,
+              limit: Number(limitUrl) || limit,
+              page: Number(pageUrl) || page,
+              count: products.count,
+              sort: sort,
+              keyword: keywordUrl || keyword,
+              status: 'succeeded',
+            },
+            categoryIds: categoriesUrl
+              ? categories.data
+                  .map((item: any) => ({
+                    label: item.name,
+                    categoryId: item.categoryId,
+                  }))
+                  .filter((item: any) =>
+                    categoriesUrl.includes(item.categoryId)
+                  )
+              : categoryIds,
+          };
+        }
+      } catch (e: any) {
+        console.log(e);
+      }
+    }
+  ),
+  getCategory: createAsyncThunk(
+    `${shopSlice.name}/categories`,
+    async (_payload, thunkAPI) => {
+      try {
+        const categories = await ipaCall('GET', `${BASE_URL}categories`, false);
+        return categories;
+      } catch (e: any) {
+        return thunkAPI.rejectWithValue(e.message.toString());
+      }
+    }
+  ),
   onChangeLimit: createAction<number>(`${shopSlice.name}/onChangeLimit`),
   onChangePage: createAction<number>(`${shopSlice.name}/onChangePage`),
   onchangeCount: createAction<number>(`${shopSlice.name}/onchangeCount`),
   onChangeSort: createAction<string>(`${shopSlice.name}/onChangeSort`),
-  clearState: createAction(`${shopSlice.name}/clearState`),
-  onchangeCategoryIdSelected: createAction<
-    { label: string; categoryId: number }[]
-  >(`${shopSlice.name}/onchangeCategoryIdSelected`),
-  getCategoriesSuccess: createAction<CategoryProp[]>(
-    `${shopSlice.name}/getCategoriesSuccess`
+  onChangeKeyword: createAction<string>(`${shopSlice.name}/onChangeKeyword`),
+  onchangeCategoryIds: createAction<{ label: string; categoryId: number }[]>(
+    `${shopSlice.name}/onchangeCategoryIds`
   ),
   onChangeFilterFromUrl: createAction<{
     limitUrl: number;
@@ -145,23 +186,15 @@ export const shopActions = {
     keywordUrl: string;
     categoriesUrl: string;
   }>(`${shopSlice.name}/onChangeFilterFromUrl`),
-  onChangeKeyword: createAction<string>(`${shopSlice.name}/onChangeKeyword`),
+  clearState: createAction(`${shopSlice.name}/clearState`),
 };
 
 // Selectors
-export const selectProducts = (state: RootState): ProductProp[] =>
+export const selectProducts = (state: RootState): ProductState =>
   state.shops.products;
-export const selectLimit = (state: RootState): number => state.shops.limit;
-export const selectPage = (state: RootState): number => state.shops.page;
-export const selectCount = (state: RootState): number => state.shops.count;
-export const selectSort = (state: RootState): string => state.shops.sort;
-export const selectCategories = (state: RootState): CategoryProp[] =>
+export const selectCategories = (state: RootState): CategoryState =>
   state.shops.categories;
-export const selectCategoriesSelected = (
-  state: RootState
-): { label: string; categoryId: number }[] => state.shops.categoryIdSelected;
-export const selectKeyword = (state: RootState): string => state.shops.keyword;
-export const selectLoading = (state: RootState): boolean => state.shops.loading;
+export const selectCategoryIds = (state: RootState) => state.shops.categoryIds;
 
 // Reducer
 export default shopSlice.reducer;

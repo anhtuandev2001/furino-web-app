@@ -3,30 +3,33 @@ import TextField from '@mui/material/TextField';
 
 export default function ComboBox({
   list,
-  categoriesSelected,
-  onChangeCategoriesSelected,
+  value,
+  onChange,
+  multiple = true,
+  label,
+  sx,
+  isOptionEqualToValue,
+  error = false,
 }: {
   list: any[];
-  categoriesSelected: any;
-  onChangeCategoriesSelected: any;
+  value?: any;
+  onChange: any;
+  multiple?: boolean;
+  label: string;
+  sx?: any;
+  isOptionEqualToValue?: any;
+  error?: boolean;
 }) {
-  const newList =
-    list &&
-    list.map((item) => {
-      return { label: item.name, categoryId: item.categoryId };
-    });
-
   return (
     <Autocomplete
-      disablePortal
-      value={categoriesSelected}
-      onChange={(_event, newValue) => onChangeCategoriesSelected(newValue)}
+      disablePortal 
+      value={value}
+      onChange={(_event, newValue) => onChange(newValue)}
       id='combo-box-demo'
-      options={newList}
-      multiple
-      isOptionEqualToValue={(option, value) =>
-        option.label === value.label && option.categoryId === value.categoryId
-      }
+      options={list}
+      disabled={list.length === 0}
+      isOptionEqualToValue={isOptionEqualToValue}
+      multiple={multiple}
       sx={{
         width: 300,
         '& .MuiInputBase-root': { flexWrap: 'nowrap' },
@@ -35,11 +38,13 @@ export default function ComboBox({
         '& .MuiAutocomplete-option': {
           textTransform: 'capitalize',
         },
+        ...sx,
       }}
       renderInput={(params) => (
         <TextField
+          error={error  }
           {...params}
-          label='Category'
+          label={label}
         />
       )}
     />

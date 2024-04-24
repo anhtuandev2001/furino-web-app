@@ -6,12 +6,11 @@ import { Link, useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import FormRadius from '../../common/FormRadius/FormRadius';
 import ProductTitle from '../../common/ProductTitle/ProductTitle';
+import { cartActions, selectStatus } from '../../store/cart/slice';
 import {
   productDetailActions,
-  selectLoading,
-  selectLoadingAddToCart,
   selectProduct,
-  selectProductSuggestion,
+  selectProductSuggestion
 } from '../../store/productDetail/slice';
 import { useAppDispatch, useAppSelector } from '../../store/root/hooks';
 import {
@@ -39,11 +38,9 @@ function ProductDetail() {
   const imageRef = React.useRef<HTMLImageElement>(null);
 
   const productId = useParams().id;
-
   const dispatch = useAppDispatch();
 
-  const loading = useAppSelector(selectLoading);
-  const loadingButton = useAppSelector(selectLoadingAddToCart);
+  const status = useAppSelector(selectStatus);
 
   const handleIncrease = () => {
     if (productItem?.quantity && quantity >= productItem?.quantity) return;
@@ -72,7 +69,7 @@ function ProductDetail() {
     }
 
     if (newAlignment) {
-      const newColors = product?.productInventories
+      const newColors = product.data?.productInventories
         .map((item) => {
           if (item.productSize.productSizeId === Number(newAlignment)) {
             return item.productColor;
@@ -95,7 +92,7 @@ function ProductDetail() {
       setColors(updatedColors);
     } else {
       setColors(
-        product?.productInventories.reduce((unique: ProductColor[], item) => {
+        product.data?.productInventories.reduce((unique: ProductColor[], item) => {
           if (
             !unique.some(
               (color) =>
@@ -125,12 +122,12 @@ function ProductDetail() {
       });
 
       setImage(
-        product?.productImages.find(
+        product.data?.productImages.find(
           (item) => item.productColorId === Number(newAlignment)
         )?.image || ''
       );
 
-      const newSizes = product?.productInventories
+      const newSizes = product.data?.productInventories
         .map((item) => {
           if (item.productColor.productColorId === Number(newAlignment)) {
             return item.productSize;
@@ -151,7 +148,7 @@ function ProductDetail() {
       setSizes(updatedSizes);
     } else {
       setSizes(
-        product?.productInventories.reduce((unique: ProductSize[], item) => {
+        product.data?.productInventories.reduce((unique: ProductSize[], item) => {
           if (
             !unique.some(
               (size) => size?.productSizeId === item.productSize.productSizeId
@@ -166,16 +163,16 @@ function ProductDetail() {
   };
 
   const handleAddToCart = () => {
-    if (!product) return;
+    if (!product.data) return;
     if (!size || !color) return;
     checkTokenExistence();
-    const data = {
-      productId: product.productId,
+    const cartData = {
+      productId: product.data.productId,
       productSizeId: Number(size),
       productColorId: Number(color),
       quantity,
     };
-    dispatch(productDetailActions.onHandleAddToCart(data));
+    dispatch(cartActions.onHandleAddToCart(cartData));
   };
 
   useEffect(() => {
@@ -183,10 +180,10 @@ function ProductDetail() {
   }, [dispatch, productId]);
 
   useEffect(() => {
-    if (product) {
-      setProductItem(product.productInventories[0]);
+    if (product.data) {
+      setProductItem(product.data.productInventories[0]);
       setSizes(
-        product.productInventories.reduce((unique: ProductSize[], item) => {
+        product.data.productInventories.reduce((unique: ProductSize[], item) => {
           if (
             !unique.some(
               (size) => size?.productSizeId === item.productSize.productSizeId
@@ -198,7 +195,7 @@ function ProductDetail() {
         }, [])
       );
       setColors(
-        product.productInventories.reduce((unique: ProductColor[], item) => {
+        product.data.productInventories.reduce((unique: ProductColor[], item) => {
           if (
             !unique.some(
               (color) =>
@@ -210,14 +207,14 @@ function ProductDetail() {
           return unique;
         }, [])
       );
-      setImages([...product.productGeneralImages, ...product.productImages]);
-      setImage(product.productGeneralImages[0]?.image);
+      setImages([...product.data.productGeneralImages, ...product.data.productImages]);
+      setImage(product.data.productGeneralImages[0]?.image);
     }
-  }, [dispatch, product]);
+  }, [dispatch, product.data]);
 
   useEffect(() => {
-    if (size && color && product) {
-      const productItemSelect = product.productInventories.find(
+    if (size && color && product.data) {
+      const productItemSelect = product.data.productInventories.find(
         (item) =>
           item?.productSize?.productSizeId === Number(size) &&
           item?.productColor?.productColorId === Number(color)
@@ -226,9 +223,7 @@ function ProductDetail() {
         setProductItem(productItemSelect);
       }
     }
-  }, [color, product, size]);
-
-  console.log(images);
+  }, [color, product.data, size]);
 
   return (
     <div className='mb-6'>
@@ -242,8 +237,8 @@ function ProductDetail() {
             <span>Shop</span>
           </Link>
           <span className='text-xl'>|</span>
-          {product ? (
-            <span className='capitalize'>{product?.name}</span>
+          {product.status === 'succeeded' ? (
+            <span className='capitalize'>{product.data?.name}</span>
           ) : (
             <Skeleton
               variant='text'
@@ -259,14 +254,14 @@ function ProductDetail() {
             ref={imageRefBody}
             className='flex sm:flex-col gap-4 sm:gap-[32px] overflow-auto sm:h-[500px]'
           >
-            {product ? (
+            {product.status === 'succeeded' ? (
               images.map((item) => (
                 <img
                   key={uuidv4()}
                   src={item.image}
                   ref={imageRef}
                   onClick={() => setImage(item.image)}
-                  alt='product'
+                  alt='product.data'
                   className={`w-[150px] h-[100px] sm:h-auto object-cover rounded-md cursor-pointer ${
                     image === item.image && 'border-4 border-[#B88E2F]'
                   }`}
@@ -298,10 +293,10 @@ function ProductDetail() {
             )}
           </div>
           <div className='flex-1'>
-            {product ? (
+            {product.status === 'succeeded' ? (
               <img
                 src={image}
-                alt='product'
+                alt='product.data'
                 className='w-full h-[500px] object-cover rounded-lg'
               />
             ) : (
@@ -314,8 +309,8 @@ function ProductDetail() {
         </div>
         <div className='justify-end sm:justify-normal sm:w-1/3 flex flex-col gap-3 sm:gap-[18px]'>
           <h2 className='text-[42px] capitalize'>
-            {product ? (
-              product?.name
+            {product.status === 'succeeded' ? (
+              product.data?.name
             ) : (
               <Skeleton
                 variant='text'
@@ -325,7 +320,7 @@ function ProductDetail() {
             )}
           </h2>
           <div className='flex gap-3 items-center'>
-            {product ? (
+            {product.status === 'succeeded' ? (
               <>
                 {productItem?.priceDiscount && (
                   <span className='text-[24px] text-[#9F9F9F] font-medium'>
@@ -354,8 +349,8 @@ function ProductDetail() {
             )}
           </div>
           <p className='text-[13px] max-w-[424px] capitalize'>
-            {product ? (
-              product?.description
+            {product.status === 'succeeded' ? (
+              product.data?.description
             ) : (
               <Skeleton
                 variant='text'
@@ -399,7 +394,7 @@ function ProductDetail() {
 
           <span className='text-[#9F9F9F] w-[150px] flex items-center gap-2'>
             Quantity:{' '}
-            {product ? (
+            {product.status === 'succeeded' ? (
               productItem?.quantity
             ) : (
               <Skeleton
@@ -452,8 +447,8 @@ function ProductDetail() {
               </Button>
             </div>
             <LoadingButton
-              loading={loadingButton}
               onClick={handleAddToCart}
+              loading={status.add === 'loading'}
               sx={{
                 fontSize: '20px',
                 color: 'white',
@@ -474,8 +469,8 @@ function ProductDetail() {
             <div className='flex'>
               <span className='text-[#9F9F9F] w-[150px]'>SKU:</span>
               <span className='text-[#9F9F9F]'>
-                {product ? (
-                  product?.productId
+                {product.status === 'succeeded' ? (
+                  product.data?.productId
                 ) : (
                   <Skeleton
                     variant='text'
@@ -487,10 +482,10 @@ function ProductDetail() {
             </div>
             <div className='flex'>
               <span className='text-[#9F9F9F] w-[150px]'>Category:</span>
-              {product ? (
+              {product.status === 'succeeded' ? (
                 <div>
-                  {product?.productCategories &&
-                    product?.productCategories.map((category) => (
+                  {product.data?.productCategories &&
+                    product.data?.productCategories.map((category) => (
                       <span
                         key={uuidv4()}
                         className='text-[#9F9F9F] mr-[10px] w-5/6 capitalize'
@@ -512,8 +507,8 @@ function ProductDetail() {
       </div>
       <ProductTitle
         title='Related Products'
-        products={productSuggestion}
-        loading={loading}
+        products={productSuggestion.data}
+        status={productSuggestion.status}
         limit={4}
       />
     </div>

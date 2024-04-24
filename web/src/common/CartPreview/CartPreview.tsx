@@ -3,14 +3,11 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useEffect, useState } from 'react';
 import { IoIosCloseCircle } from 'react-icons/io';
-import iconCloseCart from '../../assets/icons/close-cart.svg';
-import {
-  cartActions,
-  selectCarts,
-  selectLoading,
-} from '../../store/cart/slice';
-import { useAppDispatch, useAppSelector } from '../../store/root/hooks';
 import { useNavigate } from 'react-router-dom';
+import iconCloseCart from '../../assets/icons/close-cart.svg';
+import { cartActions, selectCarts } from '../../store/cart/slice';
+import { useAppDispatch, useAppSelector } from '../../store/root/hooks';
+import { v4 as uuidv4 } from 'uuid';
 
 const style = {
   position: 'absolute' as const,
@@ -33,8 +30,7 @@ function CartPreview({
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const carts = useAppSelector(selectCarts);
-  const loading = useAppSelector(selectLoading);
+  const cart = useAppSelector(selectCarts);
 
   const handleCheckboxChange = (cart: any) => {
     if (select.some((item: any) => item.cartId === cart.cartId)) {
@@ -46,14 +42,13 @@ function CartPreview({
 
   const handleDeleteCart = (cartId: number) => {
     setSelect([]);
-    dispatch(cartActions.onDeleteCart(cartId));
+    dispatch(cartActions.onHandDeleteCart(cartId));
   };
 
   useEffect(() => {
-    if (carts.length === 0) {
-      dispatch(cartActions.getCarts());
-    }
-  }, [carts, dispatch]);
+    dispatch(cartActions.getCarts());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
 
   return (
     <div>
@@ -78,9 +73,8 @@ function CartPreview({
                 </Button>
               </div>
               <div className='flex flex-col gap-[20px] mt-[32px] flex-1 max-h-[438px] overflow-scroll'>
-                {!loading
-                  ? carts &&
-                    carts.map((cart: any) => (
+                {cart.status === 'succeeded'
+                  ? cart.data.map((cart: any) => (
                       <div
                         className='flex items-center gap-4'
                         key={cart.cartId}
@@ -135,7 +129,10 @@ function CartPreview({
                       </div>
                     ))
                   : Array.from({ length: 2 }).map(() => (
-                      <div className='flex items-center gap-4'>
+                      <div
+                        key={uuidv4()}
+                        className='flex items-center gap-4'
+                      >
                         <Checkbox />
                         <Skeleton
                           variant='rectangular'

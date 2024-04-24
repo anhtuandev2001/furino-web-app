@@ -7,17 +7,28 @@ import SkeletonProduct from './SkeletonProduct';
 function ProductList({
   products,
   limit,
-  loading,
+  status,
 }: {
   products: ProductProp[];
   limit: number;
-  loading: boolean;
+  status: string;
 }) {
+  if (
+    status === 'failed' ||
+    (status === 'succeeded' && products.length === 0)
+  ) {
+    return (
+      <img
+        className='mx-auto'
+        src={noProduct}
+      />
+    );
+  }
+
   return (
     <div>
       <div className='grid gap-[20px] grid-cols-2 sm:grid-cols-4 pr-4 pl-4 sm:p-4'>
-        {!loading ? (
-          products &&
+        {status === 'succeeded' ? (
           products.map((item) => (
             <ProductItem
               key={uuid()}
@@ -28,7 +39,6 @@ function ProductList({
           <SkeletonProduct limit={limit} />
         )}
       </div>
-      {!loading && products.length === 0 && <img className='mx-auto' src={noProduct} />}
     </div>
   );
 }

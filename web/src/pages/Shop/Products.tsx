@@ -6,11 +6,7 @@ import Filter from '../../common/Filter/Filter';
 import { useAppDispatch, useAppSelector } from '../../store/root/hooks';
 import {
   selectCategories,
-  selectCategoriesSelected,
-  selectCount,
-  selectLimit,
-  selectLoading,
-  selectPage,
+  selectCategoryIds,
   selectProducts,
   shopActions,
 } from '../../store/shop/slice';
@@ -28,21 +24,16 @@ function Products() {
 
   const products = useAppSelector(selectProducts);
   const categories = useAppSelector(selectCategories);
-  const categoriesSelected = useAppSelector(selectCategoriesSelected);
-  const limit = useAppSelector(selectLimit);
-  const page = useAppSelector(selectPage);
-  const count = useAppSelector(selectCount);
-  const sort = useAppSelector((state) => state.shops.sort);
-  const keyword = useAppSelector((state) => state.shops.keyword);
-  const loading = useAppSelector(selectLoading);
+  const categoryIds = useAppSelector(selectCategoryIds);
+  const { limit, page, sort, keyword, count, status } = products;
 
   const handleChangePage = (_event: React.ChangeEvent<any>, value: number) => {
     dispatch(shopActions.onChangePage(value));
     window.scrollTo(0, 0);
     navigate(
       `/shop?limit=${limit}&page=${value}${
-        categoriesSelected.length > 0
-          ? `&categories=${categoriesSelected
+        categoryIds.length > 0
+          ? `&categories=${categoryIds
               .map((item: { categoryId: any }) => item.categoryId)
               .join(',')}`
           : ''
@@ -58,8 +49,8 @@ function Products() {
 
     navigate(
       `/shop?limit=${value}&page=1${
-        categoriesSelected.length > 0
-          ? `&categories=${categoriesSelected
+        categoryIds.length > 0
+          ? `&categories=${categoryIds
               .map((item: { categoryId: any }) => item.categoryId)
               .join(',')}`
           : ''
@@ -73,7 +64,9 @@ function Products() {
   };
 
   const handleChangeCategoriesSelected = (value: any) => {
-    dispatch(shopActions.onchangeCategoryIdSelected(value));
+    console.log(value);
+
+    dispatch(shopActions.onchangeCategoryIds(value));
     dispatch(shopActions.onChangePage(1));
     navigate(
       `/shop?limit=${limit}&page=1${
@@ -91,9 +84,9 @@ function Products() {
     dispatch(shopActions.onChangePage(1));
     navigate(
       `/shop?limit=${limit}&page=1${
-        categoriesSelected.length > 0
-          ? `&categories=${categoriesSelected
-              .map((item) => item.categoryId)
+        categoryIds.length > 0
+          ? `&categories=${categoryIds
+              .map((item: any) => item.categoryId)
               .join(',')}`
           : ''
       }${value !== '' ? `&keyword=${value}` : ''}`
@@ -128,9 +121,9 @@ function Products() {
           keyword={keyword}
           onChangeLimit={handleChangeLimit}
           onChangeSort={handleChangeSort}
-          categories={categories}
+          categories={categories.data}
           onChangeCategoriesSelected={handleChangeCategoriesSelected}
-          categoriesSelected={categoriesSelected}
+          categoryIds={categoryIds}
           onChangeKeyword={handleChangeKeyword}
         />
       </div>
@@ -142,19 +135,19 @@ function Products() {
         keyword={keyword}
         onChangeLimit={handleChangeLimit}
         onChangeSort={handleChangeSort}
-        categories={categories}
+        categories={categories.data}
         onChangeCategoriesSelected={handleChangeCategoriesSelected}
-        categoriesSelected={categoriesSelected}
+        categoryIds={categoryIds}
         onChangeKeyword={handleChangeKeyword}
       />
       <div className='container mx-auto mt-[20px]'>
         <ProductList
-          products={products}
+          products={products.data}
           limit={limit}
-          loading={loading}
+          status={status}
         />
         <div className='flex justify-center mt-[70px]'>
-          {products.length > 0 && (
+          {products && products.data.length > 0 && (
             <Pagination
               count={Number(Math.ceil(count / limit))}
               variant='outlined'

@@ -78,11 +78,20 @@ const insertCart = async ({
       include: [
         {
           where: {
-            productColorId,
-            productSizeId,
+            productColorId: productColorId,
+            productSizeId: productSizeId,
           },
           model: ProductInventory,
           as: 'productInventories',
+          include: [
+            { model: ProductColor, as: 'productColor' },
+            { model: ProductSize, as: 'productSize' },
+          ],
+        },
+        {
+          model: ProductImage,
+          as: 'productImages',
+          where: { productColorId: productColorId },
         },
       ],
     });
@@ -109,14 +118,24 @@ const insertCart = async ({
       }
       cartExist.quantity += quantity;
       await cartExist.save();
-      return cartExist;
+      return {
+        cartId: cartExist.cartId,
+        quantity: cartExist.quantity,
+        productId: product.productId,
+        productName: product.name,
+        productImage: product.productImages[0].image,
+        price: product.productInventories[0].price,
+        priceDiscount: product.productInventories[0].priceDiscount,
+        productColor: product.productInventories[0].productColor,
+        productSize: product.productInventories[0].productSize,
+      };
     }
 
     if (quantity > product.productInventories[0].quantity) {
       return 'Quantity is not enough';
     }
 
-    const cart = await Cart.create({
+    const cart: any = await Cart.create({
       userId,
       productId,
       quantity,
@@ -124,7 +143,29 @@ const insertCart = async ({
       productSizeId,
     });
 
-    return cart;
+    return {
+      cartId: cart.cartId,
+      quantity: cart.quantity,
+      productId: product.productId,
+      productName: product.name,
+      productImage: product.productImages[0].image,
+      price: product.productInventories[0].price,
+      priceDiscount: product.productInventories[0].priceDiscount,
+      productColor: product.productInventories[0].productColor,
+      productSize: product.productInventories[0].productSize,
+    };
+
+    // return {
+    //   cartId: cart.cartId,
+    //   quantity: cart.quantity,
+    //   productId: product.productId,
+    //   productName: product.name,
+    //   productImage: product.productImages[0].image,
+    //   price: product.productInventories[0].price,
+    //   priceDiscount: product.productInventories[0].priceDiscount,
+    //   productColor: product.productInventories[0].productColor,
+    //   productSize: product.productInventories[0].productSize,
+    // };
   } catch (exception: any) {
     throw new Error(exception.message);
   }

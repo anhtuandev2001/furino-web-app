@@ -14,7 +14,7 @@ export default function TemporaryDrawer({
   onChangeLimit,
   onChangeSort,
   categories,
-  categoriesSelected,
+  categoryIds,
   onChangeCategoriesSelected,
   onChangeKeyword,
 }: {
@@ -26,7 +26,7 @@ export default function TemporaryDrawer({
   onChangeLimit: (value: number) => void;
   onChangeSort: (value: string) => void;
   categories: CategoryProp[];
-  categoriesSelected: { label: string; categoryId: number }[];
+  categoryIds: { label: string; categoryId: number }[];
   onChangeCategoriesSelected: (event: any) => void;
   onChangeKeyword: (event: any) => void;
 }) {
@@ -68,7 +68,7 @@ export default function TemporaryDrawer({
           onChangeSort={onChangeSort}
           categories={categories}
           onChangeCategoriesSelected={onChangeCategoriesSelected}
-          categoriesSelected={categoriesSelected}
+          categoryIds={categoryIds}
           onChangeKeyword={onChangeKeyword}
           onCloseDrawer={handleClose}
         />

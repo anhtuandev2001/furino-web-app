@@ -39,11 +39,11 @@ const getProducts = async (
       order:
         sort === 'price'
           ? [
-            [
-              { model: ProductInventory, as: 'productInventory' },
-              'price',
-              'ASC',
-            ],
+              [
+                { model: ProductInventory, as: 'productInventory' },
+                'price',
+                'ASC',
+              ],
             ]
           : [[sort, 'ASC']],
       limit: limit,
@@ -106,8 +106,18 @@ const getProducts = async (
         },
       ],
     });
+    
+    const count = await Product.findAll({
+      where: whereCondition,
+      include: [
+        {
+          model: ProductCategory,
+          where: whereCategory,
+        },
+      ],
+    });
 
-    return products;
+    return { data: products, count: count.length };
   } catch (exception: any) {
     throw new Error(exception.message);
   }
@@ -157,7 +167,7 @@ const getProductById = async (productId: number) => {
               model: ProductSize,
               attributes: ['productSizeId', 'name'],
             },
-            { 
+            {
               model: ProductColor,
               attributes: ['productColorId', 'hex'],
             },

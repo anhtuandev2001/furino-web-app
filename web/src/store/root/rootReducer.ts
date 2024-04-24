@@ -5,6 +5,7 @@ import shopsReducer from '../shop/slice';
 import userSlice from '../user/slice';
 import cartSlice from '../cart/slice';
 import homeSlice from '../home/slice';
+import checkoutSlide from '../checkout/slice';
 
 const appReducer = combineReducers({
   shops: shopsReducer,
@@ -13,6 +14,7 @@ const appReducer = combineReducers({
   homes: homeSlice,
   carts: cartSlice,
   users: userSlice,
+  checkouts: checkoutSlide,
 });
 
 const rootReducer = (

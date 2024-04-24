@@ -1,8 +1,8 @@
 import 'animate.css';
-import { Link } from 'react-router-dom';
-import { ProductProp } from '../../types/product';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
+import { ProductProp } from '../../types/product';
 
 function ProductItem({ item }: { item: ProductProp }) {
   const [image, setImage] = useState<string>(

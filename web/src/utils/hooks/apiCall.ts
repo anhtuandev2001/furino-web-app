@@ -4,9 +4,9 @@ import checkTokenExistence from './checkToken';
 export async function ipaCall(
   method: string,
   url: string,
-  data?: any,
+  checkToken?: boolean,
   params?: any,
-  checkToken?: string
+  data?: any
 ) {
   const headers: any = {
     'Content-Type': 'application/json',
@@ -21,7 +21,7 @@ export async function ipaCall(
     url: url,
     headers: headers,
     data: data,
-    params: params
+    params: params,
   };
 
   const response: any = await axios(config);

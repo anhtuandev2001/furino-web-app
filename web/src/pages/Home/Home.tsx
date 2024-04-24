@@ -1,32 +1,31 @@
-import Banner from './Banner';
-import Category from './Category';
-import Suggest from './Suggest';
-import Furniture from './Furniture';
-import ProductTitle from '../../common/ProductTitle/ProductTitle';
-import { useAppDispatch, useAppSelector } from '../../store/root/hooks';
 import { useEffect } from 'react';
+import ProductTitle from '../../common/ProductTitle/ProductTitle';
 import {
   homeActions,
-  selectLoading,
-  selectProducts,
+  selectProducts
 } from '../../store/home/slice';
+import { useAppDispatch, useAppSelector } from '../../store/root/hooks';
+import Banner from './Banner';
+import Category from './Category';
+import Furniture from './Furniture';
+import Suggest from './Suggest';
 
 const Home = () => {
   const dispatch = useAppDispatch();
   const products = useAppSelector(selectProducts);
-  const loading = useAppSelector(selectLoading);
   useEffect(() => {
     dispatch(homeActions.getProducts({ limit: 8, page: 1 }));
   }, [dispatch]);
+  
   return (
     <>
       <Banner />
       <Category />
       <ProductTitle
-        loading={loading}
+        status={products.status}
         limit={4}
         title='New Arrivals'
-        products={products}
+        products={products.data}
       />
       <Suggest />
       <Furniture />

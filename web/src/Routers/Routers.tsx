@@ -1,7 +1,15 @@
 import { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import App from '../App';
-import { Cart, Home, Login, ProductDetail, Shop, SignUp } from '../pages';
+import {
+  Cart,
+  Checkout,
+  Home,
+  Login,
+  ProductDetail,
+  Shop,
+  SignUp,
+} from '../pages';
 import checkTokenExistence from '../utils/hooks/checkToken';
 
 const Routers = () => {
@@ -33,16 +41,19 @@ const Routers = () => {
           element={<ProductDetail />}
         />
 
-        <Route
-          path='/cart'
-          element={<Cart />}
-        />
-
         {/* <Route
           path='*'
           element={<ErrorPage />} */}
         {/* /> */}
       </Route>
+      <Route
+        path='/cart'
+        element={<Cart />}
+      />
+      <Route
+        path='/checkout'
+        element={<Checkout />}
+      />
 
       <Route
         path='/login'

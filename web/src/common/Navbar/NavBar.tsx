@@ -52,6 +52,7 @@ function NavBar() {
     }
     setOpenAlert(false);
   };
+
   return (
     <AppBar
       position='static'
@@ -134,6 +135,10 @@ function NavBar() {
               onClick={() => {
                 const token = checkTokenExistence(true);
                 if (token) {
+                  if (window.innerWidth < 768) {
+                    window.location.href = '/cart';
+                    return;
+                  }
                   setOpenCart(true);
                 }
               }}
@@ -146,7 +151,7 @@ function NavBar() {
 
             <Tooltip title='Open settings'>
               <Button onClick={handleOpenUserMenu}>
-                {Object.keys(user).length !== 0 ? (
+                {user.data.userId ? (
                   <LuUser
                     size={24}
                     color='black'
@@ -175,7 +180,7 @@ function NavBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {Object.keys(user).length === 0 ? (
+              {!user.data.userId ? (
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Link to='/login'>Login</Link>
                 </MenuItem>
