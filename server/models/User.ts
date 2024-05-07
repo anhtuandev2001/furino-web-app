@@ -16,7 +16,7 @@ const User = sequelize.define(
         len: [3, Infinity],
       },
     },
-    phoneNumber: {
+    phone: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
@@ -46,6 +46,9 @@ const User = sequelize.define(
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: true,
+    },
+    address: {
+      type: DataTypes.STRING,
     },
   },
   {

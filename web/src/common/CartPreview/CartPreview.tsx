@@ -86,7 +86,7 @@ function CartPreview({
                           )}
                         />
                         <img
-                          className='h-[105px] w-[105px] rounded-[10px] object-cover'
+                          className='h-[105px] w-[105px] rounded-sm [10px] object-cover'
                           src={cart.productImage}
                           alt='product'
                         />
@@ -205,15 +205,8 @@ function CartPreview({
                   onClose();
                 }}
                 sx={{
-                  color: 'black',
-                  borderColor: 'black',
                   borderRadius: '20px',
                   width: '87px',
-                  '&:hover': {
-                    color: 'white',
-                    backgroundColor: 'black',
-                    borderColor: 'black',
-                  },
                 }}
               >
                 Cart
@@ -221,14 +214,7 @@ function CartPreview({
               <Button
                 variant='outlined'
                 sx={{
-                  color: 'black',
-                  borderColor: 'black',
                   borderRadius: '20px',
-                  '&:hover': {
-                    color: 'white',
-                    backgroundColor: 'black',
-                    borderColor: 'black',
-                  },
                 }}
               >
                 Check out

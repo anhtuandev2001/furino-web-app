@@ -41,8 +41,6 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     onHandleChangeCartSelected(state, action) {
-      console.log('action.payload', action.payload);
-      
       state.cartSelected = action.payload;
     },
   },

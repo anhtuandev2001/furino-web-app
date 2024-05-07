@@ -6,6 +6,8 @@ import {
   Checkout,
   Home,
   Login,
+  Order,
+  OrderDetail,
   ProductDetail,
   Shop,
   SignUp,
@@ -37,15 +39,23 @@ const Routers = () => {
           element={<Shop />}
         />
         <Route
-          path='shop/product/:id'
+          path='/shop/product/:id'
           element={<ProductDetail />}
         />
 
         {/* <Route
           path='*'
-          element={<ErrorPage />} */}
+        element={<ErrorPage />} */}
         {/* /> */}
       </Route>
+      <Route
+        path='/order'
+        element={<Order />}
+      />
+      <Route
+        path='/order/:orderId'
+        element={<OrderDetail />}
+      />
       <Route
         path='/cart'
         element={<Cart />}

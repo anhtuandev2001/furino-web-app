@@ -209,7 +209,7 @@ const insertProduct = async ({
       ProductSize.count(),
       ProductColor.count(),
     ]);
-
+    
     if (productSizeLength === 0) {
       await ProductSize.bulkCreate(sizes, { transaction: t });
     }

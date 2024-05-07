@@ -64,8 +64,6 @@ function Products() {
   };
 
   const handleChangeCategoriesSelected = (value: any) => {
-    console.log(value);
-
     dispatch(shopActions.onchangeCategoryIds(value));
     dispatch(shopActions.onChangePage(1));
     navigate(

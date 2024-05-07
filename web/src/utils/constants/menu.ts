@@ -7,8 +7,8 @@ export const settings = [
     path: '/profile',
   },
   {
-    name: 'Settings',
-    path: '/settings',
+    name: 'Order',
+    path: '/order',
   },
   {
     name: 'Logout',

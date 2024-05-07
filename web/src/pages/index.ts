@@ -6,3 +6,5 @@ export { default as Shop } from "./Shop";
 export { default as ProductDetail } from "./ProductDetail/ProductDetail";
 export { default as Cart } from "./Cart/Cart";
 export { default as Checkout } from "./Checkout/Checkout";
+export { default as Order } from "./Order/Order";
+export { default as OrderDetail } from "./OrderDetail/OrderDetail";

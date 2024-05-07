@@ -1,5 +1,6 @@
 import Cart from './Cart';
 import Category from './Category';
+import { Order, OrderItem } from './Order';
 import {
   Product,
   ProductCategory,
@@ -12,7 +13,6 @@ import {
 import { Role, User } from './User';
 
 export const relationship = () => {
-
   Product.hasMany(ProductGeneralImage, { foreignKey: 'productId' });
   Product.hasMany(ProductInventory, { foreignKey: 'productId' });
   Product.hasMany(ProductImage, { foreignKey: 'productId' });
@@ -60,15 +60,25 @@ export const relationship = () => {
 
   Role.hasMany(User, { foreignKey: 'roleId' });
 
-  User.sync({ force: false });
+  Order.belongsTo(User, { foreignKey: 'userId' });
+  Order.hasMany(OrderItem, { foreignKey: 'orderId' });
+
+  OrderItem.belongsTo(Order, { foreignKey: 'orderId' });
+  OrderItem.belongsTo(Product, { foreignKey: 'productId' });
+  OrderItem.belongsTo(ProductColor, { foreignKey: 'productColorId' });
+  OrderItem.belongsTo(ProductSize, { foreignKey: 'productSizeId' });
+
   Role.sync({ force: false });
+  User.sync({ force: false });
   Category.sync({ force: false });
+  ProductColor.sync({ force: false });
+  ProductSize.sync({ force: false });
   Product.sync({ force: false });
   ProductCategory.sync({ force: false });
-  ProductColor.sync({ force: false });
   ProductGeneralImage.sync({ force: false });
   ProductImage.sync({ force: false });
   ProductInventory.sync({ force: false });
-  ProductSize.sync({ force: false });
   Cart.sync({ force: false });
+  Order.sync({ force: false });
+  OrderItem.sync({ force: false });
 };

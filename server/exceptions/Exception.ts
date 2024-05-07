@@ -15,6 +15,7 @@ export default class Exception extends Error {
   static PRODUCT_NOT_FOUND = 'Product not found';
   static CANNOT_CREATE_PRODUCT = 'Cannot create product';
   static PRODUCT_NOT_ENOUGH = 'Product not enough';
+  static PRODUCT_OUT_OF_STOCK = 'Product out of stock';
 
   static CANNOT_FIND_CART_BY_ID = 'Cannot find cart with id';
   static CART_NOT_FOUND = 'Cart not found';
@@ -43,6 +44,8 @@ export default class Exception extends Error {
   static USER_DISABLE = 'User disable';
   static CART_ITEM_NOT_FOUND: any;
   static CANNOT_CONNECT_POSTGRESQL: any;
+
+  static ORDER_ALREADY_CANCELLED = 'Order already cancelled';
   validationErrors: {};
 
   constructor(message: string | undefined, validationErrors = {}) {

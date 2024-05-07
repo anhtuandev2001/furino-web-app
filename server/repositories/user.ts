@@ -71,13 +71,13 @@ const register = async ({
   email,
   password,
   roleId,
-  phoneNumber,
+  phone,
 }: {
   name: string;
   email: string;
   password: string;
   roleId: number;
-  phoneNumber: string;
+  phone: string;
 }) => {
   try {
     const role: any = await Role.findAll();
@@ -109,7 +109,7 @@ const register = async ({
       email,
       password: hashedPassword,
       roleId: roleId || 3,
-      phoneNumber,
+      phone,
     });
     return { ...newUser.dataValues, password: 'Not show' };
   } catch (exception: any) {
@@ -117,134 +117,59 @@ const register = async ({
   }
 };
 
-// const getUsers = async (limit, page) => {
-//   try {
-//     const offset = (page - 1) * limit;
-//     const users = await User.findAll({
-//       limit: limit,
-//       offset: offset,
-//       attributes: [
-//         'userId',
-//         'name',
-//         'email',
-//         'phoneNumber',
-//         'disable',
-//         'image',
-//       ],
-//       include: [{ model: Role }],
-//       order: [['userId', 'ASC']],
-//     });
+const updateUser = async ({
+  userId,
+  address,
+}: {
+  userId: number;
+  address?: any;
+}) => {
+  try {
+    const newAddress = JSON.stringify(address) || null;
+    const user = await User.update(
+      {
+        address: newAddress,
+      },
+      {
+        where: {
+          userId,
+        },
+      }
+    );
 
-//     users.forEach((item) => {
-//       item.dataValues.role = item.role.name;
-//     });
-//     return users;
-//   } catch (exception) {
-//     throw new Exception(exception.message);
-//   }
-// };
+    return user;
+  } catch (exception: any) {
+    throw new Exception(exception.message);
+  }
+};
 
-// const getUserById = async (userId) => {
-//   try {
-//     const user = await User.findByPk(userId, {
-//       include: [{ model: Role }],
-//     });
-//     if (!user) {
-//       throw new Exception(Exception.CANNOT_FIND_USER_BY_ID + ': ' + userId);
-//     }
-//     const address = await Address.findAll({ where: { userId } });
-//     user.dataValues.role = user.role.name;
-//     user.dataValues.sizeAddresses = address.length;
-//     return user;
-//   } catch (exception) {
-//     throw new Exception(exception.message);
-//   }
-// };
+const getUserById = async (userId: number) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        userId,
+      },
+      include: [
+        {
+          model: Role,
+          as: 'role',
+        },
+      ],
+    });
 
-// const deleteUser = async (userId) => {
-//   try {
-//     const user = await User.findByPk(userId);
-//     if (!user) {
-//       throw new Exception(Exception.USER_NOT_FOUND);
-//     }
-//     await user.destroy();
-//     return null;
-//   } catch (exception) {
-//     throw new Exception(exception.message);
-//   }
-// };
+    if (!user) {
+      throw new Exception(Exception.USER_NOT_FOUND);
+    }
 
-// const updateUser = async ({
-//   userId,
-//   name,
-//   email,
-//   roleId,
-//   image,
-//   phoneNumber,
-//   disable,
-// }) => {
-//   try {
-//     const user = await User.findByPk(userId, {
-//       attributes: ['userId', 'name', 'email', 'phoneNumber', 'image'],
-//     });
-//     if (!user) {
-//       throw new Exception(Exception.USER_NOT_FOUND);
-//     }
-//     user.name = name ?? user.name;
-//     user.email = email ?? user.email;
-//     user.roleId = roleId ?? user.roleId;
-//     user.phoneNumber = phoneNumber ?? user.phoneNumber;
-//     user.disable = disable ?? user.disable;
-
-//     if (image) {
-//       const result = await uploadToCloudinary(image);
-//       user.image = result.url;
-//     }
-
-//     await user.save();
-//     return user;
-//   } catch (exception) {
-//     throw new Exception(exception.message);
-//   }
-// };
-
-// const changePassword = async ({ userId, password, newPassword }) => {
-//   try {
-//     if (password === newPassword) {
-//       throw new Exception(Exception.WRONG_PASSWORD);
-//     }
-
-//     const user = await User.findByPk(userId);
-//     if (!user) {
-//       throw new Exception(Exception.USER_NOT_FOUND);
-//     }
-
-//     const isMatch = await bcrypt.compare(password, user.password);
-
-//     if (!isMatch) {
-//       throw new Exception(Exception.WRONG_PASSWORD);
-//     }
-
-//     const hashedPassword = await bcrypt.hash(
-//       newPassword,
-//       parseInt(process.env.SALT_ROUNDS)
-//     );
-
-//     user.password = hashedPassword;
-
-//     await user.save();
-//     return user;
-//   } catch (exception) {
-//     throw new Exception(exception.message);
-//   }
-// };
+    return user;
+  } catch (exception: any) {
+    throw new Exception(exception.message);
+  }
+};
 
 export default {
   login,
   register,
-  // getUsers,
-  // getUserById,
-  // deleteUser,
-  // updateUser,
-  // changePassword,
+  updateUser,
+  getUserById,
 };

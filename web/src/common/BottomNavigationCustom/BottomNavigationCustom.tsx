@@ -2,12 +2,17 @@ import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Box from '@mui/material/Box';
 import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { links } from '../../types/navBar';
 
 export default function BottomNavigationCustom() {
-  const [value, setValue] = React.useState(document.location.pathname || '/');
   const navigate = useNavigate();
+  const location = useLocation();
+  const [value, setValue] = React.useState(location.pathname || '/');
+
+  React.useEffect(() => {
+    setValue(location.pathname);
+  }, [location]);
 
   return (
     <Box

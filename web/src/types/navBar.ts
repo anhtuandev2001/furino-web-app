@@ -31,8 +31,8 @@ interface linksModal {
     },
     {
       id: 4,
-      name: 'Contact',
-      path: '/contact',
+      name: 'Order',
+      path: '/order',
       icon: ContactEmergencyIcon,
     },
   ];

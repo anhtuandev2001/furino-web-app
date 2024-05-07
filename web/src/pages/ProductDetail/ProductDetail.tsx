@@ -10,7 +10,7 @@ import { cartActions, selectStatus } from '../../store/cart/slice';
 import {
   productDetailActions,
   selectProduct,
-  selectProductSuggestion
+  selectProductSuggestion,
 } from '../../store/productDetail/slice';
 import { useAppDispatch, useAppSelector } from '../../store/root/hooks';
 import {
@@ -92,17 +92,20 @@ function ProductDetail() {
       setColors(updatedColors);
     } else {
       setColors(
-        product.data?.productInventories.reduce((unique: ProductColor[], item) => {
-          if (
-            !unique.some(
-              (color) =>
-                color?.productColorId === item.productColor.productColorId
-            )
-          ) {
-            unique.push(item?.productColor);
-          }
-          return unique;
-        }, [])
+        product.data?.productInventories.reduce(
+          (unique: ProductColor[], item) => {
+            if (
+              !unique.some(
+                (color) =>
+                  color?.productColorId === item.productColor.productColorId
+              )
+            ) {
+              unique.push(item?.productColor);
+            }
+            return unique;
+          },
+          []
+        )
       );
     }
   };
@@ -148,16 +151,19 @@ function ProductDetail() {
       setSizes(updatedSizes);
     } else {
       setSizes(
-        product.data?.productInventories.reduce((unique: ProductSize[], item) => {
-          if (
-            !unique.some(
-              (size) => size?.productSizeId === item.productSize.productSizeId
-            )
-          ) {
-            unique.push(item?.productSize);
-          }
-          return unique;
-        }, []) || []
+        product.data?.productInventories.reduce(
+          (unique: ProductSize[], item) => {
+            if (
+              !unique.some(
+                (size) => size?.productSizeId === item.productSize.productSizeId
+              )
+            ) {
+              unique.push(item?.productSize);
+            }
+            return unique;
+          },
+          []
+        ) || []
       );
     }
   };
@@ -183,31 +189,40 @@ function ProductDetail() {
     if (product.data) {
       setProductItem(product.data.productInventories[0]);
       setSizes(
-        product.data.productInventories.reduce((unique: ProductSize[], item) => {
-          if (
-            !unique.some(
-              (size) => size?.productSizeId === item.productSize.productSizeId
-            )
-          ) {
-            unique.push(item?.productSize);
-          }
-          return unique;
-        }, [])
+        product.data.productInventories.reduce(
+          (unique: ProductSize[], item) => {
+            if (
+              !unique.some(
+                (size) => size?.productSizeId === item.productSize.productSizeId
+              )
+            ) {
+              unique.push(item?.productSize);
+            }
+            return unique;
+          },
+          []
+        )
       );
       setColors(
-        product.data.productInventories.reduce((unique: ProductColor[], item) => {
-          if (
-            !unique.some(
-              (color) =>
-                color?.productColorId === item.productColor.productColorId
-            )
-          ) {
-            unique.push(item?.productColor);
-          }
-          return unique;
-        }, [])
+        product.data.productInventories.reduce(
+          (unique: ProductColor[], item) => {
+            if (
+              !unique.some(
+                (color) =>
+                  color?.productColorId === item.productColor.productColorId
+              )
+            ) {
+              unique.push(item?.productColor);
+            }
+            return unique;
+          },
+          []
+        )
       );
-      setImages([...product.data.productGeneralImages, ...product.data.productImages]);
+      setImages([
+        ...product.data.productGeneralImages,
+        ...product.data.productImages,
+      ]);
       setImage(product.data.productGeneralImages[0]?.image);
     }
   }, [dispatch, product.data]);
@@ -262,7 +277,7 @@ function ProductDetail() {
                   ref={imageRef}
                   onClick={() => setImage(item.image)}
                   alt='product.data'
-                  className={`w-[150px] h-[100px] sm:h-auto object-cover rounded-md cursor-pointer ${
+                  className={`w-[150px] h-[100px] sm:h-auto object-cover rounded-sm cursor-pointer ${
                     image === item.image && 'border-4 border-[#B88E2F]'
                   }`}
                 />
@@ -406,7 +421,7 @@ function ProductDetail() {
           </span>
 
           <div className='flex pb-[60px] border-b-2'>
-            <div className='flex items-center border w-[fit-content] rounded-md h-[50px]'>
+            <div className='flex items-center border w-[fit-content] rounded-sm h-[50px]'>
               <Button
                 onClick={handleDecrease}
                 sx={{
@@ -450,15 +465,7 @@ function ProductDetail() {
               onClick={handleAddToCart}
               loading={status.add === 'loading'}
               sx={{
-                fontSize: '20px',
-                color: 'white',
                 marginLeft: '20px',
-                textTransform: 'capitalize',
-                outline: 'black',
-                backgroundColor: 'black',
-                '&:hover': {
-                  backgroundColor: 'black',
-                },
               }}
               variant='contained'
             >

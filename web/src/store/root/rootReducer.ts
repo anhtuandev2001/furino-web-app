@@ -5,7 +5,7 @@ import shopsReducer from '../shop/slice';
 import userSlice from '../user/slice';
 import cartSlice from '../cart/slice';
 import homeSlice from '../home/slice';
-import checkoutSlide from '../checkout/slice';
+import checkoutSlide from '../order/slice';
 
 const appReducer = combineReducers({
   shops: shopsReducer,

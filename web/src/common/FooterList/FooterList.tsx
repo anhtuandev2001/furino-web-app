@@ -67,7 +67,6 @@ function FooterList() {
               sx={{
                 fontSize: '14px',
                 fontWeight: '500',
-                color: 'black',
                 borderBottom: '1px solid black',
                 paddingBottom: '2px',
                 borderRadius: '0',

@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { LuUser, LuUserMinus } from 'react-icons/lu';
 import { MdOutlineShoppingCart } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 import logo from '../../assets/logo.svg';
 import { useAppDispatch, useAppSelector } from '../../store/root/hooks';
@@ -29,7 +29,7 @@ function NavBar() {
   const [openAlert, setOpenAlert] = React.useState(false);
 
   const dispatch = useAppDispatch();
-
+  const navigate = useNavigate();
   const user = useAppSelector(selectUser);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -41,8 +41,18 @@ function NavBar() {
   };
 
   const handleUser = (setting: any) => {
-    if (setting.name === 'Logout') {
-      setOpenAlert(true);
+    switch (setting.name) {
+      case 'Logout':
+        setOpenAlert(true);
+        break;
+      case 'Profile':
+        navigate(setting.path);
+        break;
+      case 'Order':
+        navigate(setting.path);
+        break;
+      default:
+        break;
     }
   };
 
@@ -211,7 +221,7 @@ function NavBar() {
           open={openAlert}
           onClose={handleCloseAlert}
           title='Are you sure you want to logout?'
-          content='Are you sure you want to logoutƒ'
+          content='Are you sure you want to logout'
         />
       </Container>
     </AppBar>

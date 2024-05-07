@@ -1,5 +1,6 @@
 import Cart from './Cart';
 import Category from './Category';
+import { Order, OrderItem } from './Order';
 import {
   Product,
   ProductCategory,
@@ -12,8 +13,8 @@ import {
 import { Role, User } from './User';
 export {
   Cart,
-  Category,
-  Product,
+  Category, Order,
+  OrderItem, Product,
   ProductCategory,
   ProductColor,
   ProductGeneralImage,
@@ -21,5 +22,6 @@ export {
   ProductInventory,
   ProductSize,
   Role,
-  User,
+  User
 };
+

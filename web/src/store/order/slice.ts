@@ -7,8 +7,13 @@ import type { RootState } from '../root/config.store';
 import { selectUser } from '../user/slice';
 
 export interface CheckoutState {
-  checkout: {
+  orders: {
     data: any[];
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    error: string | null;
+  };
+  order: {
+    data: any;
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
   };
@@ -42,15 +47,20 @@ export interface CheckoutState {
     };
   };
   status: {
-    add: string;
-    delete: string;
+    checkout: string;
     update: string;
   };
+  statusId: number;
 }
 
 const initialState: CheckoutState = {
-  checkout: {
+  orders: {
     data: [],
+    status: 'idle',
+    error: null,
+  },
+  order: {
+    data: {},
     status: 'idle',
     error: null,
   },
@@ -75,15 +85,15 @@ const initialState: CheckoutState = {
     ward: undefined,
   },
   status: {
-    add: 'idle',
-    delete: 'idle',
+    checkout: 'idle',
     update: 'idle',
   },
+  statusId: 0,
 };
 
 // slice
 export const checkoutSlice = createSlice({
-  name: 'checkout',
+  name: 'order',
   initialState,
   reducers: {
     onHandleChangeProvince(state, action) {
@@ -107,72 +117,108 @@ export const checkoutSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(checkoutActions.getCheckouts.pending, (state) => {
-        state.checkout.status = 'loading';
+      .addCase(orderActions.getOrders.pending, (state) => {
+        state.orders.status = 'loading';
       })
-      .addCase(checkoutActions.getCheckouts.fulfilled, (state, action) => {
-        state.checkout.status = 'succeeded';
-        state.checkout.data = action.payload;
+      .addCase(orderActions.getOrders.fulfilled, (state, action) => {
+        state.orders.status = 'succeeded';
+        state.orders.data = action.payload;
       })
-      .addCase(checkoutActions.getCheckouts.rejected, (state) => {
-        state.checkout.status = 'failed';
+      .addCase(orderActions.getOrders.rejected, (state) => {
+        state.orders.status = 'failed';
       })
-      .addCase(checkoutActions.onHandleCheckout.pending, (state) => {
-        state.status.add = 'loading';
-      })
-      .addCase(checkoutActions.onHandleCheckout.fulfilled, (state) => {
-        state.status.add = 'succeeded';
-        toast.success('Checkout successfully');
-      })
-      .addCase(checkoutActions.onHandleCheckout.rejected, (state) => {
-        state.status.add = 'failed';
-        toast.error('Checkout failed');
-      })
-      .addCase(checkoutActions.getProvince.pending, (state) => {
+      .addCase(orderActions.getProvince.pending, (state) => {
         state.province.status = 'loading';
       })
-      .addCase(checkoutActions.getProvince.fulfilled, (state, action) => {
+      .addCase(orderActions.getProvince.fulfilled, (state, action) => {
         state.province.status = 'succeeded';
         state.province.data = action.payload;
       })
-      .addCase(checkoutActions.getProvince.rejected, (state) => {
+      .addCase(orderActions.getProvince.rejected, (state) => {
         state.province.status = 'failed';
       })
-      .addCase(checkoutActions.getDistrict.pending, (state) => {
+      .addCase(orderActions.getDistrict.pending, (state) => {
         state.district.status = 'loading';
       })
-      .addCase(checkoutActions.getDistrict.fulfilled, (state, action) => {
+      .addCase(orderActions.getDistrict.fulfilled, (state, action) => {
         state.district.status = 'succeeded';
         state.district.data = action.payload;
       })
-      .addCase(checkoutActions.getDistrict.rejected, (state) => {
+      .addCase(orderActions.getDistrict.rejected, (state) => {
         state.district.status = 'failed';
       })
-      .addCase(checkoutActions.getWard.pending, (state) => {
+      .addCase(orderActions.getWard.pending, (state) => {
         state.ward.status = 'loading';
       })
-      .addCase(checkoutActions.getWard.fulfilled, (state, action) => {
+      .addCase(orderActions.getWard.fulfilled, (state, action) => {
         state.ward.status = 'succeeded';
         state.ward.data = action.payload;
       })
-      .addCase(checkoutActions.getWard.rejected, (state) => {
+      .addCase(orderActions.getWard.rejected, (state) => {
         state.ward.status = 'failed';
+      })
+      .addCase(orderActions.onHandleCheckout.pending, (state) => {
+        state.status.checkout = 'loading';
+      })
+      .addCase(orderActions.onHandleCheckout.fulfilled, (state) => {
+        state.status.checkout = 'succeeded';
+        toast.success('Order successfully!');
+      })
+      .addCase(orderActions.onHandleCheckout.rejected, (state) => {
+        state.status.checkout = 'failed';
+        toast.error('Order failed! Please try again!');
+      })
+      .addCase(orderActions.onChangeStatusId, (state, action) => {
+        state.statusId = action.payload;
+      })
+      .addCase(orderActions.getOrder.pending, (state) => {
+        state.order.status = 'loading';
+      })
+      .addCase(orderActions.getOrder.fulfilled, (state, action) => {
+        state.order.status = 'succeeded';
+        state.order.data = action.payload;
+      })
+      .addCase(orderActions.getOrder.rejected, (state) => {
+        state.order.status = 'failed';
+      })
+      .addCase(orderActions.onChangeStatusOrder.pending, (state) => {
+        state.status.update = 'loading';
+      })
+      .addCase(orderActions.onChangeStatusOrder.fulfilled, (state) => {
+        state.status.update = 'succeeded';
+        toast.success('Update status successfully!');
+      })
+      .addCase(orderActions.onChangeStatusOrder.rejected, (state) => {
+        state.status.update = 'failed';
+        toast.error('Update status failed! Please try again!');
       });
   },
 });
 
 // Actions
-export const checkoutActions = {
-  getCheckouts: createAsyncThunk(
-    `${checkoutSlice.name}/getCheckouts`,
+export const orderActions = {
+  getOrders: createAsyncThunk(
+    `${checkoutSlice.name}/getOrders`,
     async (_, thunkAPI) => {
       const user: any = selectUser(thunkAPI.getState() as RootState);
+      const statusId: any = selectStatusId(thunkAPI.getState() as RootState);
       const response = await ipaCall(
         'GET',
-        `${BASE_URL}checkouts/${user.data.userId}`,
+        `${BASE_URL}orders/${user.data.userId}/${statusId}`,
         true
       );
 
+      return response;
+    }
+  ),
+  getOrder: createAsyncThunk(
+    `${checkoutSlice.name}/getOrder`,
+    async (orderId: number) => {
+      const response = await ipaCall(
+        'GET',
+        `${BASE_URL}orders/order/${orderId}`,
+        true
+      );
       return response;
     }
   ),
@@ -228,10 +274,15 @@ export const checkoutActions = {
     `${checkoutSlice.name}/onHandleCheckout`,
     async (
       payload: {
-        productId: number;
-        quantity: number;
-        productColorId: number;
-        productSizeId: number;
+        address: string;
+        province: string;
+        district: string;
+        ward: string;
+        phone: string;
+        carts: number[];
+        firstName: string;
+        lastName: string;
+        save: boolean;
       },
       thunkAPI
     ) => {
@@ -239,15 +290,20 @@ export const checkoutActions = {
         const user: any = selectUser(thunkAPI.getState() as RootState);
         const response = await ipaCall(
           'POST',
-          `${BASE_URL}checkouts`,
+          `${BASE_URL}orders`,
           true,
           {},
           {
             userId: user.data.userId,
-            productId: payload.productId,
-            quantity: payload.quantity,
-            productColorId: payload.productColorId,
-            productSizeId: payload.productSizeId,
+            address: payload.address,
+            province: payload.province,
+            district: payload.district,
+            ward: payload.ward,
+            phone: payload.phone,
+            carts: payload.carts,
+            firstName: payload.firstName,
+            lastName: payload.lastName,
+            save: payload.save,
           }
         );
         return response;
@@ -256,11 +312,30 @@ export const checkoutActions = {
       }
     }
   ),
+  onChangeStatusId: createAction<number>(
+    `${checkoutSlice.name}/onChangeStatusId`
+  ),
+  onChangeStatusOrder: createAsyncThunk(
+    `${checkoutSlice.name}/onChangeStatusOrder`,
+    async (payload: { orderId: number; status: number }) => {
+      const response = await ipaCall(
+        'PATCH',
+        `${BASE_URL}orders`,
+        true,
+        {},
+        {
+          status: payload.status,
+          orderId: payload.orderId,
+        }
+      );
+      return response;
+    }
+  ),
 };
 
 // Selectors
-export const selectCheckouts = (state: RootState): any =>
-  state.checkouts.checkout;
+export const selectOrders = (state: RootState): any => state.checkouts.orders;
+export const selectOrder = (state: RootState): any => state.checkouts.order;
 export const selectStatus = (state: RootState): any => state.checkouts.status;
 export const selectProvince = (state: RootState): any =>
   state.checkouts.province;
@@ -269,6 +344,10 @@ export const selectDistrict = (state: RootState): any =>
 export const selectWard = (state: RootState): any => state.checkouts.ward;
 export const selectProvinceSelected = (state: RootState): any =>
   state.checkouts.provinceSelected;
+export const selectStatusCheckout = (state: RootState): any =>
+  state.checkouts.status.checkout;
+export const selectStatusId = (state: RootState): any =>
+  state.checkouts.statusId;
 
 // Reducer
 export default checkoutSlice.reducer;

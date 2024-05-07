@@ -16,6 +16,7 @@ import CustomNextArrow from './Slider/Next';
 import CustomPrevArrow from './Slider/Prev';
 import TemporaryDrawer from './TemporaryDrawer/TemporaryDrawer';
 import ButtonCustom from './ButtonCustom/ButtonCustom';
+import HeaderMobile from './HeaderMobile/HeaderMobile';
 
 export {
   Breadcrumb,
@@ -35,6 +36,6 @@ export {
   SelectCustom,
   SimpleBottomNavigation,
   TemporaryDrawer,
-  ButtonCustom
+  ButtonCustom,
+  HeaderMobile,
 };
-

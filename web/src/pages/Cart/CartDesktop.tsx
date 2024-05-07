@@ -49,7 +49,7 @@ function CartDesktop({
                   <img
                     src={cart.productImage}
                     alt='productImage'
-                    className='h-[60px] w-[60px] sm:h-[105px] sm:w-[105px] object-cover rounded mr-[34px]'
+                    className='h-[60px] w-[60px] sm:h-[105px] sm:w-[105px] object-cover rounded-sm mr-[34px]'
                   />
                   <div className='grid grid-cols-4 flex-1'>
                     <span className='text-[#9F9F9F]'>{cart.productName}</span>

@@ -131,8 +131,6 @@ export const shopActions = {
           //     }))
           //     .filter((item: any) => categoriesUrl.includes(item.categoryId))
           // );
-
-          console.log(categoryIds);
           
           return {
             products: {

@@ -1,8 +1,7 @@
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, Checkbox, Skeleton } from '@mui/material';
+import { HeaderMobile } from '../../common';
 import QuantityInput from '../../common/QuantityInput/QuantityInput';
-import { ButtonCustom } from '../../common';
 
 function CartMobile({
   carts,
@@ -11,6 +10,8 @@ function CartMobile({
   handleDeleteCart,
   handleCheckboxChange,
   handleCheckout,
+  setSelectAll,
+  selectAll,
 }: {
   carts: any;
   select: any;
@@ -18,20 +19,14 @@ function CartMobile({
   handleDeleteCart: any;
   handleCheckboxChange: any;
   handleCheckout: any;
+  setSelectAll: any;
+  selectAll: any;
 }) {
   return (
     <div className='h-full flex flex-col'>
-      <div className='text-center py-4 relative '>
-        <Button
-          startIcon={<ArrowBackIcon sx={{ color: 'black' }} />}
-          onClick={() => window.history.back()}
-          sx={{ width: 'fit-content', position: 'absolute', left: 0 }}
-          className='col-span-1'
-        />
-        <span className='text-[24px] font-semibold'>CART</span>
-      </div>
+      <HeaderMobile title='Cart' />
       <div className='mt-[20px] flex flex-col gap-4 px-4 justify-between flex-1 overflow-scroll'>
-        <div className='flex flex-col gap-4 overflow-scroll'>
+        <div className='flex flex-col gap-4 overflow-scroll flex-1'>
           {carts.status === 'succeeded'
             ? carts.data.map((cart: any) => (
                 <div
@@ -72,7 +67,7 @@ function CartMobile({
                   </div>
                 </div>
               ))
-            : Array.from({ length: 8 }).map(() => (
+            : Array.from({ length: 4 }).map(() => (
                 <div className='flex justify-between'>
                   <div>
                     <Checkbox />
@@ -96,14 +91,21 @@ function CartMobile({
                 </div>
               ))}
         </div>
-        <ButtonCustom
+        <div className=''>
+          <Checkbox
+            checked={selectAll}
+            onChange={() => setSelectAll(!selectAll)}
+          />
+          <span>Select All</span>
+        </div>
+        <Button
           sx={{ width: '100%', marginBottom: '20px' }}
           onClick={handleCheckout}
           variant='contained'
           disabled={select.length === 0}
         >
           Checkout
-        </ButtonCustom>
+        </Button>
       </div>
     </div>
   );

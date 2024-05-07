@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 function Cart() {
   const dispatch = useAppDispatch();
   const [select, setSelect] = useState<any>([]);
+  const [selectAll, setSelectAll] = useState(false);
   const navigate = useNavigate();
 
   const screenWidth = window.innerWidth;
@@ -21,10 +22,19 @@ function Cart() {
   };
   const handleCheckboxChange = (cart: any) => {
     if (select.some((item: any) => item.cartId === cart.cartId)) {
-      setSelect(select.filter((item: any) => item.cartId !== cart.cartId));
+      const newSelect = select.filter(
+        (item: any) => item.cartId !== cart.cartId
+      );
+      setSelect(newSelect);
     } else {
-      setSelect([...select, cart]);
+      const newSelect = [...select, cart];
+      setSelect(newSelect);
+      if (newSelect.length === carts.data.length) {
+        setSelectAll(true);
+        return;
+      }
     }
+    setSelectAll(false);
   };
 
   const handleCheckout = () => {
@@ -35,6 +45,14 @@ function Cart() {
   useEffect(() => {
     dispatch(cartActions.getCarts());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (selectAll) {
+      setSelect(carts.data);
+    } else if (!selectAll && select.length === carts.data.length) {
+      setSelect([]);
+    }
+  }, [selectAll, carts.data, select.length]);
 
   return (
     <div className='h-[100vh] sm:h-fit'>
@@ -55,6 +73,8 @@ function Cart() {
           handleChangeQuantity={handleChangeQuantity}
           handleDeleteCart={handleDeleteCart}
           handleCheckout={handleCheckout}
+          setSelectAll={setSelectAll}
+          selectAll={selectAll}
         />
       )}
     </div>

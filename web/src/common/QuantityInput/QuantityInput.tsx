@@ -46,6 +46,7 @@ export default function QuantityInput({
       aria-label='Quantity Input'
       min={1}
       max={99}
+      step={1}
       value={value}
       onChange={(_event, newValue) => onChange(newValue)}
     />

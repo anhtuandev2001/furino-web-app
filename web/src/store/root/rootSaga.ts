@@ -5,7 +5,7 @@ import productDetailWatcherSaga from '../productDetail/saga';
 import homeWatcherSaga from '../home/saga';
 import usersWatcherSaga from '../user/saga';
 import cartWatcherSaga from '../cart/saga';
-import checkoutWatcherSaga from '../checkout/saga';
+import checkoutWatcherSaga from '../order/saga';
 
 export function* rootSaga(): any {
     yield all([fork(shopsWatcherSaga)]);
