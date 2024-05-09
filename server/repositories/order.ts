@@ -282,7 +282,6 @@ const updateOrder = async ({
     await order.save({ transaction: t });
     if (status === 3) {
       const plainOrder = order.get({ plain: true });
-      console.log(plainOrder);
 
       await Promise.all(
         plainOrder.orderItems.map(async (item: any) => {

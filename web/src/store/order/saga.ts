@@ -17,7 +17,6 @@ function* onChangeStatusId() {
 
 function* onChangeStatusOrder(): Generator<any, void, any> {
   const order = yield select(selectOrder);
-  console.log(order);
 
   yield put(orderActions.getOrder(order.data.orderId));
 }

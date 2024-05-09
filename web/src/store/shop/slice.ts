@@ -97,7 +97,6 @@ export const shopSlice = createSlice({
       .addCase(
         shopActions.getProductsLoadingNextPage.fulfilled,
         (state, action) => {
-          console.log('action.payload', action.payload);
           if (!action.payload) {
             state.products.status = 'succeeded';
             state.products.error = 'No more products';
@@ -150,15 +149,6 @@ export const shopActions = {
           const categories: any = selectCategories(
             thunkAPI.getState() as RootState
           );
-          // console.log(
-          //   categories.data
-          //     .map((item: any) => ({
-          //       label: item.name,
-          //       categoryId: item.categoryId,
-          //     }))
-          //     .filter((item: any) => categoriesUrl.includes(item.categoryId))
-          // );
-
           return {
             products: {
               data: products.data,
