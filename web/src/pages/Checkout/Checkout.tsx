@@ -150,9 +150,9 @@ function Checkout() {
     </div>
   );
 
-  // if (status === 'succeeded') {
+  if (status === 'succeeded') {
   return <OrderSuccessPage />;
-  // }
+  }
 
   return (
     <>
