@@ -63,7 +63,7 @@ function Checkout() {
         .max(20, 'Must be 20 characters or less')
         .required('Required'),
     }),
-    onConfirm: (values) => {
+    onSubmit: (values) => {
       if (
         !provinceSelected.province ||
         !provinceSelected.district ||

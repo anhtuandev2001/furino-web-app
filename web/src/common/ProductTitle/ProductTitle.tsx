@@ -8,7 +8,7 @@ function ProductTitle({
   title,
   products,
   limit,
-  status
+  status,
 }: {
   title: string;
   products: ProductProp[];

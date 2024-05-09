@@ -10,13 +10,13 @@ function ProductList({
   limit,
   status,
   loadMoreData,
-  hasMore,
+  hasMore = false,
 }: {
   products: ProductProp[];
   limit: number;
   status: string;
-  loadMoreData: () => void;
-  hasMore: boolean;
+  loadMoreData?: () => void;
+  hasMore?: boolean;
 }) {
   if (
     status === 'failed' ||
@@ -35,14 +35,16 @@ function ProductList({
     <div>
       <InfiniteScroll
         dataLength={products.length}
-        next={loadMoreData}
+        next={loadMoreData ? loadMoreData : () => {}}
         hasMore={hasMore}
         loader={
           <div className='grid gap-[20px] grid-cols-2 sm:grid-cols-4 pr-4 pl-4 sm:p-4'>
             <SkeletonProduct limit={limit} />
           </div>
         }
-        endMessage={<p className='sm:hidden text-center mt-[10px]'>No more products</p>}
+        endMessage={
+          <p className='sm:hidden text-center mt-[10px]'>No more products</p>
+        }
       >
         <div className='grid gap-[20px] grid-cols-2 sm:grid-cols-4 pr-4 pl-4 sm:p-4'>
           {products.map((item) => (
