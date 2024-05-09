@@ -17,6 +17,7 @@ import CustomPrevArrow from './Slider/Prev';
 import FilterBarMobile from './FilterBarMobile/FilterBarMobile';
 import ButtonCustom from './ButtonCustom/ButtonCustom';
 import HeaderMobile from './HeaderMobile/HeaderMobile';
+import CircularProgress from './CircularProgress/CircularProgress';
 
 export {
   Breadcrumb,
@@ -38,4 +39,5 @@ export {
   FilterBarMobile,
   ButtonCustom,
   HeaderMobile,
+  CircularProgress,
 };

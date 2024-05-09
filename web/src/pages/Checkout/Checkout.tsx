@@ -1,11 +1,11 @@
-import CheckIcon from '@mui/icons-material/Check';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Button, Checkbox, Radio, Skeleton, TextField } from '@mui/material';
 import { useFormik } from 'formik';
+import { motion, useMotionValue } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { Breadcrumb, HeaderMobile } from '../../common';
+import { Breadcrumb, CircularProgress, HeaderMobile } from '../../common';
 import ComboBox from '../../common/ComboBox/ComboBox';
 import Commit from '../../common/Commit/Commit';
 import { selectCartSelected } from '../../store/cart/slice';
@@ -27,6 +27,7 @@ function Checkout() {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const progress = useMotionValue(90);
 
   const provinces = useAppSelector(selectProvince);
   const districts = useAppSelector(selectDistrict);
@@ -123,15 +124,13 @@ function Checkout() {
 
   const OrderSuccessPage = () => (
     <div className='flex flex-col justify-center items-center h-screen gap-2'>
-      <CheckIcon
-        sx={{
-          fontSize: '100px',
-          color: '#2baf2b',
-          display: 'block',
-          borderRadius: '50%',
-          border: '5px solid #2baf2b',
-        }}
+      <motion.div
+        initial={{ x: 0 }}
+        animate={{ x: 100 }}
+        style={{ x: progress }}
+        transition={{ duration: 1 }}
       />
+      <CircularProgress progress={progress} />
       <span className='text-[24px]'>Order Confirmed!</span>
       <span>Thank you for your purchase!</span>
       <Button
@@ -151,9 +150,9 @@ function Checkout() {
     </div>
   );
 
-  if (status === 'succeeded') {
-    return <OrderSuccessPage />;
-  }
+  // if (status === 'succeeded') {
+  return <OrderSuccessPage />;
+  // }
 
   return (
     <>
