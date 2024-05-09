@@ -53,9 +53,20 @@ async function updateCart(req: Request, res: Response) {
   }
 }
 
+const getTotalCart = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const totalCart = await cartRepository.getTotalCart(Number(userId));
+    res.status(HttpStatusCode.OK).json(totalCart);
+  } catch (exception: any) {
+    res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json(exception.toString());
+  }
+}
+
 export default {
   getCarts,
   insertCart,
   deleteCart,
   updateCart,
+  getTotalCart,
 };

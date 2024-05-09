@@ -1,4 +1,4 @@
-import { Button, TextField } from '@mui/material';
+import { Button, Skeleton, TextField } from '@mui/material';
 import iconAll from '../../assets/icons/icon-all.svg';
 import { CategoryProp } from '../../types/categories';
 import { IoIosClose } from 'react-icons/io';
@@ -18,7 +18,7 @@ export default function FilterBarMobile({
   sort: string;
   onChangeLimit: (value: number) => void;
   onChangeSort: (value: string) => void;
-  categories: CategoryProp[];
+  categories: any;
   categoryIds: { label: string; categoryId: number }[];
   onChangeCategoriesSelected: (event: any) => void;
   onChangeKeyword: (event: any) => void;
@@ -71,34 +71,48 @@ export default function FilterBarMobile({
             All
           </span>
         </Button>
-        {categories.map((category: CategoryProp) => (
-          <Button
-            key={category.categoryId}
-            onClick={() =>
-              onChangeCategoriesSelected([
-                { label: category.name, categoryId: category.categoryId },
-              ])
-            }
-            className='flex flex-col items-center'
-          >
-            <img
-              src={category.image}
-              alt={category.name}
-              className='h-[50px]'
-            />
-            <span
-              className={`${
-                categoryIds.some(
-                  (item) => item.categoryId === category.categoryId
-                )
-                  ? 'text-[black] font-semibold'
-                  : 'text-[#808080]'
-              }`}
-            >
-              {category.name}
-            </span>
-          </Button>
-        ))}
+        {categories.status === 'loading'
+          ? Array.from({ length: 5 }).map((_, index) => (
+              <div key={index}>
+                <Skeleton
+                  variant='rectangular'
+                  width={45}
+                  height={45}
+                />
+                <Skeleton
+                  variant='text'
+                  width={45}
+                />
+              </div>
+            ))
+          : categories.data.map((category: CategoryProp) => (
+              <Button
+                key={category.categoryId}
+                onClick={() =>
+                  onChangeCategoriesSelected([
+                    { label: category.name, categoryId: category.categoryId },
+                  ])
+                }
+                className='flex flex-col items-center'
+              >
+                <img
+                  src={category.image}
+                  alt={category.name}
+                  className='h-[50px]'
+                />
+                <span
+                  className={`${
+                    categoryIds.some(
+                      (item) => item.categoryId === category.categoryId
+                    )
+                      ? 'text-[black] font-semibold'
+                      : 'text-[#808080]'
+                  }`}
+                >
+                  {category.name}
+                </span>
+              </Button>
+            ))}
       </div>
     </div>
   );

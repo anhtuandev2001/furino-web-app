@@ -20,6 +20,11 @@ import { settings } from '../../utils/constants/menu';
 import checkTokenExistence from '../../utils/hooks/checkToken';
 import AlertDialog from '../AlertDialog/AlertDialog';
 import CartPreview from '../CartPreview/CartPreview';
+import {
+  cartActions,
+  selectStatus,
+  selectTotalQuantity,
+} from '../../store/cart/slice';
 
 function NavBar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
@@ -31,6 +36,8 @@ function NavBar() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const user = useAppSelector(selectUser);
+  const cartStatus = useAppSelector(selectStatus);
+  const totalQuantity = useAppSelector(selectTotalQuantity);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -64,6 +71,10 @@ function NavBar() {
     dispatch(userActions.logoutUser());
     handleCloseAlert();
   };
+
+  React.useEffect(() => {
+    dispatch(cartActions.getTotalQuantity());
+  }, [dispatch]);
 
   return (
     <AppBar
@@ -130,7 +141,7 @@ function NavBar() {
             {links.map((page) => (
               <Button
                 key={uuid()}
-                sx={{ my: 2, color: 'white', display: 'block', padding: 0}}
+                sx={{ my: 2, color: 'white', display: 'block', padding: 0 }}
               >
                 <Link
                   className='text-black'
@@ -154,11 +165,19 @@ function NavBar() {
                   setOpenCart(true);
                 }
               }}
+              className={`relative ${
+                cartStatus.add === 'succeeded'
+                  ? 'animate__animated animate__headShake'
+                  : ''
+              }`}
             >
               <MdOutlineShoppingCart
                 size={24}
                 color='black'
               />
+              <span className='absolute bottom-[12px] right-[-2px] bg-black text-white rounded-full h-[25px] w-[25px] text-[14px] flex justify-center items-center'>
+                {totalQuantity}
+              </span>
             </Button>
 
             <Tooltip

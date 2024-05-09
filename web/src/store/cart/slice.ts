@@ -12,12 +12,14 @@ export interface CartState {
     data: CartProp[];
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
+    totalQuantity?: number;
   };
   cartSelected: CartProp[];
   status: {
     add: string;
     delete: string;
     update: string;
+    quantity: string;
   };
 }
 
@@ -26,12 +28,14 @@ const initialState: CartState = {
     data: [],
     status: 'idle',
     error: null,
+    totalQuantity: 0,
   },
   cartSelected: [],
   status: {
     add: 'idle',
     delete: 'idle',
     update: 'idle',
+    quantity: 'idle',
   },
 };
 
@@ -42,6 +46,9 @@ export const cartSlice = createSlice({
   reducers: {
     onHandleChangeCartSelected(state, action) {
       state.cartSelected = action.payload;
+    },
+    onChangeTotalQuantity(state, action) {
+      state.cart.totalQuantity = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -73,7 +80,6 @@ export const cartSlice = createSlice({
       })
       .addCase(cartActions.onHandleAddToCart.fulfilled, (state) => {
         state.status.add = 'succeeded';
-        toast.success('Add to cart successfully');
       })
       .addCase(cartActions.onHandleAddToCart.rejected, (state, action) => {
         const error = action.payload as string;
@@ -94,7 +100,17 @@ export const cartSlice = createSlice({
       .addCase(cartActions.onHandleUpdateCart.rejected, (state) => {
         state.status.update = 'failed';
         toast.error('Update cart failed');
-      });
+      })
+      .addCase(cartActions.getTotalQuantity.pending, (state) => {
+        state.status.quantity = 'loading';
+      })
+      .addCase(cartActions.getTotalQuantity.fulfilled, (state, action) => {
+        state.status.quantity = 'succeeded';
+        state.cart.totalQuantity = action.payload;
+      })
+      .addCase(cartActions.getTotalQuantity.rejected, (state) => {
+        state.status.quantity = 'failed';
+      })
   },
 });
 
@@ -172,6 +188,22 @@ export const cartActions = {
       return payload;
     }
   ),
+  getTotalQuantity: createAsyncThunk(
+    `${cartSlice.name}/getTotalQuantity`,
+    async (_, thunkAPI) => {
+      const user: any = selectUser(thunkAPI.getState() as RootState);
+      const response = await ipaCall(
+        'GET',
+        `${BASE_URL}carts/total/${user.data.userId}`,
+        true
+      );
+
+      return response;
+    }
+  ),
+  onChangeTotalQuantity: createAction<number>(
+    `${cartSlice.name}/onChangeTotalQuantity`
+  ),
 };
 
 // Selectors
@@ -179,6 +211,8 @@ export const selectCarts = (state: RootState): any => state.carts.cart;
 export const selectStatus = (state: RootState): any => state.carts.status;
 export const selectCartSelected = (state: RootState): any =>
   state.carts.cartSelected;
+export const selectTotalQuantity = (state: RootState): any =>
+  state.carts.cart.totalQuantity;
 
 // Reducer
 export default cartSlice.reducer;

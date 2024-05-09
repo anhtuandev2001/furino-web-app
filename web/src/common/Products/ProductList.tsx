@@ -38,7 +38,7 @@ function ProductList({
         next={loadMoreData ? loadMoreData : () => {}}
         hasMore={hasMore}
         loader={
-          <div className='grid gap-[20px] grid-cols-2 sm:grid-cols-4 pr-4 pl-4 sm:p-4'>
+          <div className='grid gap-[20px] grid-cols-2 mt-[20px] sm:grid-cols-4 pr-4 pl-4 sm:p-4'>
             <SkeletonProduct limit={limit} />
           </div>
         }

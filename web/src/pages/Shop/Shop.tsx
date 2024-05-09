@@ -135,7 +135,7 @@ function Shop() {
         keyword={keyword}
         onChangeLimit={handleChangeLimit}
         onChangeSort={handleChangeSort}
-        categories={categories.data}
+        categories={categories}
         onChangeCategoriesSelected={handleChangeCategoriesSelected}
         categoryIds={categoryIds}
         onSearch={handleChangeKeyword}

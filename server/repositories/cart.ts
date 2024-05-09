@@ -219,9 +219,28 @@ const updateCart = async ({
   }
 };
 
+const getTotalCart = async (userId: number) => {
+  try {
+    const carts: any = await Cart.findAll({
+      where: {
+        userId,
+      },
+    });
+
+    const total = carts.reduce((total: any, cart: any) => {
+      return total + cart.quantity;
+    }, 0);
+
+    return total;
+  } catch (exception: any) {
+    throw new Error(exception.message);
+  }
+};
+
 export default {
   insertCart,
   getCarts,
   deleteCart,
   updateCart,
+  getTotalCart,
 };

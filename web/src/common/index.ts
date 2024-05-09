@@ -18,6 +18,7 @@ import FilterBarMobile from './FilterBarMobile/FilterBarMobile';
 import ButtonCustom from './ButtonCustom/ButtonCustom';
 import HeaderMobile from './HeaderMobile/HeaderMobile';
 import CircularProgress from './CircularProgress/CircularProgress';
+import OrderSuccessPage from './OrderSuccessPage/OrderSuccessPage';
 
 export {
   Breadcrumb,
@@ -40,4 +41,5 @@ export {
   ButtonCustom,
   HeaderMobile,
   CircularProgress,
+  OrderSuccessPage,
 };
