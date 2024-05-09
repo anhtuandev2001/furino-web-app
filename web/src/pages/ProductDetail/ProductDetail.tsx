@@ -33,6 +33,8 @@ function ProductDetail() {
   const product = useAppSelector(selectProduct);
   const productSuggestion = useAppSelector(selectProductSuggestion);
   const [productItem, setProductItem] = useState<ProductInventoryProps>();
+  console.log(productSuggestion);
+  
 
   const imageRefBody = React.useRef<HTMLDivElement>(null);
   const imageRef = React.useRef<HTMLImageElement>(null);

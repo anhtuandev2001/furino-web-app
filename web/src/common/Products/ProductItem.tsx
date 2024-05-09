@@ -1,34 +1,20 @@
 import 'animate.css';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 import { ProductProp } from '../../types/product';
 
 function ProductItem({ item }: { item: ProductProp }) {
-  const [image, setImage] = useState<string>(
-    item.productGeneralImages[0].image
-  );
   return (
     <Link
       to={`/shop/product/${item.productId}`}
       key={uuid()}
-      className='flex flex-col relative group'
-      onMouseEnter={() => {
-        setImage(
-          item.productGeneralImages[1].image
-            ? item.productGeneralImages[1].image
-            : item.productImages[0].image
-        );
-      }}
-      onMouseLeave={() => {
-        setImage(item.productGeneralImages[0].image);
-      }}
+      className='flex flex-col relative group rounded'
     >
       <div className='overflow-hidden'>
         <img
-          src={image}
+          src={item.productGeneralImages[0].image}
           alt={item.name}
-          className='h-[300px] object-cover transform transition-all duration-500 group-hover:scale-105'
+          className='h-[250px] md:h-[300px] w-full object-cover transform transition-all duration-500 group-hover:scale-105'
         />
       </div>
       {item?.productInventories[0].priceDiscount && (
@@ -43,7 +29,7 @@ function ProductItem({ item }: { item: ProductProp }) {
           %
         </span>
       )}
-      <div className='flex flex-col gap-[8px] pt-[16px] px-[16px] pb-[30px] bg-[#F4F5F7]'>
+      <div className='flex flex-col gap-2 sm:gap-[8px] pt-[16px] px-[16px] pb-[15px] sm:pb-[30px] bg-[#F4F5F7]'>
         <span className='text-[#3A3A3A] font-semibold text-[24px] capitalize'>
           {item.name}
         </span>

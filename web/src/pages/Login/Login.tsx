@@ -1,6 +1,4 @@
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import LoadingButton from '@mui/lab/LoadingButton';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,6 +7,7 @@ import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
+import logo from '../../assets/logo.svg';
 import { useAppDispatch, useAppSelector } from '../../store/root/hooks';
 import { selectUser, userActions } from '../../store/user/slice';
 
@@ -41,9 +40,10 @@ export default function Login() {
           alignItems: 'center',
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          <LockOutlinedIcon />
-        </Avatar>
+        <img
+          src={logo}
+          alt='logo'
+        />
         <Typography
           component='h1'
           variant='h5'

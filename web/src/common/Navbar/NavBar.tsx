@@ -56,11 +56,13 @@ function NavBar() {
     }
   };
 
-  const handleCloseAlert = (type: string) => {
-    if (type === 'agree') {
-      dispatch(userActions.logoutUser());
-    }
+  const handleCloseAlert = () => {
     setOpenAlert(false);
+  };
+
+  const handleSubmit = () => {
+    dispatch(userActions.logoutUser());
+    handleCloseAlert();
   };
 
   return (
@@ -128,7 +130,7 @@ function NavBar() {
             {links.map((page) => (
               <Button
                 key={uuid()}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: 'white', display: 'block', padding: 0}}
               >
                 <Link
                   className='text-black'
@@ -159,7 +161,10 @@ function NavBar() {
               />
             </Button>
 
-            <Tooltip title='Open settings'>
+            <Tooltip
+              title='Open settings'
+              sx={{ display: { xs: 'none', md: 'inline-block' } }}
+            >
               <Button onClick={handleOpenUserMenu}>
                 {user.data.userId ? (
                   <LuUser
@@ -221,7 +226,8 @@ function NavBar() {
           open={openAlert}
           onClose={handleCloseAlert}
           title='Are you sure you want to logout?'
-          content='Are you sure you want to logout'
+          content='Are you sure you want to logout!'
+          onSubmit={handleSubmit}
         />
       </Container>
     </AppBar>

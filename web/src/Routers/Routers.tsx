@@ -11,6 +11,7 @@ import {
   ProductDetail,
   Shop,
   SignUp,
+  User,
 } from '../pages';
 import checkTokenExistence from '../utils/hooks/checkToken';
 
@@ -41,6 +42,10 @@ const Routers = () => {
         <Route
           path='/shop/product/:id'
           element={<ProductDetail />}
+        />
+        <Route
+          path='/user'
+          element={<User />}
         />
 
         {/* <Route

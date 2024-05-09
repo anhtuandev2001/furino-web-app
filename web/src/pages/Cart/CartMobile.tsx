@@ -2,6 +2,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, Checkbox, Skeleton } from '@mui/material';
 import { HeaderMobile } from '../../common';
 import QuantityInput from '../../common/QuantityInput/QuantityInput';
+import { v4 as uuid } from 'uuid';
 
 function CartMobile({
   carts,
@@ -30,7 +31,7 @@ function CartMobile({
           {carts.status === 'succeeded'
             ? carts.data.map((cart: any) => (
                 <div
-                  key={cart.cartId}
+                  key={uuid()}
                   className='flex justify-between'
                 >
                   <div>

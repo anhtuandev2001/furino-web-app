@@ -14,7 +14,7 @@ import SelectCustom from './SelectCustom/SelectCustom';
 import CustomDot from './Slider/Dot';
 import CustomNextArrow from './Slider/Next';
 import CustomPrevArrow from './Slider/Prev';
-import TemporaryDrawer from './TemporaryDrawer/TemporaryDrawer';
+import FilterBarMobile from './FilterBarMobile/FilterBarMobile';
 import ButtonCustom from './ButtonCustom/ButtonCustom';
 import HeaderMobile from './HeaderMobile/HeaderMobile';
 
@@ -35,7 +35,7 @@ export {
   ProductTitle,
   SelectCustom,
   SimpleBottomNavigation,
-  TemporaryDrawer,
+  FilterBarMobile,
   ButtonCustom,
   HeaderMobile,
 };

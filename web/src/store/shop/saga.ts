@@ -20,6 +20,10 @@ export function* onGetProducts(action: any): SagaIterator {
   yield put(shopActions.getProducts(action.payload));
 }
 
+export function* getProductsLoadingNextPage(): SagaIterator {
+  yield put(shopActions.getProductsLoadingNextPage());
+}
+
 // Watcher Saga
 function* shopsWatcherSaga(): SagaIterator {
   yield takeEvery(
@@ -31,6 +35,7 @@ function* shopsWatcherSaga(): SagaIterator {
   yield takeEvery(shopActions.onChangeSort, onGetProducts);
   yield takeEvery(shopActions.onchangeCategoryIds, onGetProducts);
   yield takeEvery(shopActions.onChangeKeyword, onGetProducts);
+  yield takeEvery(shopActions.onNextPageScroll, getProductsLoadingNextPage);
 }
 
 export default shopsWatcherSaga;

@@ -1,6 +1,6 @@
 import CheckIcon from '@mui/icons-material/Check';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { Button, Checkbox, Radio, TextField } from '@mui/material';
+import { Button, Checkbox, Radio, Skeleton, TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -39,7 +39,6 @@ function Checkout() {
   const delivery = 5.0;
 
   const screenWidth = window.innerWidth;
-  console.log(address);
 
   const formik = useFormik({
     initialValues: {
@@ -178,20 +177,32 @@ function Checkout() {
             name='radio-buttons'
             inputProps={{ 'aria-label': 'old' }}
           />
-          <span>Use Old Address</span>
-          <div className='shadow-md rounded-xl mx-4'>
-            <div className='flex justify-between py-[10px] px-[20px] border-b-4 border-[#F0F0F0]'>
-              <span className='text-[18px]'>
-                {address.lastName + ' ' + address.firstName}
-              </span>
-              <span>{address.phone}</span>
+          <span>Address Default</span>
+          {user.status === 'loading' ? (
+            <div className='shadow-md rounded-xl mx-4'>
+              <div className='flex justify-between py-[10px] px-[20px] border-b-4 border-[#F0F0F0]'>
+                <Skeleton width={100} />
+                <Skeleton width={100} />
+              </div>
+              <div className='py-[10px] px-[20px]'>
+                <Skeleton width={100} />
+              </div>
             </div>
-            <div className='py-[10px] px-[20px]'>
-              <p className='text-[#909090]'>
-                {`${address.address}, ${address.ward}, ${address.district}, ${address.province}`}
-              </p>
+          ) : (
+            <div className='shadow-md rounded-xl mx-4'>
+              <div className='flex justify-between py-[10px] px-[20px] border-b-4 border-[#F0F0F0]'>
+                <span className='text-[18px]'>
+                  {address.lastName + ' ' + address.firstName}
+                </span>
+                <span>{address.phone}</span>
+              </div>
+              <div className='py-[10px] px-[20px]'>
+                <p className='text-[#909090]'>
+                  {`${address.address}, ${address.ward}, ${address.district}, ${address.province}`}
+                </p>
+              </div>
             </div>
-          </div>
+          )}
         </div>
         <div>
           <Radio
@@ -201,14 +212,14 @@ function Checkout() {
             name='radio-buttons'
             inputProps={{ 'aria-label': 'new' }}
           />
-          <span>Use New Address</span>
+          <span>New Address</span>
         </div>
         <div
           className={`sm:w-1/3 flex flex-col gap-4 px-4 overflow-hidden transition-all ${
             selectedValue === 'old' ? 'h-0' : 'h-auto'
           }`}
         >
-          <div className='flex justify-between gap-4'>
+          <div className='flex justify-between gap-4 mt-4'>
             <TextField
               error={Boolean(
                 formik.touched.firstName && formik.errors.firstName
@@ -404,7 +415,7 @@ function Checkout() {
               </div>
             </div>
           </div>
-          <div className='flex justify-center sm:justify-end pb-10'>
+          <div className='flex justify-center sm:justify-end pb-5'>
             <LoadingButton
               loading={status === 'loading'}
               sx={{

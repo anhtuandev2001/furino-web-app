@@ -162,7 +162,6 @@ export const checkoutSlice = createSlice({
       })
       .addCase(orderActions.onHandleCheckout.fulfilled, (state) => {
         state.status.checkout = 'succeeded';
-        toast.success('Order successfully!');
       })
       .addCase(orderActions.onHandleCheckout.rejected, (state) => {
         state.status.checkout = 'failed';

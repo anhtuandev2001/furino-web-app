@@ -37,6 +37,7 @@ function Order() {
             >
               {statusDefault.map((status: any) => (
                 <Tab
+                  key={status.id}
                   label={status.name}
                   value={status.id.toString()}
                 />

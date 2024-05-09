@@ -1,7 +1,8 @@
-import { Skeleton } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { useEffect } from 'react';
+import { Skeleton } from '@mui/material';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { v4 as uuid } from 'uuid';
 import { HeaderMobile } from '../../common';
 import {
   orderActions,
@@ -9,9 +10,11 @@ import {
   selectStatus,
 } from '../../store/order/slice';
 import { useAppDispatch, useAppSelector } from '../../store/root/hooks';
-import { v4 as uuid } from 'uuid';
+import AlertDialog from '../../common/AlertDialog/AlertDialog';
 
 function OrderDetail() {
+  const [open, setOpen] = React.useState(false);
+
   const order = useAppSelector(selectOrder);
   const dispatch = useAppDispatch();
   const orderId = useParams().orderId;
@@ -20,7 +23,6 @@ function OrderDetail() {
   }, [dispatch, orderId]);
 
   const { data, status } = order;
-  console.log(data);
   const statusUpdate = useAppSelector(selectStatus);
   const delivery = 5.0;
 
@@ -45,7 +47,7 @@ function OrderDetail() {
           </div>
           <div className=''>
             <h2 className='text-[#909090] text-[18px] mb-[20px] '>Product</h2>
-            <div className='overflow-scroll h-[350px] shadow-md rounded-xl mt-[20px]'>
+            <div className='overflow-scroll shadow-md rounded-xl mt-[20px]'>
               {Array.from({ length: 2 }).map(() => (
                 <div
                   key={uuid()}
@@ -105,7 +107,7 @@ function OrderDetail() {
           </div>
           <div className=''>
             <h2 className='text-[#909090] text-[18px] mb-[20px] '>Product</h2>
-            <div className='overflow-scroll h-[350px] shadow-md rounded-xl mt-[20px]'>
+            <div className='overflow-scroll shadow-md rounded-xl mt-[20px]'>
               {data.orderItems &&
                 data.orderItems.map((orderItem: any) => (
                   <div
@@ -157,12 +159,7 @@ function OrderDetail() {
                 variant='contained'
                 loading={statusUpdate.update === 'loading'}
                 onClick={() => {
-                  dispatch(
-                    orderActions.onChangeStatusOrder({
-                      orderId: Number(orderId),
-                      status: 3,
-                    })
-                  );
+                  setOpen(true);
                 }}
                 sx={{ width: '100%' }}
               >
@@ -172,6 +169,20 @@ function OrderDetail() {
           )}
         </div>
       )}
+      <AlertDialog
+        open={open}
+        onClose={() => setOpen(false)}
+        title='Are you sure want to cancel order?'
+        content='After confirmation, the order will be canceled!'
+        onSubmit={() => {
+          dispatch(
+            orderActions.onChangeStatusOrder({
+              orderId: Number(orderId),
+              status: 3,
+            })
+          );
+        }}
+      />
     </div>
   );
 }

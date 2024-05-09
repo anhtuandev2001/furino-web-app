@@ -8,10 +8,12 @@ function ProductList({
   products,
   limit,
   status,
+  productListRef
 }: {
   products: ProductProp[];
   limit: number;
   status: string;
+  productListRef?: any;
 }) {
   if (
     status === 'failed' ||
@@ -26,7 +28,7 @@ function ProductList({
   }
 
   return (
-    <div>
+    <div ref={productListRef}>
       <div className='grid gap-[20px] grid-cols-2 sm:grid-cols-4 pr-4 pl-4 sm:p-4'>
         {status === 'succeeded' ? (
           products.map((item) => (

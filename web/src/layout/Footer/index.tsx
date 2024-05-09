@@ -1,9 +1,9 @@
-import FooterList from "../../common/FooterList/FooterList";
+import FooterList from '../../common/FooterList/FooterList';
 
 const Footer = () => {
   return (
-    <footer className="border-t-4">
-      <FooterList />  
+    <footer className='border-t-4 hidden sm:block'>
+      <FooterList />
     </footer>
   );
 };

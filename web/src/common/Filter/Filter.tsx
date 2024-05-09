@@ -59,7 +59,7 @@ function Filter({
           className='w-full max-w-[300px]'
           value={keyword}
           onChange={onChangeKeyword}
-          sx={{ background: 'white' }}
+          sx={{ background: 'white', display: { xs: 'none', md: 'block' } }}
         />
         <ComboBox
           label='Categories'

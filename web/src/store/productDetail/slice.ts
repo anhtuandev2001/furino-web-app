@@ -60,7 +60,8 @@ export const productDetailSlice = createSlice({
         productDetailActions.getProductSuggestions.fulfilled,
         (state, action) => {
           state.productSuggestion.status = 'succeeded';
-          state.productSuggestion.data = action.payload;
+          state.productSuggestion.data = action.payload.data;
+          
         }
       )
       .addCase(
