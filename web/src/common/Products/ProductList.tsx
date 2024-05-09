@@ -1,3 +1,4 @@
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { v4 as uuid } from 'uuid';
 import noProduct from '../../assets/images/noProducts.jpg';
 import { ProductProp } from '../../types/product';
@@ -8,12 +9,14 @@ function ProductList({
   products,
   limit,
   status,
-  productListRef
+  loadMoreData,
+  hasMore,
 }: {
   products: ProductProp[];
   limit: number;
   status: string;
-  productListRef?: any;
+  loadMoreData: () => void;
+  hasMore: boolean;
 }) {
   if (
     status === 'failed' ||
@@ -23,24 +26,33 @@ function ProductList({
       <img
         className='mx-auto'
         src={noProduct}
+        alt='No products'
       />
     );
   }
 
   return (
-    <div ref={productListRef}>
-      <div className='grid gap-[20px] grid-cols-2 sm:grid-cols-4 pr-4 pl-4 sm:p-4'>
-        {status === 'succeeded' ? (
-          products.map((item) => (
+    <div>
+      <InfiniteScroll
+        dataLength={products.length}
+        next={loadMoreData}
+        hasMore={hasMore}
+        loader={
+          <div className='grid gap-[20px] grid-cols-2 sm:grid-cols-4 pr-4 pl-4 sm:p-4'>
+            <SkeletonProduct limit={limit} />
+          </div>
+        }
+        endMessage={<p className='sm:hidden text-center mt-[10px]'>No more products</p>}
+      >
+        <div className='grid gap-[20px] grid-cols-2 sm:grid-cols-4 pr-4 pl-4 sm:p-4'>
+          {products.map((item) => (
             <ProductItem
               key={uuid()}
               item={item}
             />
-          ))
-        ) : (
-          <SkeletonProduct limit={limit} />
-        )}
-      </div>
+          ))}
+        </div>
+      </InfiniteScroll>
     </div>
   );
 }

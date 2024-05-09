@@ -20,7 +20,7 @@ function Banner() {
               alt=''
               className='w-full h-full absolute bottom-0 left-0 right-0 top-0 object-cover'
             />
-            <div className='flex right-10 left-10 bot flex-col absolute z-10 max-w-[643px] bg-[#FFF3E3] top-1/2 -translate-y-1/2 sm:translate-x-1/2 p-[20px] sm:right-1/2 sm:pt-[60px] sm:pb-[40px] sm:px-[40px] rounded-sm'>
+            <div className='flex right-10 left-10 bot flex-col absolute z-10 max-w-[643px] bg-white top-1/2 -translate-y-1/2 sm:translate-x-1/2 p-[20px] sm:right-1/2 sm:pt-[60px] sm:pb-[40px] sm:px-[40px] rounded-sm'>
               <span className='font-semibold text-[#333333] tracking-[3px]'>
                 {item.supTitle}
               </span>

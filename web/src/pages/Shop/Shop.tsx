@@ -1,7 +1,8 @@
 import { Pagination } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ProductList, FilterBarMobile, Breadcrumb } from '../../common';
+import { Breadcrumb, FilterBarMobile, ProductList } from '../../common';
+import Commit from '../../common/Commit/Commit';
 import Filter from '../../common/Filter/Filter';
 import { useAppDispatch, useAppSelector } from '../../store/root/hooks';
 import {
@@ -10,14 +11,12 @@ import {
   selectProducts,
   shopActions,
 } from '../../store/shop/slice';
-import Commit from '../../common/Commit/Commit';
 
 function Shop() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const [keyword, setKeyword] = React.useState('');
-  const productListRef = React.useRef<HTMLDivElement>(null);
 
   const params = new URLSearchParams(location.search);
   const limitUrl = params.get('limit') || null;
@@ -80,25 +79,9 @@ function Shop() {
     );
   };
 
-  const handleChangeKeyword = (event: any) => {
-    const { value } = event.target;
-    dispatch(shopActions.onChangePage(1));
-    setKeyword(value);
-    dispatch(shopActions.onChangeKeyword(value));
-  };
-
-  const handleScroll = () => {
-    if (error === 'No more products') return;
-    if (window.innerWidth > 640) return;
-    const productList = productListRef.current;
-    if (!productList) return;
-
-    const scrollTop = document.documentElement.scrollTop;
-    const scrollHeight = productList?.offsetHeight;
-    const clientHeight = window.innerHeight;
-
-    if (Math.abs(scrollHeight - scrollTop - clientHeight) === 329.5) {
-      dispatch(shopActions.onNextPageScroll());
+  const handleChangeKeyword = (event: { key: string }) => {
+    if (event.key === 'Enter') {
+      dispatch(shopActions.onChangeKeyword(keyword));
     }
   };
 
@@ -117,14 +100,11 @@ function Shop() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [products]);
-
+  // useEffect(() => {
+  //   if (!keyword) {
+  //     dispatch(shopActions.onChangeKeyword(''));
+  //   }
+  // }, [dispatch, keyword]);
 
   return (
     <div>
@@ -158,14 +138,20 @@ function Shop() {
         categories={categories.data}
         onChangeCategoriesSelected={handleChangeCategoriesSelected}
         categoryIds={categoryIds}
-        onChangeKeyword={handleChangeKeyword}
+        onSearch={handleChangeKeyword}
+        onChangeKeyword={setKeyword}
       />
       <div className='container mx-auto mt-[20px]'>
         <ProductList
           products={products.data}
-          limit={limit}
-          productListRef={productListRef}
+          limit={2}
           status={status}
+          loadMoreData={() => {
+            if (window.innerWidth < 768) {
+              dispatch(shopActions.onNextPageScroll());
+            }
+          }}
+          hasMore={window.innerWidth < 768 && error !== 'No more products'}
         />
         <div className='justify-center mt-[20px] sm:mt-[70px] hidden sm:flex'>
           {products && products.data.length > 0 && (

@@ -33,8 +33,7 @@ function ProductDetail() {
   const product = useAppSelector(selectProduct);
   const productSuggestion = useAppSelector(selectProductSuggestion);
   const [productItem, setProductItem] = useState<ProductInventoryProps>();
-  console.log(productSuggestion);
-  
+  console.log(images);
 
   const imageRefBody = React.useRef<HTMLDivElement>(null);
   const imageRef = React.useRef<HTMLImageElement>(null);
@@ -221,10 +220,25 @@ function ProductDetail() {
           []
         )
       );
-      setImages([
+      const newImage = [
         ...product.data.productGeneralImages,
         ...product.data.productImages,
-      ]);
+      ];
+
+      const uniqueImages = newImage.reduce(
+        (unique: { image: string; productColorId?: number }[], item) => {
+          if (!unique.some((image) => image.image === item.image)) {
+            unique.push({
+              image: item.image,
+            });
+          }
+          return unique;
+        },
+        []
+      );
+
+      setImages(uniqueImages);
+
       setImage(product.data.productGeneralImages[0]?.image);
     }
   }, [dispatch, product.data]);
@@ -244,7 +258,7 @@ function ProductDetail() {
 
   return (
     <div className='mb-6'>
-      <div className='px-4 py-[40px] bg-[#F9F1E7]'>
+      <div className='px-4 py-[20px] sm:py-[40px]'>
         <div className='flex items-center gap-2 container mx-auto'>
           <Link to={'/'}>Home</Link>
           <span>

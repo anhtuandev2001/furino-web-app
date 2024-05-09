@@ -7,7 +7,7 @@ function HeaderMobile({ title }: { title: string }) {
       <Button
         startIcon={<ArrowBackIcon sx={{ color: 'black' }} />}
         onClick={() => window.history.back()}
-        sx={{ width: 'fit-content', position: 'absolute', left: 0 }}
+        sx={{ width: 'fit-content', position: 'absolute', left: '10px', padding: '10px 20px' }}
         className='col-span-1'
       />
       <span className='text-[24px] font-semibold'>{title}</span>

@@ -114,7 +114,7 @@ const insertCart = async ({
         cartExist.quantity + quantity >
         product.productInventories[0].quantity
       ) {
-        return 'Quantity is not enough';
+        throw new Error('Quantity is not enough');
       }
       cartExist.quantity += quantity;
       await cartExist.save();
@@ -132,7 +132,7 @@ const insertCart = async ({
     }
 
     if (quantity > product.productInventories[0].quantity) {
-      return 'Quantity is not enough';
+      throw new Error('Quantity is not enough');
     }
 
     const cart: any = await Cart.create({

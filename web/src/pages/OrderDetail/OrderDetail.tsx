@@ -174,7 +174,7 @@ function OrderDetail() {
         onClose={() => setOpen(false)}
         title='Are you sure want to cancel order?'
         content='After confirmation, the order will be canceled!'
-        onSubmit={() => {
+        onConfirm={() => {
           dispatch(
             orderActions.onChangeStatusOrder({
               orderId: Number(orderId),

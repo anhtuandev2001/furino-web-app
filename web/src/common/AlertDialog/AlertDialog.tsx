@@ -11,13 +11,13 @@ export default function AlertDialog({
   onClose,
   title,
   content,
-  onSubmit,
+  onConfirm,
 }: {
   open: boolean;
   onClose: any;
   title: string;
   content: string;
-  onSubmit: any;
+  onConfirm: any;
 }) {
   return (
     <React.Fragment>
@@ -37,7 +37,7 @@ export default function AlertDialog({
           <Button onClick={onClose}>Disagree</Button>
           <Button
             onClick={() => {
-              onSubmit();
+              onConfirm();
               onClose();
             }}
             autoFocus

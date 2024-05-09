@@ -227,7 +227,7 @@ function NavBar() {
           onClose={handleCloseAlert}
           title='Are you sure you want to logout?'
           content='Are you sure you want to logout!'
-          onSubmit={handleSubmit}
+          onConfirm={handleSubmit}
         />
       </Container>
     </AppBar>

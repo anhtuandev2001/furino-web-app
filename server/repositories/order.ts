@@ -66,6 +66,10 @@ const insertOrder = async ({
         transaction: t,
       });
 
+      product.productInventories[0].sold += cart.quantity;
+
+      await product.save({ transaction: t });
+
       if (!product) {
         throw new Error(Exception.PRODUCT_NOT_FOUND);
       }
@@ -299,6 +303,7 @@ const updateOrder = async ({
           });
 
           product.productInventories[0].quantity += item.quantity;
+          product.productInventories[0].sold -= item.quantity;
           await product.productInventories[0].save({ transaction: t });
         })
       );

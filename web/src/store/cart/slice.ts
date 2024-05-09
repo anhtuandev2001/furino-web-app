@@ -75,9 +75,10 @@ export const cartSlice = createSlice({
         state.status.add = 'succeeded';
         toast.success('Add to cart successfully');
       })
-      .addCase(cartActions.onHandleAddToCart.rejected, (state) => {
+      .addCase(cartActions.onHandleAddToCart.rejected, (state, action) => {
+        const error = action.payload as string;
         state.status.add = 'failed';
-        toast.error('Add to cart failed');
+        toast.error(error.split('Error: ')[1]);
       })
       .addCase(cartActions.onHandleUpdateCart.pending, (state) => {
         state.status.update = 'loading';
@@ -140,7 +141,9 @@ export const cartActions = {
         );
         return response;
       } catch (e: any) {
-        return thunkAPI.rejectWithValue(e.message.toString());
+        console.log(e);
+
+        return thunkAPI.rejectWithValue(e.response.data.toString());
       }
     }
   ),
