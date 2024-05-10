@@ -48,12 +48,14 @@ export const shopSlice = createSlice({
     },
     onChangeKeyword(state, action: PayloadAction<string>) {
       state.products.keyword = action.payload;
+      state.products.page = 1;
     },
     onchangeCategoryIds(
       state,
       action: PayloadAction<{ label: string; categoryId: number }[]>
     ) {
       state.categoryIds = action.payload;
+      state.products.page = 1;
     },
     onNextPageScroll(state) {
       state.products.page += 1;
@@ -69,6 +71,7 @@ export const shopSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(shopActions.getProducts.pending, (state) => {
+        state.products.data = [];
         state.products.status = 'loading';
       })
       .addCase(shopActions.getProducts.fulfilled, (state, action) => {
@@ -158,6 +161,7 @@ export const shopActions = {
               sort: sort,
               keyword: keywordUrl || keyword,
               status: 'succeeded',
+              error: products.data.length < limit ? 'No products' : '',
             },
             categoryIds: categoriesUrl
               ? categories.data
@@ -209,6 +213,7 @@ export const shopActions = {
               sort: sort,
               keyword: keyword,
               status: 'succeeded',
+              error: products.data.length < limit ? 'No products' : '',
             },
             categoryIds: categoryIds,
           };

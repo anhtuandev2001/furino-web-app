@@ -23,7 +23,7 @@ const Home = () => {
       <Category />
       <ProductTitle
         status={products.status}
-        limit={4}
+        limit={8}
         title='New Arrivals'
         products={products.data}
       />
