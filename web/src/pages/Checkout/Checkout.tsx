@@ -142,7 +142,7 @@ function Checkout() {
       <div className='container sm:mx-auto sm:mt-[98px] transition-all h-[100vh]'>
         <HeaderMobile title='Checkout' />
         <div className='flex flex-col sm:flex-row'>
-          <div className='w-1/2'>
+          <div className='sm:w-1/2'>
             <Radio
               checked={selectedValue === 'old'}
               onChange={handleChange}
