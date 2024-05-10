@@ -1,6 +1,7 @@
 import * as dotenv from 'dotenv';
 import express from 'express';
 import nodemailer from 'nodemailer';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -9,6 +10,7 @@ const port = process.env.PORT ?? 3001;
 const emailMailer = process.env.EMAIL;
 const password = process.env.PASSWORD;
 
+app.use(cors());
 app.use(express.json());
 
 app.post('/send', async (req, res) => {
