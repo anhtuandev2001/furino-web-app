@@ -1,16 +1,22 @@
+import LoadingButton from '@mui/lab/LoadingButton';
+import { TextField } from '@mui/material';
+import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Button, TextField } from '@mui/material';
 import { Breadcrumb } from '../../common';
 import Commit from '../../common/Commit/Commit';
+import { contactAction, selectContactStatus } from '../../store/contact/slice';
+import { useAppDispatch, useAppSelector } from '../../store/root/hooks';
 import { list } from '../../utils/constants/contact';
-import { useFormik } from 'formik';
+import { useEffect } from 'react';
 
 function Contact() {
+  const dispatch = useAppDispatch();
   const formik = useFormik({
     initialValues: {
       name: '',
       phone: '',
-      massage: '',
+      email: '',
+      message: '',
     },
     validationSchema: Yup.object({
       name: Yup.string()
@@ -21,15 +27,26 @@ function Contact() {
         .min(10, 'Must be exactly 10 digits')
         .max(10, 'Must be exactly 10 digits')
         .required('Required'),
-      massage: Yup.string()
+      email: Yup.string()
+        // .matches(, 'Must be only digits')
+        .required('Required'),
+      message: Yup.string()
         .min(5, 'Must be exactly 5 digits')
         .max(100, 'Must be exactly 1000 digits')
         .required('Required'),
     }),
     onSubmit: (values) => {
-      console.log(values);
+      dispatch(contactAction.onSend(values));
     },
   });
+
+  const status = useAppSelector(selectContactStatus);
+
+  useEffect(() => {
+    if (status === 'succeeded') {
+      formik.resetForm();
+    }
+  }, [formik, status]);
 
   return (
     <>
@@ -54,7 +71,9 @@ function Contact() {
               <div className='flex items-start gap-2'>
                 <item.icon size={30} />
                 <div>
-                  <h3 className= 'text-[20px] tsm:text-[24px] font-medium sm:font-semibold'>{item.name}</h3>
+                  <h3 className='text-[20px] tsm:text-[24px] font-medium sm:font-semibold'>
+                    {item.name}
+                  </h3>
                   <p>{item.content}</p>
                 </div>
               </div>
@@ -81,6 +100,21 @@ function Contact() {
                 }
               />
               <TextField
+                error={Boolean(formik.touched.email && formik.errors.email)}
+                id='email'
+                label='Email'
+                variant='outlined'
+                sx={{ width: '100%' }}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.email}
+                helperText={
+                  formik.touched.email &&
+                  formik.errors.email &&
+                  formik.errors.email
+                }
+              />
+              <TextField
                 error={Boolean(formik.touched.phone && formik.errors.phone)}
                 id='phone'
                 label='Phone Number'
@@ -97,26 +131,27 @@ function Contact() {
                 }
               />
               <TextField
-                error={Boolean(formik.touched.massage && formik.errors.massage)}
-                id='massage'
+                error={Boolean(formik.touched.message && formik.errors.message)}
+                id='message'
                 label='Massage'
                 variant='outlined'
                 sx={{ width: '100%' }}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.massage}
+                value={formik.values.message}
                 helperText={
-                  formik.touched.massage &&
-                  formik.errors.massage &&
-                  formik.errors.massage
+                  formik.touched.message &&
+                  formik.errors.message &&
+                  formik.errors.message
                 }
               />
-              <Button
+              <LoadingButton
+                loading={status === 'loading'}
                 type='submit'
                 variant='contained'
               >
                 Submit
-              </Button>
+              </LoadingButton>
             </form>
           </div>
         </div>
