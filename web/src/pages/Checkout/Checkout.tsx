@@ -118,9 +118,11 @@ function Checkout() {
   useEffect(() => {
     dispatch(orderActions.getProvince());
     dispatch(userActions.getUser());
-  }, [dispatch]);
 
-  console.log('render');
+    return () => {
+      dispatch(orderActions.clearStatus());
+    }
+  }, [dispatch]);
 
   if (status === 'succeeded') {
     return <OrderSuccessPage />;
@@ -139,267 +141,272 @@ function Checkout() {
 
       <div className='container sm:mx-auto sm:mt-[98px] transition-all h-[100vh]'>
         <HeaderMobile title='Checkout' />
-
-        <div>
-          <Radio
-            checked={selectedValue === 'old'}
-            onChange={handleChange}
-            value='old'
-            name='radio-buttons'
-            inputProps={{ 'aria-label': 'old' }}
-          />
-          <span>Address Default</span>
-          {user.status === 'loading' ? (
-            <div className='shadow-md rounded-xl mx-4'>
-              <div className='flex justify-between py-[10px] px-[20px] border-b-4 border-[#F0F0F0]'>
-                <Skeleton width={100} />
-                <Skeleton width={100} />
-              </div>
-              <div className='py-[10px] px-[20px]'>
-                <Skeleton width={100} />
-              </div>
-            </div>
-          ) : (
-            <div className='shadow-md rounded-xl mx-4'>
-              <div className='flex justify-between py-[10px] px-[20px] border-b-4 border-[#F0F0F0]'>
-                <span className='text-[18px]'>
-                  {address.lastName + ' ' + address.firstName}
-                </span>
-                <span>{address.phone}</span>
-              </div>
-              <div className='py-[10px] px-[20px]'>
-                <p className='text-[#909090]'>
-                  {`${address.address}, ${address.ward}, ${address.district}, ${address.province}`}
-                </p>
-              </div>
-            </div>
-          )}
-        </div>
-        <div>
-          <Radio
-            checked={selectedValue === 'new'}
-            onChange={handleChange}
-            value='new'
-            name='radio-buttons'
-            inputProps={{ 'aria-label': 'new' }}
-          />
-          <span>New Address</span>
-        </div>
-        <div
-          className={`sm:w-1/3 flex flex-col gap-4 px-4 overflow-hidden transition-all ${
-            selectedValue === 'old' ? 'h-0' : 'h-auto'
-          }`}
-        >
-          <div className='flex justify-between gap-4 mt-4'>
-            <TextField
-              error={Boolean(
-                formik.touched.firstName && formik.errors.firstName
-              )}
-              id='firstName'
-              label='First Name'
-              variant='outlined'
-              sx={{ width: '100%' }}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.firstName}
-              helperText={
-                formik.touched.firstName &&
-                formik.errors.firstName &&
-                formik.errors.firstName
-              }
+        <div className='flex flex-col sm:flex-row'>
+          <div className='w-1/2'>
+            <Radio
+              checked={selectedValue === 'old'}
+              onChange={handleChange}
+              value='old'
+              name='radio-buttons'
+              inputProps={{ 'aria-label': 'old' }}
             />
-            <TextField
-              error={Boolean(formik.touched.lastName && formik.errors.lastName)}
-              id='lastName'
-              label='Last Name'
-              variant='outlined'
-              sx={{ width: '100%' }}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.lastName}
-              helperText={
-                formik.touched.lastName &&
-                formik.errors.lastName &&
-                formik.errors.lastName
-              }
-            />
-          </div>
-          <TextField
-            error={Boolean(formik.touched.phone && formik.errors.phone)}
-            id='phone'
-            label='Phone Number'
-            type='phone'
-            variant='outlined'
-            sx={{ width: '100%' }}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.phone}
-            helperText={
-              formik.touched.phone && formik.errors.phone && formik.errors.phone
-            }
-          />
-          <ComboBox
-            error={error}
-            sx={{ width: '100%' }}
-            label='Province'
-            list={
-              provinces.status === 'succeeded'
-                ? provinces.data.map((province: any) => ({
-                    label: province.province_name,
-                    province_id: province.province_id,
-                  }))
-                : []
-            }
-            isOptionEqualToValue={(option: any, value: any) =>
-              option.province_id === value.province_id
-            }
-            multiple={false}
-            onChange={(value: any) => {
-              dispatch(orderActions.onHandleChangeProvince(value));
-            }}
-          />
-          <ComboBox
-            error={error}
-            sx={{ width: '100%' }}
-            label='District'
-            list={
-              districts.status === 'succeeded'
-                ? districts.data.map((district: any) => ({
-                    label: district.district_name,
-                    district_id: district.district_id,
-                  }))
-                : []
-            }
-            isOptionEqualToValue={(option: any, value: any) =>
-              option.district_id === value.district_id
-            }
-            multiple={false}
-            onChange={(value: any) => {
-              dispatch(orderActions.onHandleChangeDistrict(value));
-            }}
-          />
-          <ComboBox
-            error={error}
-            sx={{ width: '100%' }}
-            label='Ward'
-            list={
-              wards.status === 'succeeded'
-                ? wards.data.map((ward: any) => ({
-                    label: ward.ward_name,
-                    ward_id: ward.ward_id,
-                  }))
-                : []
-            }
-            isOptionEqualToValue={(option: any, value: any) =>
-              option.ward_id === value.ward_id
-            }
-            multiple={false}
-            onChange={(value: any) => {
-              dispatch(orderActions.onHandleChangeWard(value));
-            }}
-          />
-          <TextField
-            error={Boolean(formik.touched.address && formik.errors.address)}
-            id='address'
-            label='Address'
-            type='text'
-            variant='outlined'
-            sx={{ width: '100%' }}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.address}
-            helperText={
-              formik.touched.address &&
-              formik.errors.address &&
-              formik.errors.address
-            }
-          />
-          <div>
-            <Checkbox
-              value={checked}
-              onChange={() => setChecked(!checked)}
-            />
-            <span>Save address</span>
-          </div>
-        </div>
-        <div className='sm:w-1/4 flex flex-col mb-[20px] flex-1 px-4 justify-between'>
-          <div className='flex gap-4 flex-col'>
-            <div className='flex justify-between'>
-              <span className='text-[24px] hidden sm:block font-medium'>
-                Product
-              </span>
-              <span className='text-[24px] hidden sm:block font-medium'>
-                Total
-              </span>
-            </div>
-            <div className='overflow-scroll'>
-              {cartSelected &&
-                cartSelected.map((cart: any) => (
-                  <div
-                    key={cart.cartId}
-                    className='flex gap-7 shadow-md m-2 p-2 rounded-xl'
-                  >
-                    <img
-                      src={cart.productImage}
-                      alt='cart image'
-                      className='h-[100px] w-[100px]'
-                    />
-                    <div className='flex-1'>
-                      <span>{cart.productName}</span>
-                      <div className='flex flex-col'>
-                        <span>{`${cart.productColor.name}, ${cart.productSize.name}`}</span>
-                        <span>x{cart.quantity}</span>
-                      </div>
-                    </div>
-                    <span>{cart.price}$</span>
-                  </div>
-                ))}
-            </div>
-            <div className='flex flex-col justify-between p-4 shadow-md rounded-xl'>
-              <div className='flex justify-between'>
-                <span className='text-[#909090] text-[18px]'>Order:</span>
-                <span>
-                  {cartSelected &&
-                    cartSelected.reduce(
-                      (acc: any, item: any) =>
-                        Number(acc) + item.quantity * Number(item.price),
-                      0
-                    )}
-                  $
-                </span>
+            <span>Address Default</span>
+            {user.status === 'loading' ? (
+              <div className='shadow-md rounded-xl mx-4'>
+                <div className='flex justify-between py-[10px] px-[20px] border-b-4 border-[#F0F0F0]'>
+                  <Skeleton width={100} />
+                  <Skeleton width={100} />
+                </div>
+                <div className='py-[10px] px-[20px]'>
+                  <Skeleton width={100} />
+                </div>
               </div>
-              <div className='flex justify-between'>
-                <span className='text-[#909090] text-[18px]'>Delivery:</span>
-                <span className=''>{delivery}$</span>
+            ) : (
+              <div className='shadow-md rounded-xl mx-4'>
+                <div className='flex justify-between py-[10px] px-[20px] border-b-4 border-[#F0F0F0]'>
+                  <span className='text-[18px]'>
+                    {address.lastName + ' ' + address.firstName}
+                  </span>
+                  <span>{address.phone}</span>
+                </div>
+                <div className='py-[10px] px-[20px]'>
+                  <p className='text-[#909090]'>
+                    {`${address.address}, ${address.ward}, ${address.district}, ${address.province}`}
+                  </p>
+                </div>
               </div>
-              <div className='flex justify-between'>
-                <span className='text-[#909090] text-[18px]'>Total:</span>
-                <span className=''>
-                  {cartSelected &&
-                    cartSelected.reduce(
-                      (acc: any, item: any) =>
-                        Number(acc) + item.quantity * Number(item.price),
-                      0
-                    ) + delivery}
-                  $
-                </span>
-              </div>
+            )}
+            <div>
+              <Radio
+                checked={selectedValue === 'new'}
+                onChange={handleChange}
+                value='new'
+                name='radio-buttons'
+                inputProps={{ 'aria-label': 'new' }}
+              />
+              <span>New Address</span>
             </div>
-          </div>
-          <div className='flex justify-center sm:justify-end pb-5'>
-            <LoadingButton
-              loading={status === 'loading'}
-              sx={{
-                width: { xs: '100%', sm: 'fit-content' },
-                marginTop: '20px',
-                backgroundColor: 'black',
-                color: 'white',
-              }}
-              onClick={handleSubmit}
-              variant='contained'
+            <div
+              className={`flex flex-col gap-4 px-4 overflow-hidden transition-all ${
+                selectedValue === 'old' ? 'h-0' : 'h-auto'
+              }`}
             >
-              Checkout
-            </LoadingButton>
+              <div className='flex justify-between gap-4 mt-4'>
+                <TextField
+                  error={Boolean(
+                    formik.touched.firstName && formik.errors.firstName
+                  )}
+                  id='firstName'
+                  label='First Name'
+                  variant='outlined'
+                  sx={{ width: '100%' }}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.firstName}
+                  helperText={
+                    formik.touched.firstName &&
+                    formik.errors.firstName &&
+                    formik.errors.firstName
+                  }
+                />
+                <TextField
+                  error={Boolean(
+                    formik.touched.lastName && formik.errors.lastName
+                  )}
+                  id='lastName'
+                  label='Last Name'
+                  variant='outlined'
+                  sx={{ width: '100%' }}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.lastName}
+                  helperText={
+                    formik.touched.lastName &&
+                    formik.errors.lastName &&
+                    formik.errors.lastName
+                  }
+                />
+              </div>
+              <TextField
+                error={Boolean(formik.touched.phone && formik.errors.phone)}
+                id='phone'
+                label='Phone Number'
+                type='phone'
+                variant='outlined'
+                sx={{ width: '100%' }}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.phone}
+                helperText={
+                  formik.touched.phone &&
+                  formik.errors.phone &&
+                  formik.errors.phone
+                }
+              />
+              <ComboBox
+                error={error}
+                sx={{ width: '100%' }}
+                label='Province'
+                list={
+                  provinces.status === 'succeeded'
+                    ? provinces.data.map((province: any) => ({
+                        label: province.province_name,
+                        province_id: province.province_id,
+                      }))
+                    : []
+                }
+                isOptionEqualToValue={(option: any, value: any) =>
+                  option.province_id === value.province_id
+                }
+                multiple={false}
+                onChange={(value: any) => {
+                  dispatch(orderActions.onHandleChangeProvince(value));
+                }}
+              />
+              <ComboBox
+                error={error}
+                sx={{ width: '100%' }}
+                label='District'
+                list={
+                  districts.status === 'succeeded'
+                    ? districts.data.map((district: any) => ({
+                        label: district.district_name,
+                        district_id: district.district_id,
+                      }))
+                    : []
+                }
+                isOptionEqualToValue={(option: any, value: any) =>
+                  option.district_id === value.district_id
+                }
+                multiple={false}
+                onChange={(value: any) => {
+                  dispatch(orderActions.onHandleChangeDistrict(value));
+                }}
+              />
+              <ComboBox
+                error={error}
+                sx={{ width: '100%' }}
+                label='Ward'
+                list={
+                  wards.status === 'succeeded'
+                    ? wards.data.map((ward: any) => ({
+                        label: ward.ward_name,
+                        ward_id: ward.ward_id,
+                      }))
+                    : []
+                }
+                isOptionEqualToValue={(option: any, value: any) =>
+                  option.ward_id === value.ward_id
+                }
+                multiple={false}
+                onChange={(value: any) => {
+                  dispatch(orderActions.onHandleChangeWard(value));
+                }}
+              />
+              <TextField
+                error={Boolean(formik.touched.address && formik.errors.address)}
+                id='address'
+                label='Address'
+                type='text'
+                variant='outlined'
+                sx={{ width: '100%' }}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.address}
+                helperText={
+                  formik.touched.address &&
+                  formik.errors.address &&
+                  formik.errors.address
+                }
+              />
+              <div>
+                <Checkbox
+                  value={checked}
+                  onChange={() => setChecked(!checked)}
+                />
+                <span>Save address</span>
+              </div>
+            </div>
+          </div>
+          <div className='sm:w-1/2 flex flex-col mb-[20px] flex-1 px-4 justify-between'>
+            <div className='flex gap-4 flex-col'>
+              <div className='flex justify-between'>
+                <span className='text-[24px] hidden sm:block font-medium'>
+                  Product
+                </span>
+                <span className='text-[24px] hidden sm:block font-medium'>
+                  Total
+                </span>
+              </div>
+              <div className='overflow-scroll'>
+                {cartSelected &&
+                  cartSelected.map((cart: any) => (
+                    <div
+                      key={cart.cartId}
+                      className='flex gap-7 shadow-md m-2 p-2 rounded-xl'
+                    >
+                      <img
+                        src={cart.productImage}
+                        alt='cart image'
+                        className='h-[100px] w-[100px]'
+                      />
+                      <div className='flex-1'>
+                        <span>{cart.productName}</span>
+                        <div className='flex flex-col'>
+                          <span>{`${cart.productColor.name}, ${cart.productSize.name}`}</span>
+                          <span>x{cart.quantity}</span>
+                        </div>
+                      </div>
+                      <span>{cart.price}$</span>
+                    </div>
+                  ))}
+              </div>
+              <div className='flex flex-col justify-between p-4 shadow-md rounded-xl'>
+                <div className='flex justify-between'>
+                  <span className='text-[#909090] text-[18px]'>Order:</span>
+                  <span>
+                    {cartSelected &&
+                      cartSelected.reduce(
+                        (acc: any, item: any) =>
+                          Number(acc) + item.quantity * Number(item.price),
+                        0
+                      )}
+                    $
+                  </span>
+                </div>
+                <div className='flex justify-between'>
+                  <span className='text-[#909090] text-[18px]'>Delivery:</span>
+                  <span className=''>{delivery}$</span>
+                </div>
+                <div className='flex justify-between'>
+                  <span className='text-[#909090] text-[18px]'>Total:</span>
+                  <span className=''>
+                    {cartSelected &&
+                      cartSelected.reduce(
+                        (acc: any, item: any) =>
+                          Number(acc) + item.quantity * Number(item.price),
+                        0
+                      ) + delivery}
+                    $
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className='flex justify-center sm:justify-end pb-5'>
+              <LoadingButton
+                loading={status === 'loading'}
+                sx={{
+                  width: { xs: '100%', sm: 'fit-content' },
+                  marginTop: '20px',
+                  backgroundColor: 'black',
+                  color: 'white',
+                }}
+                onClick={handleSubmit}
+                variant='contained'
+              >
+                Checkout
+              </LoadingButton>
+            </div>
           </div>
         </div>
       </div>

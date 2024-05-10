@@ -11,8 +11,8 @@ export const links = [
     },
     {
       id: 3,
-      title: 'About',
-      path: '/about',
+      title: 'Contact',
+      path: '/contact',
     },
     {
       id: 4,

@@ -213,6 +213,11 @@ function CartPreview({
               </Button>
               <Button
                 variant='outlined'
+                disabled={select.length === 0}
+                onClick={() => {
+                  navigate('/checkout');
+                  onClose();
+                }}
                 sx={{
                   borderRadius: '20px',
                 }}

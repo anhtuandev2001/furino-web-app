@@ -31,6 +31,9 @@ function ProductList({
     );
   }
 
+  console.log(window.innerWidth);
+  
+
   return (
     <div>
       <InfiniteScroll
@@ -39,7 +42,7 @@ function ProductList({
         hasMore={hasMore}
         loader={
           <div className='grid gap-[20px] grid-cols-2 mt-[20px] sm:grid-cols-4 pr-4 pl-4 sm:p-4'>
-            <SkeletonProduct limit={limit} />
+            <SkeletonProduct limit={2} />
           </div>
         }
         endMessage={
@@ -47,12 +50,16 @@ function ProductList({
         }
       >
         <div className='grid gap-[20px] grid-cols-2 sm:grid-cols-4 pr-4 pl-4 sm:p-4'>
-          {products.map((item) => (
-            <ProductItem
-              key={uuid()}
-              item={item}
-            />
-          ))}
+          {status === 'loading' && window.innerWidth > 600 ? (
+            <SkeletonProduct limit={limit} />
+          ) : (
+            products.map((item) => (
+              <ProductItem
+                key={uuid()}
+                item={item}
+              />
+            ))
+          )}
         </div>
       </InfiniteScroll>
     </div>

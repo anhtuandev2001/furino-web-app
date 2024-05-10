@@ -144,7 +144,7 @@ function Shop() {
       <div className='container mx-auto mt-[20px]'>
         <ProductList
           products={products.data}
-          limit={2}
+          limit={limit}
           status={status}
           loadMoreData={() => {
             if (window.innerWidth < 768) {

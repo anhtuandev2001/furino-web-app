@@ -114,6 +114,10 @@ export const checkoutSlice = createSlice({
         wardName: action.payload.label,
       };
     },
+    clearStatus(state) {
+      state.status.checkout = 'idle';
+      state.status.update = 'idle';
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -330,6 +334,7 @@ export const orderActions = {
       return response;
     }
   ),
+  clearStatus: createAction(`${checkoutSlice.name}/clearStatus`),
 };
 
 // Selectors

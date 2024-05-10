@@ -1,5 +1,5 @@
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Button, Checkbox, Skeleton } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, Skeleton } from '@mui/material';
 import { HeaderMobile } from '../../common';
 import QuantityInput from '../../common/QuantityInput/QuantityInput';
 import { v4 as uuid } from 'uuid';
@@ -92,12 +92,16 @@ function CartMobile({
                 </div>
               ))}
         </div>
-        <div className=''>
-          <Checkbox
-            checked={selectAll}
-            onChange={() => setSelectAll(!selectAll)}
+        <div className='text-right'>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={selectAll}
+                onChange={() => setSelectAll(!selectAll)}
+              />
+            }
+            label='Select All'
           />
-          <span>Select All</span>
         </div>
         <Button
           sx={{ width: '100%', marginBottom: '20px' }}

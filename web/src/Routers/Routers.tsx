@@ -4,6 +4,7 @@ import App from '../App';
 import {
   Cart,
   Checkout,
+  Contact,
   Home,
   Login,
   Order,
@@ -46,6 +47,11 @@ const Routers = () => {
         <Route
           path='/user'
           element={<User />}
+        />
+
+        <Route
+          path='/contact'
+          element={<Contact />}
         />
 
         {/* <Route

@@ -25,8 +25,8 @@ interface linksModal {
     },
     {
       id: 3,
-      name: 'About',
-      path: '/about',
+      name: 'Contact',
+      path: '/contact',
       icon: InfoIcon,
     },
     {

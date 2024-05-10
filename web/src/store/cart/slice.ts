@@ -192,6 +192,11 @@ export const cartActions = {
     `${cartSlice.name}/getTotalQuantity`,
     async (_, thunkAPI) => {
       const user: any = selectUser(thunkAPI.getState() as RootState);
+      console.log(user);
+      
+      if (Object.keys(user.data).length === 0){
+        return 0;
+      }
       const response = await ipaCall(
         'GET',
         `${BASE_URL}carts/total/${user.data.userId}`,
