@@ -50,8 +50,6 @@ async function getOrderByUserId(req: Request, res: Response) {
 const getOrderById = async (req: Request, res: Response) => {
   try {
     const { orderId } = req.params;
-    console.log(orderId);
-
     const order = await orderRepository.getOrderById(Number(orderId));
     res.status(HttpStatusCode.OK).json(order);
   } catch (exception: any) {

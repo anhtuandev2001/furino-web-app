@@ -47,8 +47,6 @@ function Shop() {
     const { value } = event.target;
 
     dispatch(shopActions.onChangeLimit(value));
-    dispatch(shopActions.onChangePage(1));
-
     navigate(
       `/shop?limit=${value}&page=1${
         categoryIds.length > 0
@@ -67,7 +65,6 @@ function Shop() {
 
   const handleChangeCategoriesSelected = (value: any) => {
     dispatch(shopActions.onchangeCategoryIds(value));
-    dispatch(shopActions.onChangePage(1));
     navigate(
       `/shop?limit=${limit}&page=1${
         value.length > 0

@@ -21,8 +21,8 @@ import { selectUser, userActions } from '../../store/user/slice';
 
 function Checkout() {
   const [error, setError] = useState(false);
-  const [selectedValue, setSelectedValue] = useState('old');
   const [checked, setChecked] = useState(false);
+  const [selectedValue, setSelectedValue] = useState('old');
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ function Checkout() {
   const cartSelected = useAppSelector(selectCartSelected);
   const status = useAppSelector(selectStatusCheckout);
   const user = useAppSelector(selectUser);
-  const address = JSON.parse(user?.data.address || '{}');
+  const address = JSON.parse(user?.data.address || null);
   const delivery = 5.0;
 
   const screenWidth = window.innerWidth;
@@ -121,8 +121,14 @@ function Checkout() {
 
     return () => {
       dispatch(orderActions.clearStatus());
-    }
+    };
   }, [dispatch]);
+
+  useEffect(() => {
+    if (user.status === 'succeeded' && user.data.address) {
+      setSelectedValue('old');
+    }
+  }, [user]);
 
   if (status === 'succeeded') {
     return <OrderSuccessPage />;
@@ -146,6 +152,7 @@ function Checkout() {
             <Radio
               checked={selectedValue === 'old'}
               onChange={handleChange}
+              disabled={!address}
               value='old'
               name='radio-buttons'
               inputProps={{ 'aria-label': 'old' }}
@@ -165,13 +172,15 @@ function Checkout() {
               <div className='shadow-md rounded-xl mx-4'>
                 <div className='flex justify-between py-[10px] px-[20px] border-b-4 border-[#F0F0F0]'>
                   <span className='text-[18px]'>
-                    {address.lastName + ' ' + address.firstName}
+                    {address?.lastName + ' ' + address?.firstName || ''}
                   </span>
-                  <span>{address.phone}</span>
+                  <span>{address?.phone || ''}</span>
                 </div>
                 <div className='py-[10px] px-[20px]'>
                   <p className='text-[#909090]'>
-                    {`${address.address}, ${address.ward}, ${address.district}, ${address.province}`}
+                    {address
+                      ? `${address.address}, ${address.ward}, ${address.district}, ${address.province}`
+                      : ''}
                   </p>
                 </div>
               </div>

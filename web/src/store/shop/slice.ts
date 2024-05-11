@@ -36,6 +36,7 @@ export const shopSlice = createSlice({
   reducers: {
     onChangeLimit(state, action: PayloadAction<number>) {
       state.products.limit = action.payload;
+      state.products.page = 1;
     },
     onChangePage(state, action: PayloadAction<number>) {
       state.products.page = action.payload;

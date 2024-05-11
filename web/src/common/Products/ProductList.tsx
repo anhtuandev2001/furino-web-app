@@ -18,8 +18,6 @@ function ProductList({
   loadMoreData?: () => void;
   hasMore?: boolean;
 }) {
-  console.log(products);
-  console.log(status);
   if (
     status === 'failed' ||
     (status === 'succeeded' && products.length === 0)
