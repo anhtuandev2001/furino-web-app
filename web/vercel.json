@@ -4,11 +4,5 @@
             "source": "/(.*)",
             "destination": "/"
         }
-    ],
-    "builds": [
-        {
-            "src": "/web/**",
-            "use": "@vercel/static-build"
-        }
     ]
 }
