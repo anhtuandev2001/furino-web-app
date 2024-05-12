@@ -1,4 +1,4 @@
-import { bedroom } from '../../../assets/images';
+import { bedroom } from '../../assets/images';
 
 interface SuggestModal {
   id: number;

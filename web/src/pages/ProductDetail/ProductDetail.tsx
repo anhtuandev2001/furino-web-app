@@ -5,8 +5,8 @@ import { IoIosArrowForward } from 'react-icons/io';
 import { Link, useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import FormRadius from '../../common/FormRadius/FormRadius';
-import ProductTitle from '../../common/ProductTitle/ProductTitle';
-import { cartActions, selectStatus } from '../../store/cart/slice';
+import ProductSuggest from '../../common/ProductSuggest/ProductSuggest';
+import { cartActions, selectActions } from '../../store/cart/slice';
 import {
   productDetailActions,
   selectProduct,
@@ -40,7 +40,7 @@ function ProductDetail() {
   const productId = useParams().id;
   const dispatch = useAppDispatch();
 
-  const status = useAppSelector(selectStatus);
+  const status = useAppSelector(selectActions);
 
   const handleIncrease = () => {
     if (productItem?.quantity && quantity >= productItem?.quantity) return;
@@ -256,9 +256,9 @@ function ProductDetail() {
   }, [color, product.data, size]);
 
   return (
-    <div className='mb-6'>
-      <div className='px-4 py-[20px] sm:py-[40px]'>
-        <div className='flex items-center gap-2 container mx-auto'>
+    <div className='mb-6 relative'>
+      <div className='px-4 py-[20px] md:py-[40px]'>
+        <div className='flex items-center gap-2'>
           <Link to={'/'}>Home</Link>
           <span>
             <IoIosArrowForward size={24} />
@@ -278,11 +278,11 @@ function ProductDetail() {
           )}
         </div>
       </div>
-      <div className='container mx-auto flex flex-col sm:flex-row sm:mt-[32px] mt-4 px-4'>
-        <div className='sm:w-2/3 flex gap-4 sm:gap-[32px] sm:pr-[50px] flex-col-reverse sm:flex-row'>
+      <div className='flex flex-col md:flex-row md:mt-[32px] mt-4 px-4'>
+        <div className='md:w-2/3 flex gap-4 md:gap-[32px] md:pr-[50px] flex-col-reverse md:flex-row'>
           <div
             ref={imageRefBody}
-            className='flex sm:flex-col gap-4 sm:gap-[32px] overflow-auto sm:h-[500px]'
+            className='flex md:flex-col gap-4 md:gap-[32px] overflow-auto md:h-[500px]'
           >
             {product.status === 'succeeded' ? (
               images.map((item) => (
@@ -292,7 +292,7 @@ function ProductDetail() {
                   ref={imageRef}
                   onClick={() => setImage(item.image)}
                   alt='product.data'
-                  className={`w-[150px] h-[100px] sm:h-auto object-cover rounded-sm cursor-pointer ${
+                  className={`w-[150px] h-[100px] md:h-auto object-cover rounded-sm cursor-pointer ${
                     image === item.image && 'border-4 border-[#B88E2F]'
                   }`}
                 />
@@ -337,7 +337,7 @@ function ProductDetail() {
             )}
           </div>
         </div>
-        <div className='justify-end sm:justify-normal sm:w-1/3 flex flex-col gap-3 sm:gap-[18px]'>
+        <div className='justify-end md:justify-normal md:w-1/3 flex flex-col gap-3 md:gap-[18px]'>
           <h2 className='text-[42px] capitalize'>
             {product.status === 'succeeded' ? (
               product.data?.name
@@ -527,7 +527,7 @@ function ProductDetail() {
           </div>
         </div>
       </div>
-      <ProductTitle
+      <ProductSuggest
         title='Related Products'
         products={productSuggestion.data}
         status={productSuggestion.status}

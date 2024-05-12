@@ -53,12 +53,19 @@ const Routers = () => {
           path='/contact'
           element={<Contact />}
         />
-
+        <Route
+          path='/cart'
+          element={<Cart />}
+        />
         {/* <Route
           path='*'
         element={<ErrorPage />} */}
         {/* /> */}
       </Route>
+      <Route
+        path='/checkout'
+        element={<Checkout />}
+      />
       <Route
         path='/order'
         element={<Order />}
@@ -67,15 +74,6 @@ const Routers = () => {
         path='/order/:orderId'
         element={<OrderDetail />}
       />
-      <Route
-        path='/cart'
-        element={<Cart />}
-      />
-      <Route
-        path='/checkout'
-        element={<Checkout />}
-      />
-
       <Route
         path='/login'
         element={<Login />}

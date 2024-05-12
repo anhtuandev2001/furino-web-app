@@ -1,4 +1,4 @@
-import { furniture } from "../../../assets/images";
+import { furniture } from "../../assets/images";
 
 function Furniture() {
   return (

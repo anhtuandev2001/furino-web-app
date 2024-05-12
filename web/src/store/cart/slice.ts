@@ -15,11 +15,21 @@ export interface CartState {
     totalQuantity?: number;
   };
   cartSelected: CartProp[];
-  status: {
+  actions: {
     add: string;
-    delete: string;
-    update: string;
+    delete: {
+      status: string;
+      cartId: number | null;
+    };
+    update: {
+      status: string;
+      cartId: number | null;
+    };
     quantity: string;
+  };
+  cartNotification: {
+    show: boolean;
+    cart: any;
   };
 }
 
@@ -31,11 +41,21 @@ const initialState: CartState = {
     totalQuantity: 0,
   },
   cartSelected: [],
-  status: {
+  actions: {
     add: 'idle',
-    delete: 'idle',
-    update: 'idle',
+    delete: {
+      status: 'idle',
+      cartId: null,
+    },
+    update: {
+      status: 'idle',
+      cartId: null,
+    },
     quantity: 'idle',
+  },
+  cartNotification: {
+    show: false,
+    cart: null,
   },
 };
 
@@ -50,6 +70,19 @@ export const cartSlice = createSlice({
     onChangeTotalQuantity(state, action) {
       state.cart.totalQuantity = action.payload;
     },
+    increaseTotalQuantity(state, action) {
+      state.cart.totalQuantity = state.cart.totalQuantity + action.payload;
+    },
+    decreaseTotalQuantity(state, action) {
+      if (!state.cart.totalQuantity) return;
+      state.cart.totalQuantity = state?.cart?.totalQuantity - action.payload;
+    },
+    hideCartNotification(state) {
+      state.cartNotification = {
+        show: false,
+        cart: null,
+      };
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -63,34 +96,59 @@ export const cartSlice = createSlice({
       .addCase(cartActions.getCarts.rejected, (state) => {
         state.cart.status = 'failed';
       })
-      .addCase(cartActions.onHandDeleteCart.pending, (state) => {
-        state.status.delete = 'loading';
+      .addCase(cartActions.onHandDeleteCart.pending, (state, action) => {
+        state.actions.delete = {
+          status: 'loading',
+          cartId: action.meta.arg,
+        };
       })
       .addCase(cartActions.onHandDeleteCart.fulfilled, (state, action) => {
-        state.status.delete = 'succeeded';
+        state.actions.delete.status = 'succeeded';
         state.cart.data = state.cart.data.filter(
           (cart: CartProp) => cart.cartId !== action.payload
         );
       })
       .addCase(cartActions.onHandDeleteCart.rejected, (state) => {
-        state.status.delete = 'failed';
+        state.actions.delete.status = 'failed';
       })
       .addCase(cartActions.onHandleAddToCart.pending, (state) => {
-        state.status.add = 'loading';
+        state.actions.add = 'loading';
       })
-      .addCase(cartActions.onHandleAddToCart.fulfilled, (state) => {
-        state.status.add = 'succeeded';
+      .addCase(cartActions.onHandleAddToCart.fulfilled, (state, action) => {
+        console.log(action);
+
+        state.actions.add = 'succeeded';
+        state.cartNotification = {
+          show: true,
+          cart: action.payload,
+        };
+        if (state.cart.status === 'idle') return;
+        const carts = state.cart.data;
+        const cart = action.payload;
+        if (carts.find((c: CartProp) => c.cartId === cart.cartId)) {
+          state.cart.data = carts.map((c: CartProp) =>
+            c.cartId === cart.cartId ? cart : c
+          );
+        } else {
+          state.cart.data = [cart, ...carts];
+        }
       })
       .addCase(cartActions.onHandleAddToCart.rejected, (state, action) => {
         const error = action.payload as string;
-        state.status.add = 'failed';
+        state.actions.add = 'failed';
         toast.error(error.split('Error: ')[1]);
       })
-      .addCase(cartActions.onHandleUpdateCart.pending, (state) => {
-        state.status.update = 'loading';
+      .addCase(cartActions.onHandleUpdateCart.pending, (state, action) => {
+        state.actions.update = {
+          status: 'loading',
+          cartId: action.meta.arg.cartId,
+        };
       })
       .addCase(cartActions.onHandleUpdateCart.fulfilled, (state, action) => {
-        state.status.update = 'succeeded';
+        state.actions.update = {
+          status: 'succeeded',
+          cartId: action.payload.cartId,
+        };
         state.cart.data = state.cart.data.map((cart: CartProp) =>
           cart.cartId === action.payload.cartId
             ? { ...cart, quantity: action.payload.quantity }
@@ -98,19 +156,22 @@ export const cartSlice = createSlice({
         );
       })
       .addCase(cartActions.onHandleUpdateCart.rejected, (state) => {
-        state.status.update = 'failed';
+        state.actions.update = {
+          status: 'failed',
+          cartId: null,
+        };
         toast.error('Update cart failed');
       })
       .addCase(cartActions.getTotalQuantity.pending, (state) => {
-        state.status.quantity = 'loading';
+        state.actions.quantity = 'loading';
       })
       .addCase(cartActions.getTotalQuantity.fulfilled, (state, action) => {
-        state.status.quantity = 'succeeded';
+        state.actions.quantity = 'succeeded';
         state.cart.totalQuantity = action.payload;
       })
       .addCase(cartActions.getTotalQuantity.rejected, (state) => {
-        state.status.quantity = 'failed';
-      })
+        state.actions.quantity = 'failed';
+      });
   },
 });
 
@@ -192,7 +253,7 @@ export const cartActions = {
     `${cartSlice.name}/getTotalQuantity`,
     async (_, thunkAPI) => {
       const user: any = selectUser(thunkAPI.getState() as RootState);
-      if (Object.keys(user.data).length === 0){
+      if (Object.keys(user.data).length === 0) {
         return 0;
       }
       const response = await ipaCall(
@@ -207,15 +268,24 @@ export const cartActions = {
   onChangeTotalQuantity: createAction<number>(
     `${cartSlice.name}/onChangeTotalQuantity`
   ),
+  increaseTotalQuantity: createAction<number>(
+    `${cartSlice.name}/increaseTotalQuantity`
+  ),
+  decreaseTotalQuantity: createAction<number>(
+    `${cartSlice.name}/decreaseTotalQuantity`
+  ),
+  hideCartNotification: createAction(`${cartSlice.name}/hideCartNotification`),
 };
 
 // Selectors
 export const selectCarts = (state: RootState): any => state.carts.cart;
-export const selectStatus = (state: RootState): any => state.carts.status;
 export const selectCartSelected = (state: RootState): any =>
   state.carts.cartSelected;
 export const selectTotalQuantity = (state: RootState): any =>
   state.carts.cart.totalQuantity;
+export const selectActions = (state: RootState): any => state.carts.actions;
+export const selectShowCartNotification = (state: RootState): any =>
+  state.carts.cartNotification;
 
 // Reducer
 export default cartSlice.reducer;

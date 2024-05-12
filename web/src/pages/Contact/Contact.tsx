@@ -54,7 +54,7 @@ function Contact() {
         title='Contact'
         part='contact'
       />
-      <div className='px-4 sm:container sm:mx-auto'>
+      <div className='px-4'>
         <div className='text-center'>
           <h2 className='text-[30px] font-semibold mt-4'>
             Get In Touch With Us
@@ -65,13 +65,13 @@ function Contact() {
             Not Hesitate!
           </p>
         </div>
-        <div className='mt-8 flex flex-col gap-8 sm:justify-around sm:flex-row'>
-          <div className='sm:w-1/3'>
+        <div className='mt-8 flex flex-col gap-8 md:justify-around md:flex-row md:mt-10'>
+          <div className='md:w-1/3'>
             {list.map((item) => (
               <div className='flex items-start gap-2'>
                 <item.icon size={30} />
                 <div>
-                  <h3 className='text-[20px] tsm:text-[24px] font-medium sm:font-semibold'>
+                  <h3 className='text-[20px] tsm:text-[24px] font-medium md:font-semibold'>
                     {item.name}
                   </h3>
                   <p>{item.content}</p>
@@ -79,7 +79,7 @@ function Contact() {
               </div>
             ))}
           </div>
-          <div className='sm:w-2/3'>
+          <div className='md:w-1/3'>
             <form
               onSubmit={formik.handleSubmit}
               className='flex flex-col gap-[20px]'

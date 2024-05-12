@@ -1,4 +1,4 @@
-import { CustomDot, CustomNextArrow, CustomPrevArrow } from '../../../common';
+import { CustomDot, CustomNextArrow, CustomPrevArrow } from '..';
 import { ReactNode } from 'react';
 
 export const settings = {

@@ -1,4 +1,4 @@
-import { dining, bedroom, living } from '../../../assets/images';
+import { dining, bedroom, living } from '../../assets/images';
 
 interface CategoryModal {
   id: number;

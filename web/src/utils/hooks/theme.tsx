@@ -1,11 +1,15 @@
 import { createTheme } from '@mui/material';
 
 export const theme = createTheme({
+  typography: {
+    fontFamily: 'Assistant, sans-serif',
+  },
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
-          fontSize: '1.2rem',
+          fontSize: '16px',
+          fontWeight: 400,
           textTransform: 'capitalize',
         },
         outlined: {

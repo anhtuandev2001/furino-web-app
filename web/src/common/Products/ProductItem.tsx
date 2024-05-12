@@ -10,11 +10,11 @@ function ProductItem({ item }: { item: ProductProp }) {
       key={uuid()}
       className='flex flex-col relative group rounded'
     >
-      <div className='overflow-hidden'>
+      <div className='group-hover:shadow-xl overflow-hidden transition-all duration-300 relative z-20'>
         <img
           src={item.productGeneralImages[0].image}
           alt={item.name}
-          className='h-[250px] md:h-[300px] w-full object-cover transform transition-all duration-500 group-hover:scale-105'
+          className='h-[250px] md:h-[300px] w-full object-cover transform transition-all duration-300 group-hover:scale-105'
         />
       </div>
       {item?.productInventories[0].priceDiscount && (
@@ -29,32 +29,21 @@ function ProductItem({ item }: { item: ProductProp }) {
           %
         </span>
       )}
-      <div className='flex flex-col gap-2 sm:gap-[8px] pt-[16px] px-[16px] pb-[15px] sm:pb-[30px] bg-[#F4F5F7]'>
-        <span className='text-[#3A3A3A] font-semibold text-[24px] capitalize'>
+      <div className='flex flex-col mt-[3px]'>
+        <span className='text-sm capitalize'>
           {item.name}
         </span>
-        <div className='flex gap-2'>
-          {item.productCategories &&
-            item.productCategories.map((category) => (
-              <span
-                key={uuid()}
-                className='text-[#898989] text-[16px] capitalize'
-              >
-                {category.category.name}
-              </span>
-            ))}
-        </div>
         <div className='flex'>
           {item?.productInventories[0].priceDiscount && (
-            <span className='text-[#3A3A3A] text-[20px] font-semibold mr-[16px]'>
+            <span className=''>
               ${item?.productInventories[0].priceDiscount}
             </span>
           )}
           <span
             className={`${
               !item?.productInventories[0].priceDiscount
-                ? 'text-[#3A3A3A] text-[20px] font-semibold mr-[16px]'
-                : 'text-[#B0B0B0] text-[16px] line-through'
+                ? 'text-[#3A3A3A] mr-[16px]'
+                : 'text-[#B0B0B0]  line-through'
             }`}
           >
             ${item.productInventories[0].price}

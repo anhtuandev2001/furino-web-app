@@ -25,7 +25,7 @@ export default function FilterBarMobile({
   onSearch: any;
 }) {
   return (
-    <div className='mt-[10px] px-4 sticky top-0 bg-white z-10 sm:hidden'>
+    <div className='mt-[10px] px-4 sticky top-0 bg-white z-10 md:hidden'>
       <div className='flex border-2 rounded-[50px] bg-white'>
         <TextField
           id='outlined-basic'

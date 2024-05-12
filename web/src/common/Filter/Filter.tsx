@@ -1,88 +1,43 @@
-import { Button, TextField } from '@mui/material';
-import SelectCustom from '../SelectCustom/SelectCustom';
-import { CategoryProp } from '../../types/categories';
-import { limits, sorts } from '../../utils/constants/menu';
-import ComboBox from '../ComboBox/ComboBox';
-import CloseIcon from '@mui/icons-material/Close';
+import { Button } from '@mui/material';
+import { MdKeyboardArrowDown } from 'react-icons/md';
+import iconSort from '../../assets/icons/sort.png';
 
-function Filter({
-  count,
-  page,
-  limit,
-  sort,
-  keyword,
-  onChangeLimit,
-  onChangeSort,
-  categories,
-  categoryIds,
-  onChangeCategoriesSelected,
-  onChangeKeyword,
-  onCloseDrawer,
-}: {
-  count: number;
-  limit: number;
-  page: number;
-  keyword: string;
-  sort: string;
-  onChangeLimit: (value: number) => void;
-  onChangeSort: (value: string) => void;
-  categories: CategoryProp[];
-  categoryIds: { label: string; categoryId: number }[];
-  onChangeCategoriesSelected: (event: any) => void;
-  onChangeKeyword: (event: any) => void;
-  onCloseDrawer?: () => void;
-}) {
+function Filter({count}: {count: number}) {
   return (
-    <div className=''>
-      <div className='container mx-auto flex flex-col sm:flex-row h-screen sm:h-auto gap-4 px-4 sm:justify-between items-center py-[25px]'>
-        <div className='flex items-center gap-2 w-full sm:w-auto justify-between'>
-          <span>{`Showing ${
-            page == 1
-              ? `1-${limit > count ? count : limit}`
-              : `${limit * page - limit}-${
-                  page * limit > count ? count : page * limit
-                }`
-          } of ${count} results`}</span>
-          <Button
-            onClick={onCloseDrawer}
-            endIcon={
-              <CloseIcon
-                sx={{ color: 'black', display: { sx: 'block', sm: 'none' } }}
-              />
-            }
-          />
-        </div>
-        <TextField
-          id='outlined-basic'
-          label='Search'
-          variant='outlined'
-          className='w-full max-w-[300px]'
-          value={keyword}
-          onChange={onChangeKeyword}
-          sx={{ background: 'white', display: { xs: 'none', md: 'block' } }}
+    <div className='flex justify-between text-sm'>
+      <div className='gap-6 items-center hidden md:flex'>
+        <span>Filter:</span>
+        <Button className='flex gap-2 items-center'>
+          <span className='text-[14px] font-normal'>Avalability</span>
+          <MdKeyboardArrowDown size={20} />
+        </Button>
+        <Button className='flex gap-2 items-center'>
+          <span className='text-[14px] font-normal'>Avalability</span>
+          <MdKeyboardArrowDown size={20} />
+        </Button>
+        <Button className='flex gap-2 items-center'>
+          <span className='text-[14px] font-normal'>Avalability</span>
+          <MdKeyboardArrowDown size={20} />
+        </Button>
+      </div>
+      <div className='md:hidden gap-2 flex items-center'>
+        <img
+          src={iconSort}
+          alt='icon sort'
+          className='w-[20px] h-[20px]'
         />
-        <ComboBox
-          label='Categories'
-          list={categories.map((category) => ({
-            label: category.name,
-            categoryId: category.categoryId,
-          }))}
-          value={categoryIds}
-          onChange={onChangeCategoriesSelected}
-        />
-        <div className='flex gap-4 w-full sm:w-auto justify-between sm:justify-normal sm:items-center'>
-          <SelectCustom
-            onChange={onChangeLimit}
-            value={limit.toString()}
-            list={limits}
-            title='limit'
-          />
-          <SelectCustom
-            onChange={onChangeSort}
-            value={sort}
-            list={sorts}
-            title='sort'
-          />
+        <span>Filter and sort</span>
+      </div>
+      <div>
+        <div className='flex gap-6 items-center'>
+          <div className='hidden md:flex  gap-6 items-center'>
+            <span className=''>Sort by:</span>
+            <Button className='gap-2 items-center'>
+              <span className='text-[14px] font-normal'>Avalability</span>
+              <MdKeyboardArrowDown size={20} />
+            </Button>
+          </div>
+          <span>{count} products</span>
         </div>
       </div>
     </div>

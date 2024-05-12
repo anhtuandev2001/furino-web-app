@@ -215,6 +215,7 @@ function CartPreview({
                 variant='outlined'
                 disabled={select.length === 0}
                 onClick={() => {
+                  dispatch(cartActions.onHandleCheckout(select));
                   navigate('/checkout');
                   onClose();
                 }}

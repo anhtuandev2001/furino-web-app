@@ -5,15 +5,11 @@ function SkeletonProduct({ limit }: { limit: number }) {
     const skeletons = [];
     for (let i = 0; i < limit; i++) {
       skeletons.push(
-        <div key={i} className='flex flex-col gap-4'>
+        <div key={i} className='flex flex-col'>
           <Skeleton
             variant='rectangular'
             width={'100%'}
             height={300}
-          />
-          <Skeleton
-            height={30}
-            width={'30%'}
           />
           <Skeleton
             height={24}

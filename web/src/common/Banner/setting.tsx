@@ -2,7 +2,7 @@ import {
     CustomPrevArrow,
     CustomNextArrow,
     CustomDot,
-  } from '../../../common';
+  } from '..';
 import { ReactNode } from 'react';
 
 

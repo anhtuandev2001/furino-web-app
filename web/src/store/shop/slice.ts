@@ -13,7 +13,7 @@ import { CategoryState, ProductState, ShopInitialState } from './types';
 const initialState: ShopInitialState = {
   products: {
     data: [],
-    limit: 10,
+    limit: 12,
     page: 1,
     count: 0,
     sort: 'default',
@@ -62,10 +62,8 @@ export const shopSlice = createSlice({
       state.products.page += 1;
     },
     clearState(state) {
-      state.products.data = [];
-      state.products.limit = 10;
+      state.products.limit = 12;
       state.products.page = 1;
-      state.products.count = 0;
       state.products.sort = 'default';
     },
   },

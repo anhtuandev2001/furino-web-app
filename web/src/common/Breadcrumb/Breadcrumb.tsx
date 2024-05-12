@@ -10,14 +10,14 @@ interface BreadcrumbProps {
 function Breadcrumb({ part, title }: BreadcrumbProps) {
   return (
     <section
-      className='h-[250px] sm:h-[316px] justify-center items-center flex-col gap-1 object-cover hidden sm:flex'
+      className='h-[250px] md:h-[316px] justify-center items-center flex-col gap-1 object-cover hidden md:flex'
       style={{
         backgroundImage: `url(${navigation})`,
         backgroundPosition: 'center',
         backgroundSize: 'cover',
       }}
     >
-      <h1 className='text-[30px] sm:text-[48px] font-medium text-black'>
+      <h1 className='text-[30px] md:text-[48px] font-medium text-black'>
         {title}
       </h1>
       <div className='flex items-center gap-2'>

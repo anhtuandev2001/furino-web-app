@@ -1,4 +1,4 @@
-import { banner } from '../../../assets/images';
+import { banner } from '../../assets/images';
 
 interface BannerModal {
   id: number;

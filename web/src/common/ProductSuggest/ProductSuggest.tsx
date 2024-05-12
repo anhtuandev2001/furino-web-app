@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { ProductList } from '..';
 import { ProductProp } from '../../types/product';
 
-function ProductTitle({
+function ProductSuggest({
   title,
   products,
   limit,
@@ -16,7 +16,7 @@ function ProductTitle({
   status: string;
 }) {
   return (
-    <section className='container mx-auto'>
+    <section className='py-[65px]'>
       <h2 className='font-bold text-[#3A3A3A] text-[40px] text-center mt-[56px] mb-[32px]'>
         {title}
       </h2>
@@ -29,7 +29,7 @@ function ProductTitle({
         <Button sx={{ border: '1px solid #B88E2F', textTransform: 'unset' }}>
           <Link
             to='/shop'
-            className='text-primary font-semibold font-[Poppins] py-[12px] px-[82px]'
+            className='text-primary font-semibold py-[12px] px-[82px]'
           >
             Show More
           </Link>
@@ -39,4 +39,4 @@ function ProductTitle({
   );
 }
 
-export default ProductTitle;
+export default ProductSuggest;

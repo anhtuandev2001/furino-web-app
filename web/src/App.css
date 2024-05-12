@@ -1,7 +1,7 @@
 body {
   font-size: 16px;
   line-height: 1.5;
-  font-family: Poppins;
+  font-family: Assistant;
   font-weight: 400;
 }
 
@@ -19,9 +19,9 @@ body {
 }
 
 .MuiPagination-root .MuiPaginationItem-root {
-  background-color: #f9f1e7;
-  height: 60px;
-  width: 60px;
+  background-color: white;
+  height: 40px;
+  width: 40px;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -29,10 +29,11 @@ body {
   border: none;
   font-size: 20px;
   font-family: Poppins;
+  border: 1px solid #d8d8d8;
 }
 
 .MuiPagination-root .MuiPaginationItem-root.Mui-selected {
-  background-color: #b88e2f;
+  background-color: black;
   color: #fff;
   border: none;
 }
@@ -42,7 +43,7 @@ body {
 }
 
 .MuiPagination-root .MuiPagination-ul {
-  gap: 38px;
+  gap: 20px;
 }
 
 .MuiAutocomplete-option {

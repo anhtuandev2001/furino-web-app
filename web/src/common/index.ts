@@ -5,9 +5,7 @@ import CartPreview from './CartPreview/CartPreview';
 import Filter from './Filter/Filter';
 import FooterList from './FooterList/FooterList';
 import FormRadius from './FormRadius/FormRadius';
-import LoadingPage from './LoadingPage/LoadingPage';
-import Navbar from './Navbar/NavBar';
-import ProductTitle from './ProductTitle/ProductTitle';
+import ProductSuggest from './ProductSuggest/ProductSuggest';
 import ProductItem from './Products/ProductItem';
 import ProductList from './Products/ProductList';
 import SelectCustom from './SelectCustom/SelectCustom';
@@ -19,6 +17,9 @@ import ButtonCustom from './ButtonCustom/ButtonCustom';
 import HeaderMobile from './HeaderMobile/HeaderMobile';
 import CircularProgress from './CircularProgress/CircularProgress';
 import OrderSuccessPage from './OrderSuccessPage/OrderSuccessPage';
+import CustomizedBadges from './CustomizedBadges/CustomizedBadges';
+import HeadingPage from './HeadingPage/HeadingPage';
+import CartNotification from './CartNotification/CartNotification';
 
 export {
   Breadcrumb,
@@ -30,11 +31,9 @@ export {
   Filter,
   FooterList,
   FormRadius,
-  LoadingPage,
-  Navbar,
   ProductItem,
   ProductList,
-  ProductTitle,
+  ProductSuggest,
   SelectCustom,
   SimpleBottomNavigation,
   FilterBarMobile,
@@ -42,4 +41,7 @@ export {
   HeaderMobile,
   CircularProgress,
   OrderSuccessPage,
+  CustomizedBadges,
+  HeadingPage,
+  CartNotification,
 };

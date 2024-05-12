@@ -1,5 +1,5 @@
 import { combineReducers, type Action } from '@reduxjs/toolkit';
-import pagesReducer from '../page/slice';
+import commonReducer from '../common/slice';
 import productDetailSlice from '../productDetail/slice';
 import shopsReducer from '../shop/slice';
 import userSlice from '../user/slice';
@@ -10,7 +10,7 @@ import contactSlide from '../contact/slice';
 
 const appReducer = combineReducers({
   shops: shopsReducer,
-  pages: pagesReducer,
+  commons: commonReducer,
   productDetails: productDetailSlice,
   homes: homeSlice,
   carts: cartSlice,

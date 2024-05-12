@@ -3,11 +3,12 @@ import { Checkbox, Radio, Skeleton, TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 import * as Yup from 'yup';
-import { Breadcrumb, HeaderMobile, OrderSuccessPage } from '../../common';
+import { HeaderMobile, HeadingPage, OrderSuccessPage } from '../../common';
 import ComboBox from '../../common/ComboBox/ComboBox';
-import Commit from '../../common/Commit/Commit';
 import { selectCartSelected } from '../../store/cart/slice';
+import { commonActions, selectScreenWidth } from '../../store/common/slice';
 import {
   orderActions,
   selectDistrict,
@@ -35,9 +36,7 @@ function Checkout() {
   const status = useAppSelector(selectStatusCheckout);
   const user = useAppSelector(selectUser);
   const address = JSON.parse(user?.data.address || null);
-  const delivery = 5.0;
-
-  const screenWidth = window.innerWidth;
+  const screenWidth = useAppSelector(selectScreenWidth);
 
   const formik = useFormik({
     initialValues: {
@@ -130,25 +129,26 @@ function Checkout() {
     }
   }, [user]);
 
+  useEffect(() => {
+    dispatch(commonActions.setHiddenNavHeader(screenWidth < 768));
+    return () => {
+      dispatch(commonActions.setHiddenNavHeader(false));
+    };
+  }, [dispatch, screenWidth]);
+
   if (status === 'succeeded') {
     return <OrderSuccessPage />;
   }
 
   return (
-    <>
-      {screenWidth > 768 ? (
-        <Breadcrumb
-          title='Checkout'
-          part='checkout'
-        />
-      ) : (
-        <> </>
-      )}
-
-      <div className='container sm:mx-auto sm:mt-[98px] transition-all h-[100vh]'>
+    <div className='container mx-auto px-4'>
+      <div className='md:mt-[40px] transition-all h-[100vh]'>
         <HeaderMobile title='Checkout' />
-        <div className='flex flex-col sm:flex-row'>
-          <div className='sm:w-1/2'>
+        <div className='hidden md:block'>
+          <HeadingPage title='Checkout' continueShopping/>
+        </div>
+        <div className='flex flex-col md:flex-row gap-[40px]'>
+          <div className='md:w-1/2'>
             <Radio
               checked={selectedValue === 'old'}
               onChange={handleChange}
@@ -159,7 +159,7 @@ function Checkout() {
             />
             <span>Address Default</span>
             {user.status === 'loading' ? (
-              <div className='shadow-md rounded-xl mx-4'>
+              <div className='shadow-md rounded-xl'>
                 <div className='flex justify-between py-[10px] px-[20px] border-b-4 border-[#F0F0F0]'>
                   <Skeleton width={100} />
                   <Skeleton width={100} />
@@ -169,7 +169,7 @@ function Checkout() {
                 </div>
               </div>
             ) : (
-              <div className='shadow-md rounded-xl mx-4'>
+              <div className='shadow-md rounded-xl'>
                 <div className='flex justify-between py-[10px] px-[20px] border-b-4 border-[#F0F0F0]'>
                   <span className='text-[18px]'>
                     {address?.lastName + ' ' + address?.firstName || ''}
@@ -197,7 +197,7 @@ function Checkout() {
             </div>
             <div
               className={`flex flex-col gap-4 px-4 overflow-hidden transition-all ${
-                selectedValue === 'old' ? 'h-0' : 'h-auto'
+                selectedValue === 'old' ? 'h-0 md:h-auto' : 'h-auto'
               }`}
             >
               <div className='flex justify-between gap-4 mt-4'>
@@ -337,90 +337,71 @@ function Checkout() {
               </div>
             </div>
           </div>
-          <div className='sm:w-1/2 flex flex-col mb-[20px] flex-1 px-4 justify-between'>
-            <div className='flex gap-4 flex-col'>
-              <div className='flex justify-between'>
-                <span className='text-[24px] hidden sm:block font-medium'>
-                  Product
-                </span>
-                <span className='text-[24px] hidden sm:block font-medium'>
-                  Total
-                </span>
-              </div>
-              <div className='overflow-scroll'>
-                {cartSelected &&
-                  cartSelected.map((cart: any) => (
-                    <div
-                      key={cart.cartId}
-                      className='flex gap-7 shadow-md m-2 p-2 rounded-xl'
-                    >
-                      <img
-                        src={cart.productImage}
-                        alt='cart image'
-                        className='h-[100px] w-[100px]'
-                      />
-                      <div className='flex-1'>
-                        <span>{cart.productName}</span>
-                        <div className='flex flex-col'>
-                          <span>{`${cart.productColor.name}, ${cart.productSize.name}`}</span>
-                          <span>x{cart.quantity}</span>
+          <div>
+            <div className='text-sm flex text-subText pb-5 border-b-2 md:border-b md:grid md:grid-cols-12 gap-4'>
+              <span className='col-span-8'>PRODUCT</span>
+              <span className='hidden md:block md:col-span-1'>QUANTITY</span>
+              <span className='md:col-span-2 text-right flex-1'>TOTAL</span>
+            </div>
+            <div className='flex flex-col gap-10 my-10 border-b pb-10'>
+              {cartSelected.map((cart: any) => (
+                <div
+                  className='flex gap-4 md:grid md:grid-cols-12'
+                  key={uuidv4()}
+                >
+                  <img
+                    src={cart.productImage}
+                    alt='product'
+                    className='h-[74px] w-[74px] object-cover md:w-[100px] md:h-[100px] md:col-span-1'
+                  />
+                  <div className='flex md:ml-6 flex-col gap-2 md:col-span-9 md:grid md:grid-cols-9 md:gap-0 flex-1'>
+                    <div className='md:col-span-7'>
+                      <h3>{cart.productName}</h3>
+                      <span className='text-sm text-subText'>
+                        {`Color: ${cart.productColor.name}, Size: ${cart.productSize.name}`}
+                      </span>
+                    </div>
+                    <div className='flex gap-2 md:col-span-2'>
+                      <div>
+                        <div className='flex items-center gap-2'>
+                          x{cart.quantity}
                         </div>
                       </div>
-                      <span>{cart.price}$</span>
                     </div>
-                  ))}
-              </div>
-              <div className='flex flex-col justify-between p-4 shadow-md rounded-xl'>
-                <div className='flex justify-between'>
-                  <span className='text-[#909090] text-[18px]'>Order:</span>
-                  <span>
-                    {cartSelected &&
-                      cartSelected.reduce(
-                        (acc: any, item: any) =>
-                          Number(acc) + item.quantity * Number(item.price),
-                        0
-                      )}
-                    $
+                  </div>
+
+                  <span className='col-span-1 text-right'>
+                    ${cart.price * cart.quantity}
                   </span>
                 </div>
-                <div className='flex justify-between'>
-                  <span className='text-[#909090] text-[18px]'>Delivery:</span>
-                  <span className=''>{delivery}$</span>
-                </div>
-                <div className='flex justify-between'>
-                  <span className='text-[#909090] text-[18px]'>Total:</span>
-                  <span className=''>
-                    {cartSelected &&
-                      cartSelected.reduce(
-                        (acc: any, item: any) =>
-                          Number(acc) + item.quantity * Number(item.price),
-                        0
-                      ) + delivery}
-                    $
-                  </span>
-                </div>
-              </div>
+              ))}
             </div>
-            <div className='flex justify-center sm:justify-end pb-5'>
+            <div className='mt-8 flex gap-4 flex-col justify-center md:items-end text-center md:text-right'>
+              <h3>
+                Subtotal: $
+                {cartSelected.reduce(
+                  (acc: number, item: { price: number; quantity: number }) =>
+                    acc + item.price * item.quantity,
+                  0
+                )}
+              </h3>
+              <h4 className='text-sm'>
+                Taxes and shipping calculated at checkout
+              </h4>
               <LoadingButton
                 loading={status === 'loading'}
-                sx={{
-                  width: { xs: '100%', sm: 'fit-content' },
-                  marginTop: '20px',
-                  backgroundColor: 'black',
-                  color: 'white',
-                }}
-                onClick={handleSubmit}
                 variant='contained'
+                className='md:w-[360px]'
+                sx={{ marginBottom: '40px' }}
+                onClick={handleSubmit}
               >
-                Checkout
+                Pay now
               </LoadingButton>
             </div>
           </div>
         </div>
       </div>
-      {screenWidth > 768 ? <Commit /> : <></>}
-    </>
+    </div>
   );
 }
 

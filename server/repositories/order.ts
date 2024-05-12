@@ -89,7 +89,7 @@ const insertOrder = async ({
     );
 
     const totalPrice = cartFound.reduce(
-      (total: number, cart: any) => total + cart.price,
+      (total: number, cart: any) => Number(total) + Number(cart.price),
       0
     );
 

@@ -4,14 +4,14 @@ import { v4 as uuidv4 } from 'uuid';
 
 function Category() {
   return (
-    <section className='mt-[56px] container mx-auto'>
+    <section className='mt-[56px]'>
       <h2 className='font-bold text-[32px] text-[#333333] text-center'>
         Browse The Range
       </h2>
       <p className='text-[20px] text-[#666666] text-center'>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       </p>
-      <div className='flex-col pr-4 pl-4 sm:p-0 sm:flex-row flex gap-[20px] mt-[62px]'>
+      <div className='flex-col pr-4 pl-4 md:p-0 md:flex-row flex gap-[20px] mt-[62px]'>
         {data.map((item) => (
           <Link
             to={item.link}
