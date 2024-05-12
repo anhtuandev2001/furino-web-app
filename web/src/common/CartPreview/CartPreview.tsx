@@ -48,7 +48,7 @@ function CartPreview({
   useEffect(() => {
     dispatch(cartActions.getCarts());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
+  }, []);
 
   return (
     <div>
