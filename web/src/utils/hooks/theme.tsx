@@ -17,8 +17,8 @@ export const theme = createTheme({
           border: '1px solid black',
           color: 'black',
           '&:hover': {
-            color: 'white',
-            backgroundColor: 'black',
+            color: {xs: 'black', sm:'white'},
+            backgroundColor: {sm:'black', xs: 'white'},
             borderColor: 'black',
           },
         },

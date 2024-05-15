@@ -16,7 +16,7 @@ function ProductSuggest({
   status: string;
 }) {
   return (
-    <section className='py-[65px]'>
+    <section className='py-[65px] container'>
       <h2 className='font-bold text-[#3A3A3A] text-[40px] text-center mt-[56px] mb-[32px]'>
         {title}
       </h2>

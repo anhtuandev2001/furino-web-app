@@ -27,7 +27,7 @@ function OrderDetail() {
   const delivery = 5.0;
 
   return (
-    <div>
+    <div className='container'>
       <HeaderMobile title='Order Detail' />
       {status === 'loading' ? (
         <div className='px-4 flex flex-col gap-[30px]'>

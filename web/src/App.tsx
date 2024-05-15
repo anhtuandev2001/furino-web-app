@@ -24,7 +24,7 @@ function App() {
   return (
     <div className='pb-20 md:pb-0'>
       <Header />
-      <main className='container mx-auto px-4 mt-[61px]'>
+      <main className='mt-[61px]'>
         <Outlet />
       </main>
       <Footer />

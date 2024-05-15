@@ -2,7 +2,6 @@ import { IconButton } from '@mui/material';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -119,24 +118,12 @@ const Header = () => {
         <div>
           <div className='py-3 md:py-0  container mx-auto'>
             <div className='grid grid-cols-3 items-center'>
-              <Typography
-                variant='h5'
-                noWrap
-                component='a'
-                className='col-start-2 flex col-span-1 md:col-start-1 items-center'
-                href='/'
-                sx={{
-                  mr: 2,
-                  flexGrow: 1,
-                  fontFamily: 'monospace',
-                  fontWeight: 600,
-                  letterSpacing: '.3rem',
-                  color: 'inherit',
-                  textDecoration: 'none',
-                }}
+              <Link
+                to='/'
+                className='col-start-2 flex col-span-1 font-[monospace] md:col-start-1 items-center text-[27px] font-semibold letter-spacing-[0.3rem] text-black hover:text-black hover:no-underline'
               >
                 FURINO
-              </Typography>
+              </Link>
               <div className='flex-grow hidden md:flex justify-center'>
                 {links.map((page) => (
                   <Button

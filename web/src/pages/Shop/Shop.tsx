@@ -81,7 +81,7 @@ function Shop() {
   // }, [dispatch, keyword]);
 
   return (
-    <div>
+    <div className='container'>
       <HeadingPage title='Shop' />
       <Filter count={products.data.length} />
 

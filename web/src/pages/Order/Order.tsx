@@ -26,7 +26,7 @@ function Order() {
   }, [dispatch]);
 
   return (
-    <div>
+    <div className='container'>
       <HeaderMobile title='Order' />
       <div className='px-4 flex flex-col'>
         <TabContext value={value}>

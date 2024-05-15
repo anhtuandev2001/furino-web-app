@@ -49,7 +49,7 @@ function Contact() {
   }, [formik, status]);
 
   return (
-    <>
+    <div className='container'>
       <Breadcrumb
         title='Contact'
         part='contact'
@@ -157,7 +157,7 @@ function Contact() {
         </div>
       </div>
       <Commit />
-    </>
+    </div>
   );
 }
 

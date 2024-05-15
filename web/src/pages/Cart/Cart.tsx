@@ -49,9 +49,6 @@ function Cart() {
     setSelectAll(false);
   };
 
-  console.log(select);
-  
-
   const handleCheckout = () => {
     dispatch(cartActions.onHandleCheckout(select));
     navigate('/checkout');
@@ -74,7 +71,7 @@ function Cart() {
   }, [selectAll, carts.data, select.length]);
 
   return (
-    <div className='h-full flex flex-col'>
+    <div className='h-full flex flex-col container'>
       <HeadingPage
         title='Your cart'
         continueShopping
