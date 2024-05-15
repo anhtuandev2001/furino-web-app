@@ -34,6 +34,9 @@ const getProducts = async (
       whereCategory.categoryId = categoryIds;
     }
 
+    console.log(sort);
+    
+
     const products = await Product.findAll({
       where: whereCondition,
       order:
@@ -85,6 +88,7 @@ const getProducts = async (
         {
           model: ProductInventory,
           attributes: ['quantity', 'sold', 'price', 'priceDiscount'],
+          order: [['productSizeId', 'ASC']],
           include: [
             {
               model: ProductSize,
@@ -92,7 +96,7 @@ const getProducts = async (
             },
             {
               model: ProductColor,
-              attributes: ['productColorId', 'hex'],
+              attributes: ['productColorId', 'hex', 'name'],
             },
           ],
         },
@@ -106,7 +110,7 @@ const getProducts = async (
         },
       ],
     });
-    
+
     const count = await Product.findAll({
       where: whereCondition,
       include: [
@@ -161,6 +165,7 @@ const getProductById = async (productId: number) => {
         },
         {
           model: ProductInventory,
+          order: [['productSizeId', 'ASC']],
           attributes: ['quantity', 'sold', 'price', 'priceDiscount'],
           include: [
             {
@@ -169,7 +174,7 @@ const getProductById = async (productId: number) => {
             },
             {
               model: ProductColor,
-              attributes: ['productColorId', 'hex'],
+              attributes: ['productColorId', 'hex', 'name'],
             },
           ],
         },
@@ -209,7 +214,7 @@ const insertProduct = async ({
       ProductSize.count(),
       ProductColor.count(),
     ]);
-    
+
     if (productSizeLength === 0) {
       await ProductSize.bulkCreate(sizes, { transaction: t });
     }

@@ -13,6 +13,8 @@ const onHandleCheckout = function* () {
 
 // Watcher Saga
 function* cartWatcherSaga(): SagaIterator {
+  yield takeLatest(cartActions.onHandleUpdateCart.fulfilled, onHandleAddToCart);
+  yield takeLatest(cartActions.onHandDeleteCart.fulfilled, onHandleAddToCart);
   yield takeLatest(cartActions.onHandleAddToCart.fulfilled, onHandleAddToCart);
   yield takeLatest(orderActions.onHandleCheckout.fulfilled, onHandleCheckout);
 }

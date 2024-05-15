@@ -4,6 +4,8 @@ import noProduct from '../../assets/images/noProducts.jpg';
 import { ProductProp } from '../../types/product';
 import ProductItem from './ProductItem';
 import SkeletonProduct from './SkeletonProduct';
+import { useAppDispatch } from '../../store/root/hooks';
+import { productDetailActions } from '../../store/productDetail/slice';
 
 function ProductList({
   products,
@@ -18,6 +20,10 @@ function ProductList({
   loadMoreData?: () => void;
   hasMore?: boolean;
 }) {
+  const dispatch = useAppDispatch();
+  const handleSetProductDetail = (item: ProductProp) => {
+    dispatch(productDetailActions.onSetProductDetail(item));
+  };
   if (
     status === 'failed' ||
     (status === 'succeeded' && products.length === 0)
@@ -60,6 +66,7 @@ function ProductList({
               <ProductItem
                 key={uuid()}
                 item={item}
+                onSetProductDetail={handleSetProductDetail}
               />
             ))
           )}

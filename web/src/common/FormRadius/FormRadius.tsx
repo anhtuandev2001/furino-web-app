@@ -1,7 +1,7 @@
-import { Skeleton } from '@mui/material';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { v4 as uuidv4 } from 'uuid';
+import './style.scss';
 
 interface FormRadiusProps {
   alignment: string;
@@ -11,7 +11,6 @@ interface FormRadiusProps {
   ) => void;
   list?: any[];
   sx?: any;
-  style?: any;
   title: string;
 }
 
@@ -20,66 +19,39 @@ function FormRadius({
   onChange,
   list,
   sx,
-  style,
   title,
 }: FormRadiusProps) {
 
   return (
-    <div className='h-[70px]'>
-      <span className='text-[14px] text-[#9F9F9F] block'>{title}</span>
-      {list && list.length > 0 ? (
+    <div className=''>
+      <span className='text-[13px] block'>{title}</span>
+      {list && list.length > 0 && (
         <ToggleButtonGroup
           color='primary'
           value={alignment}
           exclusive
           onChange={onChange}
           aria-label='Platform'
-          sx={{ gap: '16px', marginTop: '12px' }}
+          sx={{ gap: '16px', marginTop: '12px', flexWrap: 'wrap'}}
         >
           {list.map((item) => (
             <ToggleButton
+              style={{ borderRadius: '50px', border: '1px solid #000000' }}
               key={uuidv4()}
               value={item.productColorId || item.productSizeId}
               sx={{
-                border: 'none',
-                height: '30px',
-                width: '30px',
-                padding: 0,
-                ...(item.disable
-                  ? { pointerEvents: 'none', opacity: 0.5 }
-                  : {}),
-                ...(item.hex
-                  ? {
-                      backgroundColor: item.hex,
-                      '&.Mui-selected': {
-                        backgroundColor: item.hex,
-                        '&::before': {
-                          content: '"✔"',
-                          color: 'black',
-                        },
-                      },
-                      '&.Mui-selected:hover': {
-                        backgroundColor: item.hex,
-                      },
-                      '&:hover': {
-                        backgroundColor: item.hex,
-                      },
-                    }
-                  : {}),
+                padding: '8px 12px',
+                minWidth: '100px',
+                textTransform: 'capitalize',
+                border: '1px solid black',
+                ...(item.disable && { pointerEvents: 'none', opacity: 0.5 }),
                 ...sx,
               }}
-              style={style}
             >
               {item?.name}
             </ToggleButton>
           ))}
         </ToggleButtonGroup>
-      ) : (
-        <Skeleton
-          variant='rectangular'
-          width={150}
-          height={30}
-        />
       )}
     </div>
   );

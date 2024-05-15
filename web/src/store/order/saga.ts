@@ -1,6 +1,8 @@
 import { put, select, takeEvery } from 'redux-saga/effects';
-import { orderActions, selectOrder } from './slice';
+import { cartActions } from '../cart/slice';
+import { shopActions } from '../shop/slice';
 import { userActions } from '../user/slice';
+import { orderActions, selectOrder } from './slice';
 
 // Worker Saga
 function* onGetDistrict() {
@@ -23,6 +25,16 @@ function* onChangeStatusOrder(): Generator<any, void, any> {
 
 function* onHandleCheckout() {
   yield put(userActions.getUser());
+  yield put(cartActions.getCarts());
+  yield put(cartActions.getTotalQuantity());
+  yield put(
+    shopActions.getProductOfShopPage({
+      limitUrl: null,
+      pageUrl: null,
+      keywordUrl: null,
+      categoriesUrl: null,
+    })
+  );
 }
 
 // Watcher Saga

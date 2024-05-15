@@ -19,7 +19,7 @@ function Suggest() {
   return (
     <section className='flex bg-[#FCF8F3] mt-[70px] w-full'>
       <div className='flex flex-col px-4 md:px-0 md:flex-row py-[44px] items-center gap-4 w-full'>
-        <div className='flex flex-col md:w-1/3'>
+        <div className='flex px-[20px] flex-col md:w-1/3'>
           <h2 className='text-[#3A3A3A] text-[40px] font-bold'>
             50+ Beautiful rooms inspiration
           </h2>

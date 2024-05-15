@@ -10,6 +10,7 @@ export const theme = createTheme({
         root: {
           fontSize: '16px',
           fontWeight: 400,
+          padding: '16px',
           textTransform: 'capitalize',
         },
         outlined: {

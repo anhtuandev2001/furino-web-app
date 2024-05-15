@@ -3,11 +3,18 @@ import { Link } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 import { ProductProp } from '../../types/product';
 
-function ProductItem({ item }: { item: ProductProp }) {
+function ProductItem({
+  item,
+  onSetProductDetail,
+}: {
+  item: ProductProp;
+  onSetProductDetail: (item: ProductProp) => void;
+}) {
   return (
     <Link
       to={`/shop/product/${item.productId}`}
       key={uuid()}
+      onClick={() => onSetProductDetail(item)}
       className='flex flex-col relative group rounded'
     >
       <div className='group-hover:shadow-xl overflow-hidden transition-all duration-300 relative z-20'>
@@ -30,9 +37,7 @@ function ProductItem({ item }: { item: ProductProp }) {
         </span>
       )}
       <div className='flex flex-col mt-[3px]'>
-        <span className='text-sm capitalize'>
-          {item.name}
-        </span>
+        <span className='text-sm capitalize'>{item.name}</span>
         <div className='flex'>
           {item?.productInventories[0].priceDiscount && (
             <span className=''>

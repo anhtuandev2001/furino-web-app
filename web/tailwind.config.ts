@@ -2,6 +2,18 @@
 export default {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
+    screens: {
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+      '2xl': '1280px',
+    },
+    container: {
+      maxWidth: {
+        '2xl': '1280px', // Override default max-width for xl breakpoint
+      },
+    },
     extend: {
       colors: {
         primary: '#B88E2F',

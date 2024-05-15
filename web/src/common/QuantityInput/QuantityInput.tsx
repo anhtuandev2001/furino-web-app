@@ -6,14 +6,13 @@ export default function QuantityInput({
   update,
 }: {
   value: number;
-  onChange: any;
-  update: any;
-  cartId: number;
+  onChange?: any;
+  update?: any;
 }) {
   return (
-    <div className='flex border border-[#D0D0D0] items-center md:gap-8 gap-2 py-3 md:w-[160px]'>
+    <div className='flex border border-[#D0D0D0] items-center justify-between gap-2 p-3 w-[138px]'>
       <IconButton
-        disabled={value === 1 || update.status === 'loading'}
+        disabled={value === 1 || update?.status === 'loading' || !onChange}
         onClick={() => {
           onChange(value - 1);
         }}
@@ -33,7 +32,7 @@ export default function QuantityInput({
       </IconButton>
       <span className='text-subText'>{value}</span>
       <IconButton
-        disabled={update.status === 'loading' || value === 100}
+        disabled={update?.status === 'loading' || value === 100 || !onChange}
         onClick={() => {
           onChange(value + 1);
         }}

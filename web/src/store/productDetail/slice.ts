@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { BASE_URL } from '../../utils/constants/strapi';
 import { ipaCall } from '../../utils/hooks/apiCall';
@@ -8,6 +8,7 @@ import {
   ProductDetailState,
   ProductsDetailState,
 } from './types';
+import { ProductProp } from '../../types/product';
 
 const initialState: ProductDetailInitialState = {
   product: {
@@ -39,7 +40,16 @@ const initialState: ProductDetailInitialState = {
 export const productDetailSlice = createSlice({
   name: 'productDetails',
   initialState,
-  reducers: {},
+  reducers: {
+    onSetProductDetail(state, action) {
+      state.product.data = action.payload;
+      state.product.status = 'succeeded';
+    },
+    clearState(state) {
+      state.product = initialState.product;
+      state.productSuggestion = initialState.productSuggestion;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(productDetailActions.getProduct.pending, (state) => {
@@ -91,6 +101,9 @@ export const productDetailActions = {
       }
     }
   ),
+  onSetProductDetail: createAction<ProductProp>(
+    `${productDetailSlice.name}/onSetProductDetail`
+  ),
   getProductSuggestions: createAsyncThunk(
     `${productDetailSlice.name}/getProductSuggestions`,
     async (productId: number, thunkAPI) => {
@@ -106,6 +119,7 @@ export const productDetailActions = {
       }
     }
   ),
+  clearState: createAction(`${productDetailSlice.name}/clearState`),
 };
 
 // Selectors
