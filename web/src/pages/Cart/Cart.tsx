@@ -164,7 +164,6 @@ function Cart() {
                           <QuantityInput
                             value={cart.quantity}
                             update={actions.update}
-                            cartId={cart.cartId}
                             onChange={(value: any) => {
                               handleChangeQuantity(value, cart.cartId);
                             }}
