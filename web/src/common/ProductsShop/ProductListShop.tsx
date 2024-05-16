@@ -2,12 +2,11 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { v4 as uuid } from 'uuid';
 import noProduct from '../../assets/images/noProducts.jpg';
 import { ProductProp } from '../../types/product';
-import ProductItem from './ProductItem';
-import SkeletonProduct from './SkeletonProduct';
 import { useAppDispatch } from '../../store/root/hooks';
 import { productDetailActions } from '../../store/productDetail/slice';
+import { ProductSkeleton, ProductItem } from '../index';
 
-function ProductList({
+function ProductListShop({
   products,
   limit,
   status,
@@ -22,7 +21,7 @@ function ProductList({
 }) {
   const dispatch = useAppDispatch();
   const handleSetProductDetail = (item: ProductProp) => {
-    dispatch(productDetailActions.onSetProductDetail(item));
+    dispatch(productDetailActions.getProduct(item.productId));
   };
   if (
     status === 'failed' ||
@@ -46,7 +45,7 @@ function ProductList({
         loader={
           status === 'loading' && (
             <div className='grid gap-[20px] grid-cols-2 mt-[20px] md:grid-cols-4 md:p-4'>
-              <SkeletonProduct limit={2} />
+              <ProductSkeleton limit={2} />
             </div>
           )
         }
@@ -60,7 +59,7 @@ function ProductList({
         <div className='grid gap-x-[10px] gap-y-[24px] grid-cols-2 md:grid-cols-4 justify-center'>
           {(status === 'loading' && window.innerWidth > 600) ||
           (status === 'loading' && products.length === 0) ? (
-            <SkeletonProduct limit={limit} />
+            <ProductSkeleton limit={limit} />
           ) : (
             products.map((item) => (
               <ProductItem
@@ -76,4 +75,4 @@ function ProductList({
   );
 }
 
-export default ProductList;
+export default ProductListShop;

@@ -25,12 +25,6 @@ export default {
       bg: {
         primary: '#B88E2F',
       },
-      extend: {
-        boxShadow: {
-          'custom-1':
-            '-1rem -1rem 1rem -1rem rgba(0, 0, 0, 0.13), 1rem 1rem 1rem -1rem rgba(0, 0, 0, 0.13), 0 0 0.5rem rgba(255, 255, 255, 0), 0 2rem 3.5rem -2rem rgba(0, 0, 0, 0.5)',
-        },
-      },
     },
   },
   plugins: [],

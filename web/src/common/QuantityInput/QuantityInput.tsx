@@ -45,8 +45,8 @@ export default function QuantityInput({
           fill='none'
         >
           <path
-            fill-rule='evenodd'
-            clip-rule='evenodd'
+            fillRule='evenodd'
+            clipRule='evenodd'
             d='M10.5 9.5V5.5H9.5L9.5 9.5H5.5V10.5H9.5L9.5 14.5H10.5V10.5H14.5V9.5H10.5Z'
             fill='black'
           />

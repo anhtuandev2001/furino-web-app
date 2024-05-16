@@ -1,10 +1,11 @@
+import { Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
-import { ButtonLink } from '..';
+import { v4 as uuidv4 } from 'uuid';
 import { data } from './mocksData';
 import { settings } from './setting';
-import { v4 as uuidv4 } from 'uuid';
 
 function Banner() {
   return (
@@ -20,26 +21,25 @@ function Banner() {
               alt=''
               className='w-full h-full absolute bottom-0 left-0 right-0 top-0 object-cover'
             />
-            <div className='flex right-10 left-10 bot flex-col absolute z-10 max-w-[643px] bg-white top-1/2 -translate-y-1/2 md:-translate-x-1/2 p-[20px] md:left-1/2 md:pt-[60px] md:pb-[40px] md:px-[40px] rounded-sm'>
+            <div className='flex right-10 bot flex-col absolute z-10 w-[300px] md:w-auto md:max-w-[643px] bg-white top-1/2 -translate-y-1/2 -translate-x-1/2 p-[20px] left-1/2 md:pt-[60px] md:pb-[40px] md:px-[40px] rounded-sm'>
               <span className='font-semibold text-[#333333] tracking-[3px]'>
                 {item.supTitle}
               </span>
-              <h2 className='text-primary text-[24px] md:text-[52px] font-bold mt-[4px]'>
+              <h2 className='text-[24px] md:text-[52px] font-bold mt-[4px]'>
                 {item.title}
               </h2>
               <p className='text-[14px] md:text-[18px] text-[#333333] font-medium pt-[17px]'>
                 {item.description}
               </p>
               <div className='flex justify-end'>
-                <ButtonLink
-                  link={item.link}
-                  sx={{
-                    marginTop: { md: '46px', xs: '20px' },
-                    padding: '25px 72px',
-                  }}
+                <Button
+                  component={Link}
+                  to='/shop'
+                  sx={{ marginTop: '20px' }}
+                  variant='contained'
                 >
-                  BUY NOW
-                </ButtonLink>
+                  Buy Now
+                </Button>
               </div>
             </div>
           </div>

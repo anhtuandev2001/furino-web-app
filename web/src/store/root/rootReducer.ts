@@ -7,6 +7,7 @@ import cartSlice from '../cart/slice';
 import homeSlice from '../home/slice';
 import checkoutSlide from '../order/slice';
 import contactSlide from '../contact/slice';
+import searchSlice from '../search/slice';
 
 const appReducer = combineReducers({
   shops: shopsReducer,
@@ -17,6 +18,7 @@ const appReducer = combineReducers({
   users: userSlice,
   checkouts: checkoutSlide,
   contacts: contactSlide,
+  search: searchSlice,
 });
 
 const rootReducer = (

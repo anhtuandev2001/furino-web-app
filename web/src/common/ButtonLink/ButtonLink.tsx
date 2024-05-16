@@ -16,7 +16,6 @@ const ButtonLink: React.FC<ButtonLinkProps> = ({ children, link, sx }) => {
       sx={{
         width: 'fit-content',
         color: 'white',
-        background: '#B88E2F',
         borderRadius: '0',
         ':hover': {
           background: '#ddaf48',

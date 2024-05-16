@@ -1,4 +1,4 @@
-import { banner } from '../../assets/images';
+import { banner, backgroundShop1, backgroundShop2 } from '../../assets/images';
 
 interface BannerModal {
   id: number;
@@ -21,20 +21,20 @@ export const data: BannerModal[] = [
   },
   {
     id: 2,
-    image: banner,
-    title: 'Discover Our New Collection',
-    supTitle: 'New Arrival',
+    image: backgroundShop1,
+    title: 'Explore Our Summer Collection',
+    supTitle: 'Summer Special',
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis.',
+      'Dive into our exclusive summer collection. Ut elit tellus, luctus nec ullamcorper mattis.',
     link: '/shop',
   },
   {
     id: 3,
-    image: banner,
-    title: 'Discover Our New Collection',
-    supTitle: 'New Arrival',
+    image: backgroundShop2,
+    title: 'Unveiling Our Winter Collection',
+    supTitle: 'Winter Arrival',
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis.',
+      'Get ready for winter with our new collection. Ut elit tellus, luctus nec ullamcorper mattis.',
     link: '/shop',
   },
 ];

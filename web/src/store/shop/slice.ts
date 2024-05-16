@@ -74,22 +74,21 @@ export const shopSlice = createSlice({
         state.products.status = 'loading';
       })
       .addCase(shopActions.getProducts.fulfilled, (state, action) => {
-        const { products, categoryIds }: any = action.payload;
+        const { products }: any = action.payload;
         state.products = products;
-        state.categoryIds = categoryIds;
       })
       .addCase(shopActions.getProducts.rejected, (state, action) => {
         state.products.status = 'failed';
         state.products.error = action.error.message as string;
       })
-      .addCase(shopActions.getCategory.pending, (state) => {
+      .addCase(shopActions.getCategories.pending, (state) => {
         state.categories.status = 'loading';
       })
-      .addCase(shopActions.getCategory.fulfilled, (state, action) => {
+      .addCase(shopActions.getCategories.fulfilled, (state, action) => {
         state.categories.status = 'succeeded';
         state.categories.data = action.payload;
       })
-      .addCase(shopActions.getCategory.rejected, (state, action) => {
+      .addCase(shopActions.getCategories.rejected, (state, action) => {
         state.categories.status = 'failed';
         state.categories.error = action.error.message as string;
       })
@@ -144,13 +143,10 @@ export const shopActions = {
           keyword: keywordUrl || keyword,
           categoryIds: categoriesUrl
             ? categoriesUrl.split(',').map((item: any) => Number(item))
-            : categoryIds.map((item: any) => item.categoryId),
+            : categoryIds,
         });
 
         if (products) {
-          const categories: any = selectCategories(
-            thunkAPI.getState() as RootState
-          );
           return {
             products: {
               data: products.data,
@@ -162,16 +158,6 @@ export const shopActions = {
               status: 'succeeded',
               error: products.data.length < limit ? 'No products' : '',
             },
-            categoryIds: categoriesUrl
-              ? categories.data
-                  .map((item: any) => ({
-                    label: item.name,
-                    categoryId: item.categoryId,
-                  }))
-                  .filter((item: any) =>
-                    categoriesUrl.includes(item.categoryId)
-                  )
-              : categoryIds,
           };
         }
         return null;
@@ -225,7 +211,7 @@ export const shopActions = {
       }
     }
   ),
-  getCategory: createAsyncThunk(
+  getCategories: createAsyncThunk(
     `${shopSlice.name}/categories`,
     async (_payload, thunkAPI) => {
       try {

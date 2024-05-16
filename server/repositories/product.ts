@@ -34,9 +34,6 @@ const getProducts = async (
       whereCategory.categoryId = categoryIds;
     }
 
-    console.log(sort);
-    
-
     const products = await Product.findAll({
       where: whereCondition,
       order:
@@ -487,6 +484,41 @@ const getCarts = async (carts: CartProp[]) => {
   }
 };
 
+const searchProduct = async ({
+  keyword,
+  limit,
+}: {
+  keyword: string;
+  limit: number;
+}) => {
+  try {
+    const products = await Product.findAll({
+      limit: limit,
+      where: {
+        name: {
+          [Op.iLike]: `%${keyword}%`,
+        },
+      },
+      include: [
+        {
+          model: ProductGeneralImage,
+          limit: 1,
+          attributes: ['image'],
+        },
+        {
+          model: ProductInventory,
+          limit: 1,
+        },
+      ],
+      attributes: ['productId', 'name'],
+    });
+
+    return products;
+  } catch (exception: any) {
+    throw new Error(exception.message);
+  }
+};
+
 export default {
   getProducts,
   insertProduct,
@@ -495,4 +527,5 @@ export default {
   updateProduct,
   getCount,
   getCarts,
+  searchProduct,
 };

@@ -130,6 +130,20 @@ async function getCarts(req: Request, res: Response) {
   }
 }
 
+const searchProduct = async (req: Request, res: Response) => {
+  try {
+    const keyword = req.params.keyword;
+    const { limit } = req.query;
+    const products = await productRepository.searchProduct({
+      keyword,
+      limit: Number(limit),
+    });
+    res.status(HttpStatusCode.OK).json(products);
+  } catch (exception: any) {
+    res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json(exception.toString());
+  }
+};
+
 export default {
   getProducts,
   updateProduct,
@@ -138,4 +152,5 @@ export default {
   getProductById,
   getCount,
   getCarts,
+  searchProduct,
 };

@@ -27,14 +27,6 @@ function* onHandleCheckout() {
   yield put(userActions.getUser());
   yield put(cartActions.getCarts());
   yield put(cartActions.getTotalQuantity());
-  yield put(
-    shopActions.getProductOfShopPage({
-      limitUrl: null,
-      pageUrl: null,
-      keywordUrl: null,
-      categoriesUrl: null,
-    })
-  );
 }
 
 // Watcher Saga

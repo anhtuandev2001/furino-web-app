@@ -9,3 +9,4 @@ export { default as Order } from './Order/Order';
 export { default as OrderDetail } from './OrderDetail/OrderDetail';
 export { default as User } from './User/User';
 export { default as Contact } from './Contact/Contact';
+export { default as Search } from './Search/Search';

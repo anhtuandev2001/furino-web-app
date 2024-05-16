@@ -24,18 +24,19 @@ function ProductItem({
           className='h-[250px] md:h-[300px] w-full object-cover transform transition-all duration-300 group-hover:scale-105'
         />
       </div>
-      {item?.productInventories[0].priceDiscount && (
-        <span className='absolute top-[24px] right-[24px] w-[48px] h-[48px] flex items-center justify-center bg-[#E97171] rounded-full font-medium text-white animate-bounce'>
-          -
-          {Math.floor(
-            ((item.productInventories[0].price -
-              item?.productInventories[0].priceDiscount) /
-              item.productInventories[0].price) *
-              100
-          )}
-          %
-        </span>
-      )}
+      {item?.productInventories[0] &&
+        item?.productInventories[0]?.priceDiscount && (
+          <span className='absolute top-[24px] right-[24px] w-[48px] h-[48px] flex items-center justify-center bg-[#E97171] rounded-full font-medium text-white animate-bounce'>
+            -
+            {Math.floor(
+              ((item.productInventories[0].price -
+                item?.productInventories[0].priceDiscount) /
+                item.productInventories[0].price) *
+                100
+            )}
+            %
+          </span>
+        )}
       <div className='flex flex-col mt-[3px]'>
         <span className='text-sm capitalize'>{item.name}</span>
         <div className='flex'>

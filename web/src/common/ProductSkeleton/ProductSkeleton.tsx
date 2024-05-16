@@ -1,6 +1,6 @@
 import { Skeleton } from '@mui/material';
 
-function SkeletonProduct({ limit }: { limit: number }) {
+function ProductSkeleton({ limit }: { limit: number }) {
   const renderSkeletons = () => {
     const skeletons = [];
     for (let i = 0; i < limit; i++) {
@@ -28,4 +28,4 @@ function SkeletonProduct({ limit }: { limit: number }) {
   return <>{renderSkeletons()}</>;
 }
 
-export default SkeletonProduct;
+export default ProductSkeleton;

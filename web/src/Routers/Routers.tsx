@@ -10,6 +10,7 @@ import {
   Order,
   OrderDetail,
   ProductDetail,
+  Search,
   Shop,
   SignUp,
   User,
@@ -56,6 +57,11 @@ const Routers = () => {
         <Route
           path='/cart'
           element={<Cart />}
+        />
+
+        <Route
+          path='/search'
+          element={<Search />}
         />
         {/* <Route
           path='*'

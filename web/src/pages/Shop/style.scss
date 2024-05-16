@@ -1,0 +1,40 @@
+.MuiPagination-root .MuiPaginationItem-root {
+    background-color: white;
+    height: 40px;
+    width: 40px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    font-size: 20px;
+    font-family: Poppins;
+    border: 1px solid black;
+  }
+  
+  .MuiPagination-root .MuiPaginationItem-root.Mui-selected {
+    background-color: black;
+    color: #fff;
+    border: none;
+  }
+  
+  .MuiPagination-root .MuiPaginationItem-root.Mui-selected:hover {
+    background-color: #c6931d;
+  }
+  
+  .MuiPagination-root .MuiPagination-ul {
+    gap: 20px;
+  }
+  
+  
+  @media screen and (max-width: 900px) {
+    .MuiPagination-root .MuiPaginationItem-root {
+      height: 30px;
+      width: 30px;
+      font-size: 12px;
+    }
+  
+    .MuiPagination-root .MuiPagination-ul {
+      gap: 10px;
+    }
+  }

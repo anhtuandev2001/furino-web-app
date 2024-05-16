@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import ProductSuggest from '../../common/ProductSuggest/ProductSuggest';
+import Products from '../../common/Products/Products';
 import { homeActions, selectProducts } from '../../store/home/slice';
 import { useAppDispatch, useAppSelector } from '../../store/root/hooks';
-import Banner from '../../common/Banner';
+import Banner from '../../common/Banner/Banner';
 import Category from '../../common/Category';
 import Furniture from '../../common/Furniture';
-import Suggest from '../../common/Suggest';
+import Suggest from '../../common/Suggest/Suggest';
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -21,7 +21,7 @@ const Home = () => {
     <>
       <Banner />
       <Category />
-      <ProductSuggest
+      <Products
         status={products.status}
         limit={8}
         title='New Arrivals'

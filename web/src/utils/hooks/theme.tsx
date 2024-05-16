@@ -10,7 +10,7 @@ export const theme = createTheme({
         root: {
           fontSize: '16px',
           fontWeight: 400,
-          padding: '16px',
+          padding: '16px 40px',
           textTransform: 'capitalize',
         },
         outlined: {
@@ -28,6 +28,15 @@ export const theme = createTheme({
   palette: {
     primary: {
       main: '#000',
+    },
+  },
+  breakpoints: {
+    values: {
+      xs: 0, // custom breakpoint for extra small devices
+      sm: 640, // custom breakpoint for small devices
+      md: 768, // default medium breakpoint
+      lg: 1024, // default large breakpoint
+      xl: 1280, // default extra-large breakpoint
     },
   },
 });

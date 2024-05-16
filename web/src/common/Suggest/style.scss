@@ -1,0 +1,12 @@
+.slick-dots .pagination-list li.slick-active button:before {
+  background: black;
+}
+
+.slick-dots .pagination-list li button:before {
+  background-color: black;
+  content: '';
+  border-radius: 100%;
+  width: 11spx;
+  height: 11spx;
+  transition: background 0.5s ease-in-out;
+}

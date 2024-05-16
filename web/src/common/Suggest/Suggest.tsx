@@ -1,13 +1,15 @@
+import { Button } from '@mui/material';
 import { SetStateAction, useState } from 'react';
 import { FaArrowRightLong } from 'react-icons/fa6';
 import { GoDash } from 'react-icons/go';
+import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 import { v4 as uuidv4 } from 'uuid';
-import { ButtonLink } from '..';
 import { data } from './mockData';
 import { settings } from './setting';
+import './style.scss';
 
 function Suggest() {
   const [selectedSlideIndex, setSelectedSlideIndex] = useState(0);
@@ -28,12 +30,14 @@ function Suggest() {
             inspire you
           </span>
           <div className='flex justify-end md:justify-normal'>
-            <ButtonLink
-              link='/'
-              sx={{ marginTop: '25px', padding: '12px 36px' }}
+            <Button
+              to='/shop'
+              variant='contained'
+              sx={{ marginTop: '32px' }}
+              component={Link}
             >
               Explore More
-            </ButtonLink>
+            </Button>
           </div>
         </div>
         <div className='w-full md:w-2/3 overflow-hidden'>
@@ -69,12 +73,17 @@ function Suggest() {
                       </span>
                     </div>
                     <div className='flex items-end absolute md:static bottom-0 right-0'>
-                      <ButtonLink
-                        link={item.link}
-                        sx={{ padding: '12px' }}
+                      <Button
+                        component={Link}
+                        to='/shop'
+                        sx={{
+                          padding: '12px',
+                          backgroundColor: 'black',
+                          color: 'white',
+                        }}
                       >
                         <FaArrowRightLong size={22} />
-                      </ButtonLink>
+                      </Button>
                     </div>
                   </div>
                 )}

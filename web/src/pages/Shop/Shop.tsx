@@ -1,18 +1,14 @@
 import { Pagination } from '@mui/material';
 import React, { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { HeadingPage, ProductList } from '../../common';
+import { useLocation } from 'react-router-dom';
+import { HeadingPage, ProductListShop } from '../../common';
 import Filter from '../../common/Filter/Filter';
 import { useAppDispatch, useAppSelector } from '../../store/root/hooks';
-import {
-  selectCategoryIds,
-  selectProducts,
-  shopActions,
-} from '../../store/shop/slice';
+import { selectProducts, shopActions } from '../../store/shop/slice';
+import './style.scss'
 
 function Shop() {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const location = useLocation();
 
   const params = new URLSearchParams(location.search);
@@ -22,40 +18,11 @@ function Shop() {
   const keywordUrl = params.get('keyword') || null;
 
   const products = useAppSelector(selectProducts);
-  const categoryIds = useAppSelector(selectCategoryIds);
   const { limit, page, count, status, error } = products;
 
   const handleChangePage = (_event: React.ChangeEvent<any>, value: number) => {
     dispatch(shopActions.onChangePage(value));
-    window.scrollTo(0, 0);
-    navigate(
-      `/shop?limit=${limit}&page=${value}${
-        categoryIds.length > 0
-          ? `&categories=${categoryIds
-              .map((item: { categoryId: any }) => item.categoryId)
-              .join(',')}`
-          : ''
-      }`
-    );
   };
-
-  // const handleChangeSort = (event: any) => {
-  //   const { value } = event.target;
-  //   dispatch(shopActions.onChangeSort(value.toString()));
-  // };
-
-  // const handleChangeCategoriesSelected = (value: any) => {
-  //   dispatch(shopActions.onchangeCategoryIds(value));
-  //   navigate(
-  //     `/shop?limit=${limit}&page=1${
-  //       value.length > 0
-  //         ? `&categories=${value
-  //             .map((item: { categoryId: any }) => item.categoryId)
-  //             .join(',')}`
-  //         : ''
-  //     }`
-  //   );
-  // };
 
   useEffect(() => {
     if (products.status === 'idle' || products.data.length === 0) {
@@ -74,19 +41,13 @@ function Shop() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // useEffect(() => {
-  //   if (!keyword) {
-  //     dispatch(shopActions.onChangeKeyword(''));
-  //   }
-  // }, [dispatch, keyword]);
-
   return (
     <div className='container'>
       <HeadingPage title='Shop' />
-      <Filter count={products.data.length} />
+      <Filter products={products} />
 
       <div className='mt-[40px] md:mt-8'>
-        <ProductList
+        <ProductListShop
           products={products.data}
           limit={limit}
           status={status}

@@ -1,12 +1,12 @@
 import { type SagaIterator } from '@redux-saga/core';
-import { put, takeEvery } from 'redux-saga/effects';
+import { put, takeEvery, takeLatest } from 'redux-saga/effects';
 
 import { toast } from 'react-toastify';
 import { shopActions } from './slice';
 
 export function* onGetProductOfShopPage(action: any): SagaIterator {
   try {
-    yield put(shopActions.getCategory());
+    yield put(shopActions.getCategories());
     yield put(shopActions.getProducts(action.payload));
   } catch (e: any) {
     if (e instanceof Error) {
@@ -33,7 +33,7 @@ function* shopsWatcherSaga(): SagaIterator {
   yield takeEvery(shopActions.onChangePage, onGetProducts);
   yield takeEvery(shopActions.onChangeLimit, onGetProducts);
   yield takeEvery(shopActions.onChangeSort, onGetProducts);
-  yield takeEvery(shopActions.onchangeCategoryIds, onGetProducts);
+  yield takeLatest(shopActions.onchangeCategoryIds, onGetProducts);
   yield takeEvery(shopActions.onChangeKeyword, onGetProducts);
   yield takeEvery(shopActions.onNextPageScroll, getProductsLoadingNextPage);
 }

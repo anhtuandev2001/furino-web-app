@@ -141,7 +141,10 @@ const Header = () => {
               </div>
 
               <div className='flex md:gap-[20px] justify-end'>
-                <IconButton aria-label='search'>
+                <IconButton
+                  aria-label='search'
+                  onClick={() => navigate('/search')}
+                >
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     width='20'

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import FormRadius from '../../common/FormRadius/FormRadius';
-import ProductSuggest from '../../common/ProductSuggest/ProductSuggest';
+import Products from '../../common/Products/Products';
 import QuantityInput from '../../common/QuantityInput/QuantityInput';
 import { cartActions, selectActions } from '../../store/cart/slice';
 import productNotFound from '../../assets/images/noProducts.jpg';
@@ -173,22 +173,16 @@ function ProductDetail() {
   };
 
   useEffect(() => {
-    if (!product.data || product.status === 'idle') {
-      dispatch(productDetailActions.getProduct(Number(productId)));
-      return;
-    }
-    dispatch(
-      productDetailActions.getProductSuggestions(product.data.productId)
-    );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    dispatch(productDetailActions.getProduct(Number(productId)));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (product.data) {
       setProductItem(product.data.productInventories[0]);
       setSizes(
-        product.data.productInventories.reduce(
-          (unique: ProductSize[], item) => {
+        product.data.productInventories
+          .reduce((unique: ProductSize[], item) => {
             if (
               !unique.some(
                 (size) => size?.productSizeId === item.productSize.productSizeId
@@ -197,13 +191,12 @@ function ProductDetail() {
               unique.push(item?.productSize);
             }
             return unique;
-          },
-          []
-        ).sort((a, b) => (a.productSizeId > b.productSizeId ? 1 : -1))
+          }, [])
+          .sort((a, b) => (a.productSizeId > b.productSizeId ? 1 : -1))
       );
       setColors(
-        product.data.productInventories.reduce(
-          (unique: ProductColor[], item) => {
+        product.data.productInventories
+          .reduce((unique: ProductColor[], item) => {
             if (
               !unique.some(
                 (color) =>
@@ -213,9 +206,8 @@ function ProductDetail() {
               unique.push(item?.productColor);
             }
             return unique;
-          },
-          []
-        ).sort((a, b) => (a.productColorId > b.productColorId ? 1 : -1))
+          }, [])
+          .sort((a, b) => (a.productColorId > b.productColorId ? 1 : -1))
       );
       const newImage = [
         ...product.data.productGeneralImages,
@@ -398,8 +390,8 @@ function ProductDetail() {
                     fill='none'
                   >
                     <path
-                      fill-rule='evenodd'
-                      clip-rule='evenodd'
+                      fillRule='evenodd'
+                      clipRule='evenodd'
                       d='M12.4832 14.3541L13.1903 13.647L9.54385 10.0005L13.1903 6.35408L12.4832 5.64697L8.12964 10.0005L12.4832 14.3541Z'
                       fill='black'
                     />
@@ -422,8 +414,8 @@ function ProductDetail() {
                     fill='none'
                   >
                     <path
-                      fill-rule='evenodd'
-                      clip-rule='evenodd'
+                      fillRule='evenodd'
+                      clipRule='evenodd'
                       d='M8.83675 14.3541L8.12964 13.647L11.7761 10.0005L8.12964 6.35408L8.83675 5.64697L13.1903 10.0005L8.83675 14.3541Z'
                       fill='black'
                     />
@@ -534,7 +526,7 @@ function ProductDetail() {
           </div>
         )}
       </div>
-      <ProductSuggest
+      <Products
         title='Related Products'
         products={productSuggestion.data}
         status={productSuggestion.status}
