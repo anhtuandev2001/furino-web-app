@@ -1,6 +1,5 @@
 import { put, select, takeEvery } from 'redux-saga/effects';
 import { cartActions } from '../cart/slice';
-import { shopActions } from '../shop/slice';
 import { userActions } from '../user/slice';
 import { orderActions, selectOrder } from './slice';
 
