@@ -44,7 +44,7 @@ function Suggest() {
           <Slider
             {...settings}
             beforeChange={handleBeforeChange}
-            className='h-[400px] md:h-[600px]'
+            className='h-[400px] md:h-[500px]'
           >
             {data.map((item, index) => (
               <div
@@ -56,13 +56,13 @@ function Suggest() {
                   alt={item.title}
                   className={`${
                     index === selectedSlideIndex
-                      ? 'h-[350px] md:h-[582px]'
-                      : 'h-[250px] md:h-[486px]'
-                  } w-full md:w-[404px] object-cover transition-all duration-300 ease-out`}
+                      ? 'h-[350px] md:h-[450px]'
+                      : 'h-[250px] md:h-[350px]'
+                  } w-full lg:w-[404px] object-cover transition-all duration-300 ease-out`}
                 />
                 {index === selectedSlideIndex && (
-                  <div className='absolute bottom-0 md:bottom-6 left-1/2 -translate-x-1/2 md:translate-x-0 md:left-10 flex'>
-                    <div className='pt-[32px] pl-[15px] pr-[15px] md:pl-[32px] pb-[45px] md:pb-[32px] md:pr-[17px] bg-white opacity-[90%] flex flex-col gap-[8px]'>
+                  <div className='absolute bottom-0 md:bottom-6 left-1/2 -translate-x-1/2 flex'>
+                    <div className='pt-[32px] pl-[15px] pr-[15px] min-w-[200px] md:pl-[32px] pb-[45px] md:pb-[32px] md:pr-[17px] bg-white opacity-[90%] flex flex-col gap-[8px]'>
                       <div className='flex gap-2 text-[#616161] font-medium'>
                         <span>{selectedSlideIndex + 1}</span>
                         <GoDash size={24} />

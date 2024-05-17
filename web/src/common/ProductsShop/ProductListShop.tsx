@@ -44,7 +44,7 @@ function ProductListShop({
         hasMore={hasMore}
         loader={
           status === 'loading' && (
-            <div className='grid gap-[20px] grid-cols-2 mt-[20px] md:grid-cols-4 md:p-4'>
+            <div className='grid gap-[20px] grid-cols-2 mt-[20px] md:grid-cols-3 lg:grid-cols-4 md:p-4'>
               <ProductSkeleton limit={2} />
             </div>
           )
@@ -56,7 +56,7 @@ function ProductListShop({
         //   )
         // }
       >
-        <div className='grid gap-x-[10px] gap-y-[24px] grid-cols-2 md:grid-cols-4 justify-center'>
+        <div className='grid gap-x-[10px] gap-y-[24px] grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-center'>
           {(status === 'loading' && window.innerWidth > 600) ||
           (status === 'loading' && products.length === 0) ? (
             <ProductSkeleton limit={limit} />

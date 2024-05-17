@@ -84,8 +84,11 @@ function Filter({ products }: { products: any }) {
           <Button
             onClick={() => setOpenAvailability(!openAvailability)}
             className='flex gap-2 items-center'
+            sx={{
+              padding: '12px 16px',
+            }}
           >
-            <span className='text-[14px] font-normal'>Avalability</span>
+            <span className='text-[14px] font-normal'>Availability</span>
             <MdKeyboardArrowDown size={20} />
           </Button>
           {openAvailability && (
@@ -101,6 +104,9 @@ function Filter({ products }: { products: any }) {
           <Button
             className='flex gap-2 items-center'
             onClick={() => setOpenCategory(!openCategory)}
+            sx={{
+              padding: '12px 16px',
+            }}
           >
             <span className='text-[14px] font-normal'>Category</span>
             <MdKeyboardArrowDown size={20} />
@@ -118,7 +124,7 @@ function Filter({ products }: { products: any }) {
           )}
         </div>
         {/* <Button className='flex gap-2 items-center'>
-          <span className='text-[14px] font-normal'>Avalability</span>
+          <span className='text-[14px] font-normal'>Availability</span>
           <MdKeyboardArrowDown size={20} />
         </Button> */}
       </div>
@@ -134,8 +140,13 @@ function Filter({ products }: { products: any }) {
         <div className='flex gap-6 items-center'>
           <div className='hidden md:flex  gap-6 items-center'>
             <span className=''>Sort by:</span>
-            <Button className='gap-2 items-center'>
-              <span className='text-[14px] font-normal'>Avalability</span>
+            <Button
+              className='gap-2 items-center'
+              sx={{
+                padding: '12px 16px',
+              }}
+            >
+              <span className='text-[14px] font-normal'>Availability</span>
               <MdKeyboardArrowDown size={20} />
             </Button>
           </div>
