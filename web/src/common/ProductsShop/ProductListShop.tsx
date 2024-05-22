@@ -1,6 +1,6 @@
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { v4 as uuid } from 'uuid';
-import noProduct from '../../assets/images/noProducts.jpg';
+import noProduct from '../../assets/images/noProducts.png';
 import { ProductProp } from '../../types/product';
 import { useAppDispatch } from '../../store/root/hooks';
 import { productDetailActions } from '../../store/productDetail/slice';
@@ -21,7 +21,7 @@ function ProductListShop({
 }) {
   const dispatch = useAppDispatch();
   const handleSetProductDetail = (item: ProductProp) => {
-    dispatch(productDetailActions.getProduct(item.productId));
+    dispatch(productDetailActions.onSetProductDetail(item));
   };
   if (
     status === 'failed' ||

@@ -115,8 +115,6 @@ export const cartSlice = createSlice({
         state.actions.add = 'loading';
       })
       .addCase(cartActions.onHandleAddToCart.fulfilled, (state, action) => {
-        console.log(action);
-
         state.actions.add = 'succeeded';
         state.cartNotification = {
           show: true,

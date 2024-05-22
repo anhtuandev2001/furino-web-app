@@ -3,11 +3,11 @@ import { IconButton, Skeleton } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import productNotFound from '../../assets/images/noProducts.png';
 import FormRadius from '../../common/FormRadius/FormRadius';
 import Products from '../../common/Products/Products';
 import QuantityInput from '../../common/QuantityInput/QuantityInput';
 import { cartActions, selectActions } from '../../store/cart/slice';
-import productNotFound from '../../assets/images/noProducts.jpg';
 import {
   productDetailActions,
   selectProduct,
@@ -173,7 +173,11 @@ function ProductDetail() {
   };
 
   useEffect(() => {
-    dispatch(productDetailActions.getProduct(Number(productId)));
+    if (!product.data || product.status === 'idle') {
+      dispatch(productDetailActions.getProduct(Number(productId)));
+      return;
+    }
+    dispatch(productDetailActions.getProductSuggestions(Number(productId)));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -225,9 +229,7 @@ function ProductDetail() {
         },
         []
       );
-
       setImages(uniqueImages);
-
       setImage(product.data.productGeneralImages[0]?.image);
     }
   }, [dispatch, product.data]);
@@ -244,6 +246,7 @@ function ProductDetail() {
       }
     }
   }, [color, product.data, size]);
+
 
   return (
     <div className='md:py-16 relative container'>
@@ -474,7 +477,7 @@ function ProductDetail() {
                   Add To Cart
                 </LoadingButton>
 
-                <div className='border-b pb-10'>{product.data.description}</div>
+                <div className='border-b pb-10'>{product?.data?.description}</div>
 
                 <div className='flex flex-col gap-3'>
                   <div className='flex'>

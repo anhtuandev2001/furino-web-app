@@ -24,8 +24,6 @@ function CartNotification({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(cartNotification);
-
   return (
     <div
       ref={ref}

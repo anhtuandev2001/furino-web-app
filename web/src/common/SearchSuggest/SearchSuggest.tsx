@@ -4,9 +4,11 @@ import { Link } from 'react-router-dom';
 function SearchSuggest({
   products,
   onSubmit,
+  onSetProductDetail,
 }: {
   products: any;
   onSubmit: any;
+  onSetProductDetail: any;
 }) {
   return (
     <div className='border absolute top-13 bg-white z-[100] right-0 left-0 shadow-sm'>
@@ -19,6 +21,7 @@ function SearchSuggest({
             products.data.map((product: any) => (
               <Link
                 to={`/shop/product/${product.productId}`}
+                onClick={() => onSetProductDetail(product)}
                 className='flex gap-4 items-center'
                 key={product.productId}
               >

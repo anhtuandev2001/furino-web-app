@@ -35,6 +35,7 @@ function* shopsWatcherSaga(): SagaIterator {
   yield takeEvery(shopActions.onChangeSort, onGetProducts);
   yield takeLatest(shopActions.onchangeCategoryIds, onGetProducts);
   yield takeEvery(shopActions.onChangeKeyword, onGetProducts);
+  yield takeEvery(shopActions.resetFilter, onGetProducts);
   yield takeEvery(shopActions.onNextPageScroll, getProductsLoadingNextPage);
 }
 

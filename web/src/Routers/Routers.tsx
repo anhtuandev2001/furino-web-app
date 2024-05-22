@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import App from '../App';
 import {
+  About,
   Cart,
   Checkout,
   Contact,
@@ -22,7 +23,7 @@ const Routers = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     const token = checkTokenExistence(false);
-    if ((token && pathname === '/login') || pathname === '/sign-up') {
+    if (token && (pathname === '/login' || pathname === '/sign-up')) {
       window.location.href = '/';
     }
   }, [pathname]);
@@ -62,6 +63,11 @@ const Routers = () => {
         <Route
           path='/search'
           element={<Search />}
+        />
+
+        <Route
+          path='/about'
+          element={<About />}
         />
         {/* <Route
           path='*'

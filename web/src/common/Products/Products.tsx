@@ -5,6 +5,7 @@ import { v4 as uuid } from 'uuid';
 import { ProductProp } from '../../types/product';
 import { ProductSkeleton, ProductItem } from '../index';
 import { useAppDispatch } from '../../store/root/hooks';
+import noProduct from '../../assets/images/noProducts.png'; 
 import { productDetailActions } from '../../store/productDetail/slice';
 
 function Products({
@@ -22,8 +23,17 @@ function Products({
 }) {
   const dispatch = useAppDispatch();
   const handleSetProductDetail = (item: ProductProp) => {
-    dispatch(productDetailActions.getProduct(item.productId));
+    dispatch(productDetailActions.onSetProductDetail(item));
   };
+  if(status === 'failed' || (status === 'succeeded' && products.length === 0)) {
+    return (
+      <img
+        className='mx-auto'
+        src={noProduct}
+        alt='No products'
+      />
+    );
+  }
   return (
     <section className='py-[65px] container'>
       {title && (

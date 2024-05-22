@@ -11,8 +11,8 @@ import AlertDialog from '../../common/AlertDialog/AlertDialog';
 import {
   cartActions,
   selectActions,
+  selectCarts,
   selectShowCartNotification,
-  selectTotalQuantity,
 } from '../../store/cart/slice';
 import { selectHiddenNavHeader } from '../../store/common/slice';
 import { useAppDispatch, useAppSelector } from '../../store/root/hooks';
@@ -31,7 +31,7 @@ const Header = () => {
   const navigate = useNavigate();
   const user = useAppSelector(selectUser);
   const cartStatus = useAppSelector(selectActions);
-  const totalQuantity = useAppSelector(selectTotalQuantity);
+  const cart = useAppSelector(selectCarts);
   const cartNotification = useAppSelector(selectShowCartNotification);
 
   const hiddenNavHeader = useAppSelector(selectHiddenNavHeader);
@@ -103,8 +103,8 @@ const Header = () => {
   };
 
   React.useEffect(() => {
-    if (user.data.userId && totalQuantity === 0) {
-      dispatch(cartActions.getTotalQuantity());
+    if (user.data.userId && cart.status === 'idle') {
+      dispatch(cartActions.getCarts());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -140,7 +140,7 @@ const Header = () => {
                 ))}
               </div>
 
-              <div className='flex md:gap-[20px] justify-end'>
+              <div className='flex md:gap-[20px] justify-end items-center'>
                 <IconButton
                   aria-label='search'
                   onClick={() => navigate('/search')}
@@ -181,7 +181,7 @@ const Header = () => {
                 </div>
                 <CustomizedBadges
                   token={checkTokenExistence()}
-                  total={totalQuantity}
+                  total={cart.data.length}
                   className={`relative ${
                     cartStatus.add === 'succeeded'
                       ? 'animate__animated animate__headShake'

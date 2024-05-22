@@ -494,23 +494,54 @@ const searchProduct = async ({
   try {
     const products = await Product.findAll({
       limit: limit,
-      where: {
+      order: [['name', 'ASC']],
+      where:{
         name: {
           [Op.iLike]: `%${keyword}%`,
         },
       },
+      attributes: [
+        'productId',
+        'name',
+        'description',
+        'quantity',
+        
+      ],
       include: [
         {
-          model: ProductGeneralImage,
-          limit: 1,
-          attributes: ['image'],
+          model: ProductCategory,
+          attributes: ['categoryId'],
+          include: [
+            {
+              model: Category,
+              attributes: ['name', 'image'],
+            },
+          ],
         },
         {
           model: ProductInventory,
-          limit: 1,
+          attributes: ['quantity', 'sold', 'price', 'priceDiscount'],
+          order: [['productSizeId', 'ASC']],
+          include: [
+            {
+              model: ProductSize,
+              attributes: ['productSizeId', 'name'],
+            },
+            {
+              model: ProductColor,
+              attributes: ['productColorId', 'hex', 'name'],
+            },
+          ],
+        },
+        {
+          model: ProductGeneralImage,
+          attributes: ['image', 'productGeneralImageId'],
+        },
+        {
+          model: ProductImage,
+          attributes: ['image', 'productColorId', 'productImageId'],
         },
       ],
-      attributes: ['productId', 'name'],
     });
 
     return products;

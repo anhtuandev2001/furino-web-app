@@ -12,16 +12,7 @@ import { ProductProp } from '../../types/product';
 
 const initialState: ProductDetailInitialState = {
   product: {
-    data: {
-      productId: 0,
-      name: '',
-      price: 0,
-      description: '',
-      productCategories: [],
-      productGeneralImages: [],
-      productImages: [],
-      productInventories: [],
-    },
+    data: null,
     status: 'idle',
     error: null,
   },
@@ -42,6 +33,8 @@ export const productDetailSlice = createSlice({
   initialState,
   reducers: {
     onSetProductDetail(state, action) {
+      console.log('action.payload', action.payload);
+      
       state.product.data = action.payload;
       state.product.status = 'succeeded';
     },

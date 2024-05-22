@@ -24,6 +24,7 @@ import CustomDot from './Slider/Dot';
 import CustomNextArrow from './Slider/Next';
 import CustomPrevArrow from './Slider/Prev';
 import SearchSuggest from './SearchSuggest/SearchSuggest';
+import CartEmpty from './CartEmpty/CartEmpty';
 
 export {
   AvailabilityForm,
@@ -52,5 +53,6 @@ export {
   SelectCustom,
   SimpleBottomNavigation,
   SearchSuggest,
+  CartEmpty,
 };
 

@@ -10,7 +10,7 @@ export interface ProductDetailInitialState {
 }
 
 export interface ProductDetailState {
-  data: ProductProp;
+  data: ProductProp | null;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
 }

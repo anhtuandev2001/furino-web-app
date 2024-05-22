@@ -8,7 +8,7 @@ import {
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import { HeadingPage } from '../../common';
+import { CartEmpty, HeadingPage } from '../../common';
 import QuantityInput from '../../common/QuantityInput/QuantityInput';
 import {
   cartActions,
@@ -53,14 +53,13 @@ function Cart() {
     dispatch(cartActions.onHandleCheckout(select));
     navigate('/checkout');
   };
-  console.log(carts);
 
-  useEffect(() => {
-    if(carts.status === 'idle' || carts.data.length === 0){
-      dispatch(cartActions.getCarts());
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   if (carts.status === 'idle') {
+  //     dispatch(cartActions.getCarts());
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   useEffect(() => {
     if (selectAll) {
@@ -69,6 +68,10 @@ function Cart() {
       setSelect([]);
     }
   }, [selectAll, carts.data, select.length]);
+
+  if (carts.status === 'succeeded' && carts.data.length === 0 || carts.status === 'failed') {
+    return <CartEmpty />;
+  }
 
   return (
     <div className='h-full flex flex-col container'>

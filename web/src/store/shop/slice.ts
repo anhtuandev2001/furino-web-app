@@ -46,6 +46,7 @@ export const shopSlice = createSlice({
     },
     onChangeSort(state, action: PayloadAction<string>) {
       state.products.sort = action.payload;
+      state.products.page = 1;
     },
     onChangeKeyword(state, action: PayloadAction<string>) {
       state.products.keyword = action.payload;
@@ -65,6 +66,13 @@ export const shopSlice = createSlice({
       state.products.limit = 12;
       state.products.page = 1;
       state.products.sort = 'default';
+    },
+    resetFilter(state) {
+      state.products.limit = 12;
+      state.products.page = 1;
+      state.products.sort = 'default';
+      state.products.keyword = '';
+      state.categoryIds = [];
     },
   },
   extraReducers: (builder) => {
@@ -237,6 +245,7 @@ export const shopActions = {
     categoriesUrl: string;
   }>(`${shopSlice.name}/onChangeFilterFromUrl`),
   clearState: createAction(`${shopSlice.name}/clearState`),
+  resetFilter: createAction(`${shopSlice.name}/resetFilter`),
 };
 
 // Selectors

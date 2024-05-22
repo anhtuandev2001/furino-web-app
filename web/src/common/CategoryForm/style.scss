@@ -2,9 +2,26 @@
   animation: availability 0.3s ease forwards;
 }
 
+@media screen and (max-width: 768px){
+  .availability-form {
+    animation: leftIn 0.3s ease forwards;
+  }
+}
+
 @keyframes availability {
   0% {
     transform: translateY(-10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes leftIn {
+  0% {
+    transform: translateX(-10px);
     opacity: 0;
   }
   100% {

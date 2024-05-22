@@ -38,7 +38,7 @@ function Search() {
   );
 
   const handleSetProductDetail = (item: any) => {
-    dispatch(productDetailActions.getProduct(item.productId));
+    dispatch(productDetailActions.onSetProductDetail(item));
   };
 
   useEffect(() => {
@@ -90,6 +90,7 @@ function Search() {
                 setOpen(false);
                 dispatch(searchActions.searchGetProducts());
               }}
+              onSetProductDetail={handleSetProductDetail}
             />
           )}
         </div>

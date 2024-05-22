@@ -13,6 +13,10 @@ const initialState: UserInitialState = {
     status: 'idle',
     error: '',
   },
+  status: {
+    login: 'idle',
+    register: 'idle',
+  }
 };
 
 // slice
@@ -55,7 +59,9 @@ export const userSlice = createSlice({
         const expirationDate = new Date();
         expirationDate.setDate(expirationDate.getDate() + 1);
         document.cookie = `token=${token}; expires=${expirationDate}; path=/`;
-        window.location.href = '/';
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 1000);
       })
       .addCase(userActions.loginUser.rejected, (state) => {
         state.user.status = 'failed';
@@ -71,6 +77,20 @@ export const userSlice = createSlice({
       .addCase(userActions.getUser.rejected, (state) => {
         state.user.status = 'failed';
         toast.error('Get user failed');
+      })
+      .addCase(userActions.register.pending, (state) => {
+        state.status.register = 'loading';
+      })
+      .addCase(userActions.register.fulfilled, (state) => {
+        state.status.register = 'succeeded';
+        toast.success('Register successfully');
+        setTimeout(() => {
+          window.location.href = '/login';
+        }, 1000);
+      })
+      .addCase(userActions.register.rejected, (state) => {
+        state.status.register = 'failed';
+        toast.error('Register failed');
       });
   },
 });
@@ -104,10 +124,24 @@ export const userActions = {
       return user;
     }
   ),
+  register: createAsyncThunk(
+    `${userSlice.name}/register`,
+    async (data: any) => {
+      const user = await ipaCall(
+        'POST',
+        `${BASE_URL}users/register`,
+        false,
+        {},
+        data
+      );
+      return user;
+    }
+  ),
 };
 
 // Selectors
 export const selectUser = (state: RootState): any => state.users.user;
+export const selectStatus = (state: RootState): any => state.users.status;
 
 // Reducer
 export default userSlice.reducer;

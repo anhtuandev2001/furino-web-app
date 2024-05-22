@@ -30,7 +30,7 @@ function OrderDetail() {
     <div className='container'>
       <HeaderMobile title='Order Detail' />
       {status === 'loading' ? (
-        <div className='px-4 flex flex-col gap-[30px]'>
+        <div className='flex flex-col gap-[30px]'>
           <div className=''>
             <h2 className='text-[#909090] text-[18px] mb-[20px]'>
               Shipping Address
@@ -86,7 +86,7 @@ function OrderDetail() {
           </div>
         </div>
       ) : (
-        <div className='px-4 flex flex-col gap-[30px]'>
+        <div className='flex flex-col gap-[30px]'>
           <div className=''>
             <h2 className='text-[#909090] text-[18px] mb-[20px]'>
               Shipping Address

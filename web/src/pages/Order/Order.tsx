@@ -28,7 +28,7 @@ function Order() {
   return (
     <div className='container'>
       <HeaderMobile title='Order' />
-      <div className='px-4 flex flex-col'>
+      <div className='flex flex-col'>
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList
