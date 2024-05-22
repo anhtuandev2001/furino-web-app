@@ -23,7 +23,7 @@ function User() {
     }
   }, [navigate, user]);
   return (
-    <div className='container'>
+    <div className='container pt-[20px]'>
       <div className='flex mt-4 gap-[20px] items-center mb-[30px]'>
         <img
           src={background}
@@ -31,8 +31,8 @@ function User() {
           className='h-[80px] w-[80px] object-cover rounded-full'
         />
         <div className='flex flex-col gap-[5px]'>
-          <span className='text-[20px]'>Bruno Pham</span>
-          <span className='text-[14px] text-[#808080]'>bruno203@gmail.com</span>
+          <span className='text-[20px]'>{user?.data?.name}</span>
+          <span className='text-[14px] text-[#808080]'>{user?.data?.email}</span>
         </div>
       </div>
       <Link
