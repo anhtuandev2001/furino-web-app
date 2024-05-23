@@ -36,7 +36,7 @@ export const contactAction = {
     async (payload: any) => {
       await ipaCall(
         'POST',
-        `${MAILER_URL}send`,
+        `${MAILER_URL}/send`,
         false,
         {},
         {

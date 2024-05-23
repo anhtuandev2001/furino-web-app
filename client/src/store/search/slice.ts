@@ -96,7 +96,7 @@ export const searchActions = {
         const limit = (thunkAPI.getState() as RootState).search.productSuggest.limit;
         const response = await ipaCall(
           'GET',
-          `${BASE_URL}products/search/${keyword}`,
+          `${BASE_URL}/products/search/${keyword}`,
           true,
           {
             limit,
@@ -117,7 +117,7 @@ export const searchActions = {
         const limit = (thunkAPI.getState() as RootState).search.products.limit;
         const response = await ipaCall(
           'GET',
-          `${BASE_URL}products/search/${keyword}`,
+          `${BASE_URL}/products/search/${keyword}`,
           true,
           {
             limit,

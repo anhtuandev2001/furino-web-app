@@ -85,7 +85,7 @@ export const productDetailActions = {
       try {
         const product = await ipaCall(
           'GET',
-          `${BASE_URL}products/${productId}`,
+          `${BASE_URL}/products/${productId}`,
           false
         );
         return product;
@@ -101,7 +101,7 @@ export const productDetailActions = {
     `${productDetailSlice.name}/getProductSuggestions`,
     async (productId: number, thunkAPI) => {
       try {
-        const product = await ipaCall('GET', `${BASE_URL}products`, false, {
+        const product = await ipaCall('GET', `${BASE_URL}/products`, false, {
           productId,
           limit: 4,
           page: 1,

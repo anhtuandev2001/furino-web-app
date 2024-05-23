@@ -144,7 +144,7 @@ export const shopActions = {
       const { limit, page, sort, keyword } = currentProducts;
 
       try {
-        const products = await ipaCall('GET', `${BASE_URL}products`, false, {
+        const products = await ipaCall('GET', `${BASE_URL}/products`, false, {
           limit: limitUrl || limit,
           page: pageUrl || page,
           sort: sort === 'default' ? 'productId' : sort,
@@ -189,7 +189,7 @@ export const shopActions = {
       }
 
       try {
-        const products = await ipaCall('GET', `${BASE_URL}products`, false, {
+        const products = await ipaCall('GET', `${BASE_URL}/products`, false, {
           limit: limit,
           page: page,
           sort: sort === 'default' ? 'productId' : sort,
@@ -223,7 +223,7 @@ export const shopActions = {
     `${shopSlice.name}/categories`,
     async (_payload, thunkAPI) => {
       try {
-        const categories = await ipaCall('GET', `${BASE_URL}categories`, false);
+        const categories = await ipaCall('GET', `${BASE_URL}/categories`, false);
         return categories;
       } catch (e: any) {
         return thunkAPI.rejectWithValue(e.message.toString());

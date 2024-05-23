@@ -181,7 +181,7 @@ export const cartActions = {
       const user: any = selectUser(thunkAPI.getState() as RootState);
       const response = await ipaCall(
         'GET',
-        `${BASE_URL}carts/${user.data.userId}`,
+        `${BASE_URL}/carts/${user.data.userId}`,
         true
       );
 
@@ -203,7 +203,7 @@ export const cartActions = {
         const user: any = selectUser(thunkAPI.getState() as RootState);
         const response = await ipaCall(
           'POST',
-          `${BASE_URL}carts`,
+          `${BASE_URL}/carts`,
           true,
           {},
           {
@@ -228,7 +228,7 @@ export const cartActions = {
   onHandDeleteCart: createAsyncThunk(
     `${cartSlice.name}/onHandDeleteCart`,
     async (cartId: number) => {
-      await ipaCall('DELETE', `${BASE_URL}carts/${cartId}`, true);
+      await ipaCall('DELETE', `${BASE_URL}/carts/${cartId}`, true);
       return cartId;
     }
   ),
@@ -237,7 +237,7 @@ export const cartActions = {
     async (payload: { cartId: number; quantity: number }) => {
       await ipaCall(
         'PATCH',
-        `${BASE_URL}carts/${payload.cartId}`,
+        `${BASE_URL}/carts/${payload.cartId}`,
         true,
         {},
         {
@@ -256,7 +256,7 @@ export const cartActions = {
       }
       const response = await ipaCall(
         'GET',
-        `${BASE_URL}carts/total/${user.data.userId}`,
+        `${BASE_URL}/carts/total/${user.data.userId}`,
         true
       );
 

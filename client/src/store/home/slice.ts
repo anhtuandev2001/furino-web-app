@@ -42,7 +42,7 @@ export const homeActions = {
   getProducts: createAsyncThunk(
     `${homeSlice.name}/getProducts`,
     async (limitOffset: LimitOffsetProps) => {
-      const products = await ipaCall('GET', `${BASE_URL}products`, false, {
+      const products = await ipaCall('GET', `${BASE_URL}/products`, false, {
         limit: limitOffset.limit,
         page: limitOffset.page,
       });

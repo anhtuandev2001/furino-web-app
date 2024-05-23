@@ -102,7 +102,7 @@ export const userActions = {
     async (data: { email: string; password: string }) => {
       const user = await ipaCall(
         'POST',
-        `${BASE_URL}users/login`,
+        `${BASE_URL}/users/login`,
         false,
         {},
         data
@@ -118,7 +118,7 @@ export const userActions = {
 
       const user = await ipaCall(
         'GET',
-        `${BASE_URL}users/${userId.data.userId}`,
+        `${BASE_URL}/users/${userId.data.userId}`,
         true
       );
       return user;
@@ -129,7 +129,7 @@ export const userActions = {
     async (data: any) => {
       const user = await ipaCall(
         'POST',
-        `${BASE_URL}users/register`,
+        `${BASE_URL}/users/register`,
         false,
         {},
         data

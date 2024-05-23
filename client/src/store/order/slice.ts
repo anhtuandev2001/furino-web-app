@@ -207,7 +207,7 @@ export const orderActions = {
       const statusId: any = selectStatusId(thunkAPI.getState() as RootState);
       const response = await ipaCall(
         'GET',
-        `${BASE_URL}orders/${user.data.userId}/${statusId}`,
+        `${BASE_URL}/orders/${user.data.userId}/${statusId}`,
         true
       );
 
@@ -219,7 +219,7 @@ export const orderActions = {
     async (orderId: number) => {
       const response = await ipaCall(
         'GET',
-        `${BASE_URL}orders/order/${orderId}`,
+        `${BASE_URL}/orders/order/${orderId}`,
         true
       );
       return response;
@@ -293,7 +293,7 @@ export const orderActions = {
         const user: any = selectUser(thunkAPI.getState() as RootState);
         const response = await ipaCall(
           'POST',
-          `${BASE_URL}orders`,
+          `${BASE_URL}/orders`,
           true,
           {},
           {
@@ -323,7 +323,7 @@ export const orderActions = {
     async (payload: { orderId: number; status: number }) => {
       const response = await ipaCall(
         'PATCH',
-        `${BASE_URL}orders`,
+        `${BASE_URL}/orders`,
         true,
         {},
         {

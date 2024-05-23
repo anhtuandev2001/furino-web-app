@@ -50,7 +50,7 @@ export const notificationActions = {
       const user: any = selectUser(thunkAPI.getState() as RootState);
       const response = await ipaCall(
         'GET',
-        `${BASE_URL}notifications/${user.data.userId}`,
+        `${BASE_URL}/notifications/${user.data.userId}`,
         true
       );
 
