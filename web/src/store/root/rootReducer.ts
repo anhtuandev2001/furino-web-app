@@ -8,6 +8,7 @@ import homeSlice from '../home/slice';
 import checkoutSlide from '../order/slice';
 import contactSlide from '../contact/slice';
 import searchSlice from '../search/slice';
+import notificationSlice from '../notification/slice'
 
 const appReducer = combineReducers({
   shops: shopsReducer,
@@ -19,6 +20,7 @@ const appReducer = combineReducers({
   checkouts: checkoutSlide,
   contacts: contactSlide,
   search: searchSlice,
+  notifications: notificationSlice,
 });
 
 const rootReducer = (

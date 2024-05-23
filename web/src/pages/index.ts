@@ -11,3 +11,4 @@ export { default as User } from './User/User';
 export { default as Contact } from './Contact/Contact';
 export { default as Search } from './Search/Search';
 export { default as About } from './About/About';
+export { default as Notification } from './Notification/Notification';

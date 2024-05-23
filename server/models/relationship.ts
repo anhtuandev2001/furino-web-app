@@ -11,6 +11,7 @@ import {
   ProductSize,
 } from './Product';
 import { Role, User } from './User';
+import Notification from './Notification';
 
 export const relationship = () => {
   Product.hasMany(ProductGeneralImage, { foreignKey: 'productId' });
@@ -57,28 +58,36 @@ export const relationship = () => {
   Cart.belongsTo(ProductSize, { foreignKey: 'productSizeId' });
 
   User.belongsTo(Role, { foreignKey: 'roleId' });
+  User.hasMany(Cart, { foreignKey: 'userId' });
+  User.hasMany(Order, { foreignKey: 'userId' });
+  User.hasMany(Notification, { foreignKey: 'userId' });
 
   Role.hasMany(User, { foreignKey: 'roleId' });
 
   Order.belongsTo(User, { foreignKey: 'userId' });
   Order.hasMany(OrderItem, { foreignKey: 'orderId' });
+  Order.hasMany(Notification, { foreignKey: 'orderId' });
 
   OrderItem.belongsTo(Order, { foreignKey: 'orderId' });
   OrderItem.belongsTo(Product, { foreignKey: 'productId' });
   OrderItem.belongsTo(ProductColor, { foreignKey: 'productColorId' });
   OrderItem.belongsTo(ProductSize, { foreignKey: 'productSizeId' });
 
-  // Role.sync({ force: false });
-  // User.sync({ force: false });
-  // Category.sync({ force: false });
-  // ProductColor.sync({ force: false });
-  // ProductSize.sync({ force: false });
-  // Product.sync({ force: false });
-  // ProductCategory.sync({ force: false });
-  // ProductGeneralImage.sync({ force: false });
-  // ProductImage.sync({ force: false });
-  // ProductInventory.sync({ force: false });
-  // Cart.sync({ force: false });
-  // Order.sync({ force: false });
-  // OrderItem.sync({ force: false });
+  Notification.belongsTo(User, { foreignKey: 'userId' });
+  Notification.belongsTo(Order, { foreignKey: 'orderId' });
+
+  Role.sync({ force: false });
+  User.sync({ force: false });
+  Category.sync({ force: false });
+  ProductColor.sync({ force: false });
+  ProductSize.sync({ force: false });
+  Product.sync({ force: false });
+  ProductCategory.sync({ force: false });
+  ProductGeneralImage.sync({ force: false });
+  ProductImage.sync({ force: false });
+  ProductInventory.sync({ force: false });
+  Cart.sync({ force: false });
+  Order.sync({ force: false });
+  OrderItem.sync({ force: false });
+  Notification.sync({ force: false });
 };

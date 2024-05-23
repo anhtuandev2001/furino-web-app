@@ -2,6 +2,7 @@ import sequelize from '../database/sequelize';
 import Exception from '../exceptions/Exception';
 import {
   Cart,
+  Notification,
   Order,
   OrderItem,
   Product,
@@ -308,6 +309,32 @@ const updateOrder = async ({
         })
       );
     }
+
+    const notificationTitle = `Order #${order.orderId} has been ${
+      statusDefault.find((s) => s.id === status)?.name
+    }`;
+
+    const notificationMessage = () => {
+      switch (status) {
+        case 2:
+          return 'Your order has been delivered';
+        case 3:
+          return 'Your order has been cancelled';
+        default:
+          return '';
+      }
+    };
+
+    await Notification.create(
+      {
+        userId: order.userId,
+        orderId,
+        title: notificationTitle,
+        message: notificationMessage(),
+        notificationDate: new Date(),
+      },
+      { transaction: t }
+    );
 
     await t.commit();
 

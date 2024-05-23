@@ -1,0 +1,1002 @@
+{
+	"info": {
+		"_postman_id": "c89e688a-17e3-419e-a2df-597ccb0d5892",
+		"name": "Furino",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25580005",
+		"_collection_link": "https://interstellar-astronaut-36733.postman.co/workspace/Team-Workspace~668be70c-74f8-42d2-8171-7a73d9451ead/collection/25580005-c89e688a-17e3-419e-a2df-597ccb0d5892?action=share&source=collection_link&creator=25580005"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "loginUsers",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@gmail.com\",\n    \"password\": \"123123\",\n    \"loginType\": \"user\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "registerUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"admin\",\n    \"email\": \"admin@gmail.com\",\n    \"password\": \"admin123\",\n    \"roleId\": \"3\",\n    \"phone\": \"0123456789\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": 2,\n    \"status\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "changePassword",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\":6,\n    \"password\": \"123456\",\n    \"newPassword\": \"1234567\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"password"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "getProducts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/products",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "1000",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "keyword",
+									"value": "test",
+									"disabled": true
+								},
+								{
+									"key": "categoryIds",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "name",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "searchProduct",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/products",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "1000",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "keyword",
+									"value": "test",
+									"disabled": true
+								},
+								{
+									"key": "categoryIds",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "name",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCount",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/products/getCount",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"products",
+								"getCount"
+							],
+							"query": [
+								{
+									"key": "keyword",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "categoryId",
+									"value": "0",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getProduct",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/products/3",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"products",
+								"3"
+							],
+							"query": [
+								{
+									"key": "productId",
+									"value": "6",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteProduct",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/products/24",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"products",
+								"24"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "insertProduct",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"TUFJORD\",\n    \"description\": \"You can easily change look and style of both your chair and room whenever you feel like with this extra cover for SAKARIAS upholstered chair with armrests.\",\n    \"productCategories\": [\n        16\n    ],\n    \"productInventories\": [\n        {\n            \"productSizeId\": 7,\n            \"productColorId\": 31,\n            \"quantity\": 100,\n            \"price\": 250\n        },\n        {\n            \"productSizeId\": 7,\n            \"productColorId\": 34,\n            \"quantity\": 100,\n            \"price\": 300\n        },\n        {\n            \"productSizeId\": 8,\n            \"productColorId\": 34,\n            \"quantity\": 100,\n            \"price\": 200\n        },\n        {\n            \"productSizeId\": 9,\n            \"productColorId\": 31,\n            \"quantity\": 100,\n            \"price\": 350\n        },\n        {\n            \"productSizeId\": 7,\n            \"productColorId\": 28,\n            \"quantity\": 100,\n            \"price\": 450\n        },\n        {\n            \"productSizeId\": 8,\n            \"productColorId\": 28,\n            \"quantity\": 100,\n            \"price\": 350\n        },\n        {\n            \"productSizeId\": 9,\n            \"productColorId\": 28,\n            \"quantity\": 100,\n            \"price\": 400\n        }\n    ],\n    \"productGeneralImages\": [\n        \"https://res.cloudinary.com/dpjmvy4ij/image/upload/v1715333182/Bed/kleppstad-bed-frame-white-vissle-beige__1035341_pe840528_s5_qc4w1c.jpg\",\n        \"https://res.cloudinary.com/dpjmvy4ij/image/upload/v1715333182/Bed/malm-bedroom-furniture-set-of-4-black-brown__1102127_pe866548_s5_sglmkn.jpg\",\n        \"https://res.cloudinary.com/dpjmvy4ij/image/upload/v1715333182/Bed/sagstua-bed-frame-black-luroey__0800859_ph163664_s5_xfnnhj.jpg\"\n    ],\n    \"productImages\": [\n        {\n            \"image\": \"https://res.cloudinary.com/dpjmvy4ij/image/upload/v1715333182/Bed/kleppstad-bed-frame-white-vissle-beige__1035341_pe840528_s5_qc4w1c.jpg\",\n            \"productColorId\": 31\n        },\n        {\n            \"image\": \"https://res.cloudinary.com/dpjmvy4ij/image/upload/v1715333182/Bed/malm-bedroom-furniture-set-of-4-black-brown__1102127_pe866548_s5_sglmkn.jpg\",\n            \"productColorId\": 34\n        },\n        {\n            \"image\": \"https://res.cloudinary.com/dpjmvy4ij/image/upload/v1715333182/Bed/sagstua-bed-frame-black-luroey__0800859_ph163664_s5_xfnnhj.jpg\",\n            \"productColorId\": 28\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/products",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateProduct",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"productId\": 1,\n    \"productInventories\": [\n        {\n            \"quantity\": 1000,\n            \"sold\": 4,\n            \"price\": \"1300\",\n            \"priceDiscount\": null,\n            \"productSizeId\": 2,\n            \"productColorId\": 2\n        },\n        {\n            \"quantity\": 1000,\n            \"sold\": 0,\n            \"price\": \"400\",\n            \"priceDiscount\": null,\n            \"productSizeId\": 1,\n            \"productColorId\": 1\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/products",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "getCategories",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/categories",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"categories"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "30",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "insertCategory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\" : \"Bed\",\n    \"image\": \"https://res.cloudinary.com/dpjmvy4ij/image/upload/v1715333368/category/bed_j5o5cr.png\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/categories",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateCategory",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "all",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/Users/jun/workspace/reactJS/store-management-v2/data/category/all.png"
+								},
+								{
+									"key": "categoryId",
+									"value": "0",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/categories",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cart",
+			"item": [
+				{
+					"name": "getCartsByUserId",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"page\": 1,\n    \"limit\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/carts/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"carts",
+								"1"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "insertCart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6NCwibmFtZSI6InR1YW4iLCJlbWFpbCI6InR1YW5ubkBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRKckUwN3kvUHpad1VkWTc4enJRdFllNjYweFdPNFpXVWxXTWpuQU9BNTZ5dEdCWE1FTU1pbSIsImRlZmF1bHRTaGlwcGluZ0lkIjpudWxsLCJmYXZvcml0ZXNMaXN0IjpudWxsLCJjYXJ0TGlzdCI6bnVsbCwicm9sZSI6InVzZXIifSwiaWF0IjoxNjk5OTYyMjAxLCJleHAiOjE3MDI1NTQyMDF9.TQJtoqG5dXEaoXLTV8DOcLCi2K9pw43T1wGzdHrWalQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": 2,\n    \"productId\": 4,\n    \"quantity\": 1,\n    \"productColorId\": 1,\n    \"productSizeId\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/carts",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"carts"
+							],
+							"query": [
+								{
+									"key": "productId",
+									"value": "651bbe20557cee092a3fb54b",
+									"disabled": true
+								},
+								{
+									"key": "quantity",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "color",
+									"value": "red",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteCart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/carts/10",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"carts",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateCart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"quantity\":5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/carts/17",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"carts",
+								"17"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "getOrderByUserId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/orders/3?limit=10&page=1&status=0",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"orders",
+								"3"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "status",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOrder",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"page\": 1,\n    \"limit\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/orders/order/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"orders",
+								"order",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateOrder",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"orderId\":1,\n    \"status\":2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "insertOrder",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": 1,\n    \"orderDate\": \"2023-11-21T12:34:56Z\",\n    \"address\": \"trao thon\",\n    \"province\": \"hung yen\",\n    \"district\": \"an thi\",\n    \"ward\": \"da loc\",\n    \"phone\": \"0902572001\",\n    \"carts\": [\n        27\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/orders",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"orders"
+							],
+							"query": [
+								{
+									"key": "productId",
+									"value": "651bbe20557cee092a3fb54b",
+									"disabled": true
+								},
+								{
+									"key": "quantity",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "color",
+									"value": "red",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notifications",
+			"item": [
+				{
+					"name": "getNotificationsByUserId",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/notifications/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"notifications",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mailer",
+			"item": [
+				{
+					"name": "http://localhost:3001/send",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\" : \"tuan\",\n    \"email\": \"anhtuandev2001@gmail.com\",\n    \"phone\": \"0902572001\",\n    \"message\": \"hello\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://furino-mailer.vercel.app/send",
+							"protocol": "https",
+							"host": [
+								"furino-mailer",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"send"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

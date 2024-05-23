@@ -7,6 +7,7 @@ import connect from './database/database';
 import {
   cartsRouter,
   categoriesRouter,
+  notificationRouter,
   orderRouter,
   productsRouter,
   usersRouter,
@@ -32,6 +33,7 @@ app.use('/categories', categoriesRouter);
 app.use('/carts', cartsRouter);
 app.use('/users', usersRouter);
 app.use('/orders', orderRouter);
+app.use('/notifications', notificationRouter);
 
 app.options('/products', (req, res) => {
   res.header('Access-Control-Allow-Methods', 'PUT, GET, HEAD, POST, DELETE, OPTIONS, PATCH');

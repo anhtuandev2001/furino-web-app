@@ -8,6 +8,7 @@ import {
   Contact,
   Home,
   Login,
+  Notification,
   Order,
   OrderDetail,
   ProductDetail,
@@ -68,6 +69,11 @@ const Routers = () => {
         <Route
           path='/about'
           element={<About />}
+        />
+
+        <Route
+          path='/notification'
+          element={<Notification />}
         />
         {/* <Route
           path='*'

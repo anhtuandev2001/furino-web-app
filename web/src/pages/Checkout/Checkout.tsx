@@ -23,7 +23,6 @@ import { selectUser, userActions } from '../../store/user/slice';
 function Checkout() {
   const [error, setError] = useState(false);
   const [checked, setChecked] = useState(false);
-  const [selectedValue, setSelectedValue] = useState('old');
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -36,6 +35,7 @@ function Checkout() {
   const status = useAppSelector(selectStatusCheckout);
   const user = useAppSelector(selectUser);
   const address = JSON.parse(user?.data.address || null);
+  const [selectedValue, setSelectedValue] = useState(address ? 'old' : 'new');
   const screenWidth = useAppSelector(selectScreenWidth);
 
   const formik = useFormik({
@@ -172,7 +172,7 @@ function Checkout() {
               <div className='shadow-md rounded-xl'>
                 <div className='flex justify-between py-[10px] px-[20px] border-b-4 border-[#F0F0F0]'>
                   <span className='text-[18px]'>
-                    {address?.lastName + ' ' + address?.firstName || ''}
+                    {(address?.lastName || '') + ' ' + (address?.firstName || '')}
                   </span>
                   <span>{address?.phone || ''}</span>
                 </div>
@@ -196,7 +196,7 @@ function Checkout() {
               <span>New Address</span>
             </div>
             <div
-              className={`flex flex-col gap-4 px-4 overflow-hidden transition-all ${
+              className={`flex flex-col gap-4 overflow-hidden transition-all ${
                 selectedValue === 'old' ? 'h-0 md:h-auto' : 'h-auto'
               }`}
             >
