@@ -15,6 +15,7 @@ function Notification() {
   useEffect(() => {
     dispatch(notificationActions.getNotifications());
   }, [dispatch]);
+  
   return (
     <div className='container'>
       <div className='px-4'>

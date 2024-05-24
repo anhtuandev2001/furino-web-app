@@ -33,8 +33,6 @@ export const productDetailSlice = createSlice({
   initialState,
   reducers: {
     onSetProductDetail(state, action) {
-      console.log('action.payload', action.payload);
-      
       state.product.data = action.payload;
       state.product.status = 'succeeded';
     },

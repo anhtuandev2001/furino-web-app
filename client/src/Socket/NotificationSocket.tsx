@@ -9,11 +9,8 @@ function NotificationSocket() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    console.log('hihi');
-    
     if (!socket) return;
     socket.on('orderUpdate', (data: any) => {
-      console.log('Order Update:', data);
       toast(data.title, {
         icon: '👏',
         style: {
