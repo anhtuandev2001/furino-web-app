@@ -7,6 +7,9 @@ const useSocket = (url: string) => {
   const user = useAppSelector(selectUser);
   const socketRef = useRef<any>();
   useEffect(() => {
+    if (!user.data.userId) {
+      return;
+    }
     socketRef.current = io(url);
 
     socketRef.current.on('connect', () => {
