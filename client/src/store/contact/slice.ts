@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { ipaCall } from '../../utils/hooks/apiCall';
 import { MAILER_URL } from '../../utils/constants/strapi';
 import { RootState } from '../root/config.store';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 
 export interface Contact {
   status: string;

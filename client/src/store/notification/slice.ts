@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import { NotificationProp } from '../../types/notifications';
 import { BASE_URL } from '../../utils/constants/strapi';
@@ -11,6 +11,7 @@ export interface NotificationState {
     data: NotificationProp[];
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
+    count: number;
   };
 }
 
@@ -19,6 +20,7 @@ const initialState: NotificationState = {
     data: [],
     status: 'idle',
     error: null,
+    count: 0,
   },
 };
 
@@ -26,19 +28,38 @@ const initialState: NotificationState = {
 export const notificationSlice = createSlice({
   name: 'notifications',
   initialState,
-  reducers: {},
+  reducers: {
+    addNotification: (state, action) => {
+      state.notifications.data.push(action.payload);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(notificationActions.getNotifications.pending, (state) => {
         state.notifications.status = 'loading';
       })
-      .addCase(notificationActions.getNotifications.fulfilled, (state, action) => {
-        state.notifications.status = 'succeeded';
-        state.notifications.data = action.payload;
-      })
+      .addCase(
+        notificationActions.getNotifications.fulfilled,
+        (state, action) => {
+          state.notifications.status = 'succeeded';
+          state.notifications.data = action.payload.data;
+          state.notifications.count = action.payload.count;
+        }
+      )
       .addCase(notificationActions.getNotifications.rejected, (state) => {
         state.notifications.status = 'failed';
-      });
+      })
+      .addCase(
+        notificationActions.updateNotification.fulfilled,
+        (state, action) => {
+          state.notifications.data = state.notifications.data.map((item) => {
+            if (item.notificationId === action.payload.notificationId) {
+              return { ...item, read: true };
+            }
+            return item;
+          });
+        }
+      );
   },
 });
 
@@ -57,10 +78,26 @@ export const notificationActions = {
       return response;
     }
   ),
+  addNotification: createAction<NotificationProp>(
+    `${notificationSlice.name}/addNotification`
+  ),
+  updateNotification: createAsyncThunk(
+    `${notificationSlice.name}/updateNotification`,
+    async (notificationId: number) => {
+      const response = await ipaCall(
+        'PATCH',
+        `${BASE_URL}/notifications/${notificationId}`,
+        true
+      );
+
+      return response;
+    }
+  ),
 };
 
 // Selectors
-export const selectNotifications = (state: RootState): any => state.notifications.notifications;
+export const selectNotifications = (state: RootState): any =>
+  state.notifications.notifications;
 
 // Reducer
 export default notificationSlice.reducer;

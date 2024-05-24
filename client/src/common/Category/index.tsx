@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 function Category() {
   return (
-    <section className='mt-[56px] container'>
+    <section className='mt-[56px] container px-4'>
       <h2 className='font-bold text-[32px] text-[#333333] text-center'>
         Browse The Range
       </h2>

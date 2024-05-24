@@ -74,7 +74,7 @@ function Cart() {
   }
 
   return (
-    <div className='h-full flex flex-col container'>
+    <div className='h-full flex flex-col container px-4'>
       <HeadingPage
         title='Your cart'
         continueShopping

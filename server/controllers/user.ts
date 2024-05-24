@@ -8,7 +8,6 @@ async function login(req: Request, res: Response) {
     const user = await userRepository.login({
       email,
       password,
-      loginType,
     });
     res.status(HttpStatusCode.OK).json(user);
   } catch (exception: any) {
@@ -23,7 +22,6 @@ async function register(req: Request, res: Response) {
       name,
       email,
       password,
-      roleId,
       phone,
     });
     res.status(HttpStatusCode.OK).json(user);

@@ -8,7 +8,6 @@ import * as Yup from 'yup';
 import { HeaderMobile, HeadingPage, OrderSuccessPage } from '../../common';
 import ComboBox from '../../common/ComboBox/ComboBox';
 import { selectCartSelected } from '../../store/cart/slice';
-import { commonActions, selectScreenWidth } from '../../store/common/slice';
 import {
   orderActions,
   selectDistrict,
@@ -36,7 +35,6 @@ function Checkout() {
   const user = useAppSelector(selectUser);
   const address = JSON.parse(user?.data.address || null);
   const [selectedValue, setSelectedValue] = useState(address ? 'old' : 'new');
-  const screenWidth = useAppSelector(selectScreenWidth);
 
   const formik = useFormik({
     initialValues: {
@@ -129,19 +127,12 @@ function Checkout() {
     }
   }, [user]);
 
-  useEffect(() => {
-    dispatch(commonActions.setHiddenNavHeader(screenWidth < 768));
-    return () => {
-      dispatch(commonActions.setHiddenNavHeader(false));
-    };
-  }, [dispatch, screenWidth]);
-
   if (status === 'succeeded') {
     return <OrderSuccessPage />;
   }
 
   return (
-    <div className='container mx-auto px-4'>
+    <div className='container px-4'>
       <div className='md:mt-[40px] transition-all h-[100vh]'>
         <HeaderMobile title='Checkout' />
         <div className='hidden md:block'>

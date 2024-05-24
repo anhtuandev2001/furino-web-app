@@ -18,7 +18,6 @@ import {
   User,
 } from '../pages';
 import checkTokenExistence from '../utils/hooks/checkToken';
-
 const Routers = () => {
   const { pathname } = useLocation();
   useEffect(() => {

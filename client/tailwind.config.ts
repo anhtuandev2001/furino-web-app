@@ -11,7 +11,6 @@ export default {
     },
     container: {
       center: true,
-      padding: '16px',
       maxWidth: {
         '2xl': '1280px', // Override default max-width for xl breakpoint
       },

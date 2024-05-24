@@ -249,7 +249,7 @@ function ProductDetail() {
 
 
   return (
-    <div className='md:py-16 relative container'>
+    <div className='md:py-16 relative container px-4'>
       <div className='flex flex-col md:flex-row md:gap-10'>
         {product.status === 'loading' ? (
           <>

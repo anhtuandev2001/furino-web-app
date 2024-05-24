@@ -1,28 +1,27 @@
-// useSocket.js
 import { useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
+import { selectUser } from '../../store/user/slice';
+import { useAppSelector } from '../../store/root/hooks';
 
 const useSocket = (url: string) => {
+  const user = useAppSelector(selectUser);
   const socketRef = useRef<any>();
   useEffect(() => {
-    // Khởi tạo socket.io client và kết nối với server
     socketRef.current = io(url);
 
-    // Lắng nghe sự kiện kết nối
     socketRef.current.on('connect', () => {
       console.log('Connected to server');
+      socketRef.current.emit('register', user.data.userId);
     });
 
-    // Lắng nghe sự kiện ngắt kết nối
     socketRef.current.on('disconnect', () => {
       console.log('Disconnected from server');
     });
 
-    // Cleanup khi component unmount
     return () => {
       socketRef.current.disconnect();
     };
-  }, [url]);
+  }, [url, user.data.userId]);
 
   return socketRef.current;
 };

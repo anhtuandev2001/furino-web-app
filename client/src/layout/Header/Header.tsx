@@ -116,7 +116,7 @@ const Header = () => {
         className='top-0 h-[62px] fixed left-0 right-0 bg-white border-b z-[1000]'
       >
         <div>
-          <div className='py-3 md:py-0 container mx-auto'>
+          <div className='py-3 md:py-0 container px-4'>
             <div className='grid grid-cols-3 items-center'>
               <Link
                 to='/'

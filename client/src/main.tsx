@@ -1,12 +1,12 @@
+import { ThemeProvider } from '@emotion/react';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { Toaster } from 'react-hot-toast';
 import { Provider } from 'react-redux';
-import './index.css';
-import { store } from './store/root/config.store.ts';
 import { BrowserRouter } from 'react-router-dom';
 import Routers from './Routers/Routers.tsx';
-import { ToastContainer } from 'react-toastify';
-import { ThemeProvider } from '@emotion/react';
+import './index.css';
+import { store } from './store/root/config.store.ts';
 import { theme } from './utils/hooks/theme.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -14,7 +14,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <ToastContainer autoClose={1500} />
+          <Toaster />
           <Routers />
         </BrowserRouter>
       </ThemeProvider>

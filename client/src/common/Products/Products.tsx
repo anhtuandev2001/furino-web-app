@@ -35,7 +35,7 @@ function Products({
     );
   }
   return (
-    <section className='py-[65px] container'>
+    <section className='py-[65px] container px-4'>
       {title && (
         <h2 className='text-[30px] md:text-[40px] text-center mt-[56px] mb-[32px]'>
           {title}

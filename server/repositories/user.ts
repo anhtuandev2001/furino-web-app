@@ -6,11 +6,9 @@ import { Role, User } from '../models/index';
 const login = async ({
   email,
   password,
-  loginType,
 }: {
   email: string;
   password: string;
-  loginType: string;
 }) => {
   try {
     const user: any = await User.findOne({
@@ -50,12 +48,6 @@ const login = async ({
       }
     );
 
-    const adminRole = [0, 1];
-
-    if (loginType === 'admin' && !adminRole.includes(user.roleId)) {
-      throw new Exception(Exception.WRONG_ROLE);
-    }
-
     return {
       ...user.dataValues,
       token: token,
@@ -70,13 +62,11 @@ const register = async ({
   name,
   email,
   password,
-  roleId,
   phone,
 }: {
   name: string;
   email: string;
   password: string;
-  roleId: number;
   phone: string;
 }) => {
   try {
@@ -108,7 +98,7 @@ const register = async ({
       name,
       email,
       password: hashedPassword,
-      roleId: roleId || 3,
+      roleId: 3,
       phone,
     });
     return { ...newUser.dataValues, password: 'Not show' };

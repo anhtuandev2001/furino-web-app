@@ -32,6 +32,14 @@ const getNotifications = async ({ userId }: { userId: number }) => {
       (o: { get: (arg0: { plain: boolean }) => any }) => o.get({ plain: true })
     );
 
+    const count = await Notification.count({
+      where: {
+        userId,
+        read: false,
+      },
+      transaction: t,
+    });
+
     await Promise.all(
       plainNotifications.map(async (notification: any) => {
         if (notification.order && notification.order.orderItems.length > 0) {
@@ -42,21 +50,49 @@ const getNotifications = async ({ userId }: { userId: number }) => {
             },
             transaction: t,
           });
-          
+
           notification.image = productImage?.image;
           console.log('Notification Image:', notification.image);
         }
       })
     );
 
+    const newNotifications = {
+      data: plainNotifications,
+      count,
+    };
+
     await t.commit();
 
-    return plainNotifications;
+    return newNotifications;
   } catch (exception: any) {
     await t.rollback();
     throw new Error(exception.message);
   }
 };
 
+const updateNotification = async ({
+  notificationId,
+}: {
+  notificationId: number;
+}) => {
+  const t = await sequelize.transaction();
+  try {
+    await Notification.update(
+      { read: true },
+      {
+        where: {
+          notificationId,
+        },
+        transaction: t,
+      }
+    );
 
-export default { getNotifications };
+    await t.commit();
+  } catch (exception: any) {
+    await t.rollback();
+    throw new Error(exception.message);
+  }
+};
+
+export default { getNotifications, updateNotification };

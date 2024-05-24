@@ -4,7 +4,7 @@ import about3 from '../../assets/images/about-3.png';
 
 function About() {
   return (
-    <div className='container flex flex-col gap-10 px-0 md:items-center'>
+    <div className='container flex flex-col gap-10 md:items-center'>
       <div className='pt-10 flex flex-col gap-[10px] px-4 md:grid grid-cols-3'>
         <img
           src={about1}

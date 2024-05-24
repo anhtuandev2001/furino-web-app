@@ -1,7 +1,7 @@
 import { type SagaIterator } from '@redux-saga/core';
 import { put, takeEvery, takeLatest } from 'redux-saga/effects';
 
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { shopActions } from './slice';
 
 export function* onGetProductOfShopPage(action: any): SagaIterator {

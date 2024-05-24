@@ -23,7 +23,7 @@ function User() {
     }
   }, [navigate, user]);
   return (
-    <div className='container pt-[20px]'>
+    <div className='container pt-[20px] px-4'>
       <div className='flex mt-4 gap-[20px] items-center mb-[30px]'>
         <img
           src={background}

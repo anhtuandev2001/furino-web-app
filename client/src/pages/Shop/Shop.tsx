@@ -42,7 +42,7 @@ function Shop() {
   }, []);
 
   return (
-    <div className='container'>
+    <div className='container px-4'>
       <HeadingPage title='Shop' />
       <Filter products={products} />
 

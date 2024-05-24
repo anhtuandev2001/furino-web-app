@@ -5,7 +5,7 @@ import checkTokenExistence from '../../utils/hooks/checkToken';
 import { getDataFromToken } from '../../utils/hooks/getToken';
 import { RootState } from '../root/config.store';
 import { UserInitialState } from './types';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 
 const initialState: UserInitialState = {
   user: {

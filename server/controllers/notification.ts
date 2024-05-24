@@ -12,6 +12,17 @@ async function getNotifications(req: Request, res: Response) {
   }
 }
 
+const updateNotification = async (req: Request, res: Response) => {
+  try {
+    const { notificationId } = req.params;
+    await notificationRepository.updateNotification({ notificationId: Number(notificationId) });
+    res.status(HttpStatusCode.OK).json('Notification updated');
+  } catch (exception: any) {
+    res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json(exception.toString());
+  }
+}
+
 export default {
   getNotifications,
+  updateNotification
 };

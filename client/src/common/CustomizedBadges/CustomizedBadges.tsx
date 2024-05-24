@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
   '& .MuiBadge-badge': {
-    right: 10,
+    right: 0,
     top: 20,
     background: 'black',
     border: `2px solid ${theme.palette.background.paper}`,
@@ -27,7 +27,6 @@ export default function CustomizedBadges({ total, token, ...props }: any) {
           <svg
             xmlns='http://www.w3.org/2000/svg'
             width='18'
-            className='w-[40px]'
             height='23'
             viewBox='0 0 18 23'
             fill='none'

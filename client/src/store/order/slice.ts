@@ -1,6 +1,6 @@
 import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { BASE_URL, Province_URL } from '../../utils/constants/strapi';
 import { ipaCall } from '../../utils/hooks/apiCall';
 import type { RootState } from '../root/config.store';
